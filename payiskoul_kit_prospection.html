@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Kit Prospection Abidjan</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;
+  --border:#252535;--border2:#32324a;
+  --text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;
+  --accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;
+  --font:'DM Sans',sans-serif;--head:'Syne',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+/* TOP BAR */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;font-family:var(--head)}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px;font-family:var(--head)}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+/* NAV */
+.nav{display:flex;flex-wrap:wrap;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:24px}
+.nav-tab{padding:10px 16px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+/* BOX */
+.box{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.box-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.box-t{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
+.box-t i{font-size:14px;color:var(--accent)}
+/* KPI */
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.kpi-v{font-size:24px;font-weight:700;letter-spacing:-1px;line-height:1;font-family:var(--head)}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:5px}
+/* BUTTONS */
+.btn{font-size:10px;color:var(--accent);background:rgba(124,111,255,0.1);border:0.5px solid rgba(124,111,255,0.3);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:var(--font);font-weight:500;transition:all 0.2s}
+.btn:hover{background:rgba(124,111,255,0.2)}
+.btn-success{color:var(--a2);background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.3)}
+.btn-danger{color:var(--a4);background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.3)}
+.btn-sm{padding:3px 8px;font-size:10px}
+/* BADGES */
+.badge{display:inline-block;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600;letter-spacing:0.3px}
+.b-prospect{background:rgba(56,189,248,0.12);color:#38bdf8}
+.b-contact{background:rgba(251,191,36,0.12);color:#fbbf24}
+.b-demo{background:rgba(124,111,255,0.12);color:#7c6fff}
+.b-nego{background:rgba(232,121,249,0.12);color:#e879f9}
+.b-won{background:rgba(74,222,128,0.15);color:#22c55e}
+.b-lost{background:rgba(248,113,113,0.12);color:#f87171}
+.b-cold{background:rgba(248,113,113,0.1);color:#f87171}
+.b-warm{background:rgba(74,222,128,0.1);color:#4ade80}
+.seg-tag{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:500}
+.seg-lycee{background:rgba(56,189,248,0.1);color:#38bdf8}
+.seg-univ{background:rgba(124,111,255,0.1);color:#7c6fff}
+.seg-centre{background:rgba(251,191,36,0.1);color:#fbbf24}
+.seg-forma{background:rgba(74,222,128,0.1);color:#4ade80}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;padding:0 10px 10px;text-align:left;font-weight:500}
+.tbl td{padding:9px 10px;border-top:0.5px solid var(--border);vertical-align:middle}
+.tbl tr:hover td{background:var(--bg3);cursor:pointer}
+/* FORM */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.field label{font-size:10px;color:var(--text2);display:block;margin-bottom:5px;letter-spacing:0.3px}
+.field input,.field select,.field textarea{width:100%;background:var(--bg4);border:0.5px solid var(--border2);border-radius:7px;color:var(--text);font-family:var(--font);font-size:12px;padding:8px 10px;outline:none;transition:border 0.15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:70px}
+.field select option{background:var(--bg4)}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:24px;width:90%;max-width:600px;max-height:85vh;overflow-y:auto}
+.modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:14px;font-weight:600;font-family:var(--head)}
+.close-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;line-height:1;padding:0}
+/* SCRIPTS */
+.script-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.script-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:0}
+.script-header.open+.script-body{display:block}
+.script-body{display:none;font-size:12px;color:var(--text2);line-height:1.8;white-space:pre-wrap;border-top:0.5px solid var(--border);padding-top:12px;margin-top:12px}
+.script-body strong{color:var(--text);font-weight:500}
+.script-body em{color:var(--a5);font-style:normal}
+/* WEEK PLAN */
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.day-col{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:12px}
+.day-name{font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.day-item{font-size:11px;padding:7px 9px;background:var(--bg4);border-radius:6px;margin-bottom:6px;color:var(--text2);line-height:1.4;border-left:2px solid var(--border2)}
+.day-item.high{border-left-color:var(--a4);color:var(--text)}
+.day-item.med{border-left-color:var(--a3)}
+.day-item.low{border-left-color:var(--a2)}
+.day-item .di-time{font-size:9px;color:var(--text3);margin-bottom:2px}
+/* OBJECTIONS */
+.obj-seg-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.obj-seg-btn{font-size:10px;padding:5px 12px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);transition:all 0.15s}
+.obj-seg-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.obj-panel{display:none}.obj-panel.active{display:block}
+.obj-item{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.obj-q{font-size:12px;font-weight:600;color:var(--a4);margin-bottom:8px;display:flex;align-items:flex-start;gap:7px}
+.obj-a{font-size:12px;color:var(--text2);line-height:1.7;padding-left:22px}
+.obj-tip{font-size:11px;color:var(--text3);margin-top:8px;padding-left:22px;font-style:italic}
+/* ONE PAGER */
+.onepager{background:#fff;border-radius:12px;padding:32px;color:#1a1a2e;font-family:var(--font);max-width:680px;margin:0 auto}
+.op-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #f0f0f5}
+.op-logo{display:flex;align-items:center;gap:10px}
+.op-mark{width:40px;height:40px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;font-family:var(--head)}
+.op-name{font-size:18px;font-weight:700;color:#1a1a2e;font-family:var(--head)}
+.op-tagline{font-size:11px;color:#6b6b8a;margin-top:1px}
+.op-badge{font-size:11px;background:#f0eeff;color:#534ab7;padding:5px 12px;border-radius:20px;font-weight:600}
+.op-hero{background:linear-gradient(135deg,#f0eeff,#e8faf0);border-radius:10px;padding:20px;margin-bottom:20px;text-align:center}
+.op-hero-title{font-size:20px;font-weight:700;color:#1a1a2e;font-family:var(--head);margin-bottom:6px}
+.op-hero-sub{font-size:13px;color:#5a5a7a;line-height:1.6}
+.op-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.op-feat{background:#f8f8fc;border-radius:8px;padding:14px}
+.op-feat-icon{font-size:20px;margin-bottom:7px;color:#7c6fff}
+.op-feat-title{font-size:12px;font-weight:600;color:#1a1a2e;margin-bottom:4px}
+.op-feat-desc{font-size:11px;color:#6b6b8a;line-height:1.6}
+.op-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.op-stat{text-align:center;background:#f8f8fc;border-radius:8px;padding:14px}
+.op-stat-val{font-size:22px;font-weight:700;color:#7c6fff;font-family:var(--head)}
+.op-stat-label{font-size:10px;color:#6b6b8a;margin-top:3px}
+.op-cta{background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:10px;padding:16px;text-align:center;color:#fff}
+.op-cta-title{font-size:14px;font-weight:700;font-family:var(--head);margin-bottom:4px}
+.op-cta-sub{font-size:11px;opacity:0.85}
+.op-contact{display:flex;justify-content:center;gap:20px;margin-top:10px;font-size:11px;opacity:0.9}
+/* SECTION LABELS */
+.sec-label{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin:18px 0 10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+/* TIPS */
+.tip{background:var(--bg3);border-left:2px solid var(--a3);border-radius:0 8px 8px 0;padding:10px 14px;font-size:11px;color:var(--text2);line-height:1.6;margin-top:10px}
+.tip strong{color:var(--text)}
+/* COPY BTN */
+.copy-btn{font-size:10px;padding:3px 8px;border-radius:4px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;font-family:var(--font);transition:all 0.15s}
+.copy-btn:hover{background:var(--bg4)}
+.copy-btn.ok{color:var(--a2);border-color:rgba(74,222,128,0.3)}
+/* FICHE */
+.fiche-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score-bar{height:8px;background:var(--bg5);border-radius:4px;overflow:hidden;margin-top:6px}
+.score-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 0.4s}
+@media(max-width:700px){.g2,.g3,.g4,.week-grid,.form-row,.form-row-3,.fiche-grid,.op-features,.op-stats{grid-template-columns:1fr}.week-grid{grid-template-columns:1fr 1fr}}
+@media print{body{background:#fff;color:#000}.wrap{padding:0}.nav,.top-bar,.btn{display:none}.onepager{box-shadow:none;border:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Payiskoul</div>
+        <div class="brand-sub">Kit Prospection · Abidjan 2026</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3)" id="dateLbl"></div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-tab active" onclick="goTab('tracker')">CRM Tracker</div>
+    <div class="nav-tab" onclick="goTab('fiche')">Fiche Qualification</div>
+    <div class="nav-tab" onclick="goTab('semaine')">Semaine Type</div>
+    <div class="nav-tab" onclick="goTab('objections')">Objections</div>
+    <div class="nav-tab" onclick="goTab('onepager')">One-Pager</div>
+    <div class="nav-tab" onclick="goTab('scripts')">Scripts</div>
+  </div>
+
+  <!-- ===== CRM TRACKER ===== -->
+  <div class="page active" id="tab-tracker">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Total prospects</div><div class="kpi-v" id="t-total">0</div><div class="kpi-s">dans le tracker</div></div>
+      <div class="kpi"><div class="kpi-l">Contactés</div><div class="kpi-v" id="t-contact" style="color:var(--a3)">0</div><div class="kpi-s">appel / message envoyé</div></div>
+      <div class="kpi"><div class="kpi-l">Démos planifiées</div><div class="kpi-v" id="t-demo" style="color:var(--accent)">0</div><div class="kpi-s">en cours de conversion</div></div>
+      <div class="kpi"><div class="kpi-l">Onboardés</div><div class="kpi-v" id="t-won" style="color:var(--a2)">0</div><div class="kpi-s">clients signés</div></div>
+    </div>
+
+    <div class="box">
+      <div class="box-h">
+        <div class="box-t"><i class="ti ti-table"></i> Prospects Abidjan</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select id="filterSeg" onchange="renderTracker()" style="background:var(--bg4);color:var(--text2);border:0.5px solid var(--border);border-radius:6px;font-size:10px;padding:4px 8px;font-family:var(--font)">
+            <option value="">Tous segments</option>
+            <option value="lycee">Lycées / Collèges</option>
+            <option value="univ">Universités</option>
+            <option value="centre">Centres formation</option>
+            <option value="forma">Formateurs indep.</option>
+          </select>
+          <select id="filterStage" onchange="renderTracker()" style="background:var(--bg4);color:var(--text2);border:0.5px solid var(--border);border-radius:6px;font-size:10px;padding:4px 8px;font-family:var(--font)">
+            <option value="">Toutes étapes</option>
+            <option value="prospect">Prospect</option>
+            <option value="contact">Contacté</option>
+            <option value="demo">Démo</option>
+            <option value="nego">Négociation</option>
+            <option value="won">Signé</option>
+            <option value="lost">Perdu</option>
+          </select>
+          <button class="btn" onclick="openModal()"><i class="ti ti-plus"></i> Ajouter</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr>
+            <th>Établissement / Formateur</th>
+            <th>Contact</th>
+            <th>Segment</th>
+            <th>Étape</th>
+            <th>Type</th>
+            <th>Prochain action</th>
+            <th>Date</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="trackerBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-filter"></i> Funnel par étape</div></div>
+        <div id="funnelTracker"></div>
+      </div>
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-chart-bar"></i> Répartition par segment</div></div>
+        <div id="segStats"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FICHE QUALIFICATION ===== -->
+  <div class="page" id="tab-fiche">
+    <div class="box">
+      <div class="box-h">
+        <div class="box-t"><i class="ti ti-clipboard-check"></i> Fiche de qualification prospect</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" onclick="resetFiche()"><i class="ti ti-refresh"></i> Réinitialiser</button>
+          <button class="btn btn-success" onclick="saveFicheToTracker()"><i class="ti ti-plus"></i> Ajouter au tracker</button>
+        </div>
+      </div>
+
+      <div class="sec-label">Informations générales</div>
+      <div class="form-row">
+        <div class="field"><label>Nom de l'établissement / formateur</label><input id="f-nom" type="text" placeholder="Ex: Lycée Sainte-Marie Cocody"></div>
+        <div class="field"><label>Nom du contact décideur</label><input id="f-contact" type="text" placeholder="Ex: M. Koffi — Directeur"></div>
+      </div>
+      <div class="form-row-3">
+        <div class="field"><label>Téléphone</label><input id="f-tel" type="text" placeholder="+225 07 XX XX XX XX"></div>
+        <div class="field"><label>WhatsApp</label><input id="f-wa" type="text" placeholder="+225 07 XX XX XX XX"></div>
+        <div class="field"><label>Email</label><input id="f-email" type="text" placeholder="contact@etablissement.ci"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Commune / Zone</label>
+          <select id="f-zone"><option>Cocody</option><option>Plateau</option><option>Yopougon</option><option>Marcory</option><option>Treichville</option><option>Adjamé</option><option>Abobo</option><option>Bingerville</option><option>Autre</option></select>
+        </div>
+        <div class="field"><label>Segment</label>
+          <select id="f-seg"><option value="lycee">Lycée / Collège</option><option value="univ">Université / Grande école</option><option value="centre">Centre de formation</option><option value="forma">Formateur indépendant</option></select>
+        </div>
+      </div>
+
+      <div class="sec-label">Qualification — Besoins & douleurs</div>
+      <div class="form-row">
+        <div class="field"><label>Nombre d'apprenants / élèves estimé</label>
+          <select id="f-size"><option>Moins de 100</option><option>100 - 300</option><option>300 - 1000</option><option>Plus de 1000</option></select>
+        </div>
+        <div class="field"><label>Mode de paiement actuel</label>
+          <select id="f-pay"><option>Cash uniquement</option><option>Virement bancaire</option><option>Mobile Money déjà utilisé</option><option>Mixte</option></select>
+        </div>
+      </div>
+
+      <div class="sec-label">Score de qualification (cliquer pour évaluer)</div>
+      <div class="fiche-grid" id="scoreGrid"></div>
+      <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:11px;color:var(--text2)">Score global :</div>
+        <div style="font-size:22px;font-weight:700;font-family:var(--head)" id="scoreVal">0/10</div>
+        <div style="font-size:11px;padding:3px 10px;border-radius:5px" id="scoreBadge">—</div>
+      </div>
+
+      <div class="sec-label">Notes & prochaine action</div>
+      <div class="form-row">
+        <div class="field"><label>Notes de l'appel / visite</label><textarea id="f-notes" placeholder="Ce qui a été dit, les besoins exprimés, les objections..."></textarea></div>
+        <div class="field">
+          <label>Prochaine action</label>
+          <select id="f-action" style="margin-bottom:10px"><option>Envoyer email de suivi</option><option>Planifier démo</option><option>Relance WhatsApp</option><option>Visite terrain</option><option>Envoyer one-pager</option><option>Préparer proposition</option></select>
+          <label>Date prévue</label>
+          <input id="f-date" type="date">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SEMAINE TYPE ===== -->
+  <div class="page" id="tab-semaine">
+    <div class="g4" style="margin-bottom:20px">
+      <div class="kpi"><div class="kpi-l">Appels / semaine</div><div class="kpi-v" style="color:var(--a5)">20-25</div><div class="kpi-s">objectif terrain</div></div>
+      <div class="kpi"><div class="kpi-l">Visites terrain</div><div class="kpi-v" style="color:var(--accent)">3-5</div><div class="kpi-s">centres & lycées</div></div>
+      <div class="kpi"><div class="kpi-l">Démos planifiées</div><div class="kpi-v" style="color:var(--a3)">3-4</div><div class="kpi-s">par semaine</div></div>
+      <div class="kpi"><div class="kpi-l">Follow-ups</div><div class="kpi-v" style="color:var(--a2)">10+</div><div class="kpi-s">emails + WhatsApp</div></div>
+    </div>
+
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-calendar-week"></i> Plan semaine type — Abidjan</div></div>
+      <div class="week-grid" id="weekGrid"></div>
+    </div>
+
+    <div class="g2">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-clock"></i> Meilleurs créneaux d'appel</div></div>
+        <div id="creneaux"></div>
+      </div>
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-map-pin"></i> Zones prioritaires Abidjan</div></div>
+        <div id="zones"></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-target"></i> Objectifs hebdomadaires par segment</div></div>
+      <div id="segObjectifs"></div>
+    </div>
+  </div>
+
+  <!-- ===== OBJECTIONS ===== -->
+  <div class="page" id="tab-objections">
+    <div class="obj-seg-nav">
+      <button class="obj-seg-btn active" onclick="setObjSeg('all',this)">Toutes</button>
+      <button class="obj-seg-btn" onclick="setObjSeg('lycee',this)">Lycées / Collèges</button>
+      <button class="obj-seg-btn" onclick="setObjSeg('univ',this)">Universités</button>
+      <button class="obj-seg-btn" onclick="setObjSeg('centre',this)">Centres formation</button>
+      <button class="obj-seg-btn" onclick="setObjSeg('forma',this)">Formateurs indep.</button>
+    </div>
+    <div id="objList"></div>
+  </div>
+
+  <!-- ===== ONE PAGER ===== -->
+  <div class="page" id="tab-onepager">
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+      <button class="btn" onclick="window.print()"><i class="ti ti-printer"></i> Imprimer</button>
+      <button class="btn btn-success" onclick="downloadOnePager()"><i class="ti ti-download"></i> Télécharger PDF</button>
+    </div>
+    <div class="onepager" id="onepager-content">
+      <div class="op-header">
+        <div class="op-logo">
+          <div class="op-mark">PK</div>
+          <div>
+            <div class="op-name">Payiskoul</div>
+            <div class="op-tagline">Infrastructure financière de l'éducation en Afrique</div>
+          </div>
+        </div>
+        <div class="op-badge">Le Stripe de l'éducation</div>
+      </div>
+      <div class="op-hero">
+        <div class="op-hero-title">Simplifiez les paiements scolaires.<br>Réduisez vos impayés de 40%.</div>
+        <div class="op-hero-sub">Payiskoul permet à vos élèves et étudiants de payer leurs frais de scolarité<br>en plusieurs fois via Orange Money, MTN MoMo ou carte bancaire.</div>
+      </div>
+      <div class="op-features">
+        <div class="op-feat"><div class="op-feat-icon"><i class="ti ti-device-mobile"></i></div><div class="op-feat-title">Paiement Mobile Money</div><div class="op-feat-desc">Orange Money, MTN MoMo, Wave — les parents paient depuis leur téléphone, sans se déplacer.</div></div>
+        <div class="op-feat"><div class="op-feat-icon"><i class="ti ti-calendar-repeat"></i></div><div class="op-feat-title">Paiement échelonné</div><div class="op-feat-desc">En 2, 3 ou 6 fois selon vos besoins. Vous recevez les fonds automatiquement selon le calendrier.</div></div>
+        <div class="op-feat"><div class="op-feat-icon"><i class="ti ti-dashboard"></i></div><div class="op-feat-title">Tableau de bord en temps réel</div><div class="op-feat-desc">Suivi des paiements, relances automatiques, rapports mensuels — tout en un seul endroit.</div></div>
+        <div class="op-feat"><div class="op-feat-icon"><i class="ti ti-rocket"></i></div><div class="op-feat-title">Opérationnel en 48h</div><div class="op-feat-desc">Aucune intégration technique requise. Nous configurons tout pour vous. Zéro frais fixes.</div></div>
+      </div>
+      <div class="op-stats">
+        <div class="op-stat"><div class="op-stat-val">-40%</div><div class="op-stat-label">de taux d'impayés</div></div>
+        <div class="op-stat"><div class="op-stat-val">+18%</div><div class="op-stat-label">d'inscriptions</div></div>
+        <div class="op-stat"><div class="op-stat-val">48h</div><div class="op-stat-label">pour démarrer</div></div>
+      </div>
+      <div class="op-cta">
+        <div class="op-cta-title">Prêt à démarrer ? Demandez une démo gratuite de 20 min.</div>
+        <div class="op-cta-sub">Nous adaptons la solution à votre établissement — sans engagement, sans frais fixes.</div>
+        <div class="op-contact">
+          <span><i class="ti ti-phone" style="font-size:12px;margin-right:4px"></i>+225 XX XX XX XX XX</span>
+          <span><i class="ti ti-mail" style="font-size:12px;margin-right:4px"></i>contact@payiskoul.com</span>
+          <span><i class="ti ti-world" style="font-size:12px;margin-right:4px"></i>payiskoul.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <div class="page" id="tab-scripts">
+    <div class="obj-seg-nav" id="scriptSegNav">
+      <button class="obj-seg-btn active" onclick="setScriptSeg('lycee',this)">Lycées / Collèges</button>
+      <button class="obj-seg-btn" onclick="setScriptSeg('univ',this)">Universités</button>
+      <button class="obj-seg-btn" onclick="setScriptSeg('centre',this)">Centres formation</button>
+      <button class="obj-seg-btn" onclick="setScriptSeg('forma',this)">Formateurs indep.</button>
+    </div>
+    <div id="scriptList"></div>
+  </div>
+</div>
+
+<!-- MODAL AJOUT PROSPECT -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-h">
+      <div class="modal-title">Nouveau prospect</div>
+      <button class="close-btn" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Nom établissement / formateur *</label><input id="m-nom" type="text" placeholder="Lycée Sainte-Marie"></div>
+      <div class="field"><label>Contact décideur *</label><input id="m-contact" type="text" placeholder="M. Koffi — Directeur"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Téléphone / WhatsApp</label><input id="m-tel" type="text" placeholder="+225 07 XX XX XX XX"></div>
+      <div class="field"><label>Zone / Commune</label>
+        <select id="m-zone"><option>Cocody</option><option>Plateau</option><option>Yopougon</option><option>Marcory</option><option>Treichville</option><option>Adjamé</option><option>Abobo</option><option>Autre</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Segment *</label>
+        <select id="m-seg"><option value="lycee">Lycée / Collège</option><option value="univ">Université / Grande école</option><option value="centre">Centre de formation</option><option value="forma">Formateur indépendant</option></select>
+      </div>
+      <div class="field"><label>Type de contact</label>
+        <select id="m-type"><option value="cold">Cold</option><option value="warm">Warm</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Étape</label>
+        <select id="m-stage"><option value="prospect">Prospect</option><option value="contact">Contacté</option><option value="demo">Démo planifiée</option><option value="nego">Négociation</option><option value="won">Signé</option><option value="lost">Perdu</option></select>
+      </div>
+      <div class="field"><label>Prochaine action</label>
+        <select id="m-action"><option>Appel de qualification</option><option>Envoyer email</option><option>WhatsApp de suivi</option><option>Planifier démo</option><option>Visite terrain</option><option>Envoyer one-pager</option></select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label>Date prochaine action</label><input id="m-date" type="date"></div>
+    <div class="field" style="margin-bottom:20px"><label>Notes</label><textarea id="m-notes" placeholder="Observations, besoins exprimés..."></textarea></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-success" onclick="addProspect()"><i class="ti ti-check"></i> Ajouter au tracker</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+let prospects = [
+  {id:1,nom:'Lycée Sainte-Marie Cocody',contact:'Sœur Directrice',tel:'+225 27 22 XX XX',zone:'Cocody',seg:'lycee',type:'cold',stage:'contact',action:'Planifier démo',date:'2026-06-03',notes:'Intéressée par le paiement échelonné, 800 élèves'},
+  {id:2,nom:'INPHB Yamoussoukro / Antenne Abidjan',contact:'DAF M. Coulibaly',tel:'+225 07 XX XX XX',zone:'Plateau',seg:'univ',type:'cold',stage:'prospect',action:'Envoyer email',date:'2026-06-02',notes:'Grande école, 3000+ étudiants'},
+  {id:3,nom:'Centre CFPME Yopougon',contact:'M. Diarra — Gérant',tel:'+225 05 XX XX XX',zone:'Yopougon',seg:'centre',type:'warm',stage:'demo',action:'Visite terrain',date:'2026-06-04',notes:'Référé par réseau CEFICI, très chaud'},
+  {id:4,nom:'Koné Formations Digitales',contact:'Ibrahim Koné',tel:'+225 07 XX XX XX',zone:'Cocody',seg:'forma',type:'cold',stage:'nego',action:'Envoyer proposition',date:'2026-06-02',notes:'Formateur LinkedIn, 500 abonnés, intéressé'},
+  {id:5,nom:'Groupe Scolaire Les Palmiers',contact:'M. Assi — Directeur',tel:'+225 01 XX XX XX',zone:'Marcory',seg:'lycee',type:'cold',stage:'won',action:'Onboarding',date:'2026-06-01',notes:'Signé ! Pilote sur 1 trimestre'},
+];
+
+const stageL={prospect:'Prospect',contact:'Contacté',demo:'Démo',nego:'Négociation',won:'Signé',lost:'Perdu'};
+const stageCls={prospect:'b-prospect',contact:'b-contact',demo:'b-demo',nego:'b-nego',won:'b-won',lost:'b-lost'};
+const segL={lycee:'Lycée/Collège',univ:'Université',centre:'Centre form.',forma:'Formateur'};
+const segCls={lycee:'seg-lycee',univ:'seg-univ seg-tag',centre:'seg-centre seg-tag',forma:'seg-forma seg-tag'};
+
+// ===== TRACKER =====
+function renderTracker(){
+  const fs=document.getElementById('filterSeg').value;
+  const fst=document.getElementById('filterStage').value;
+  let data=prospects.filter(p=>(fs===''||p.seg===fs)&&(fst===''||p.stage===fst));
+  document.getElementById('t-total').textContent=prospects.length;
+  document.getElementById('t-contact').textContent=prospects.filter(p=>p.stage==='contact').length;
+  document.getElementById('t-demo').textContent=prospects.filter(p=>p.stage==='demo').length;
+  document.getElementById('t-won').textContent=prospects.filter(p=>p.stage==='won').length;
+  const stageOrder=['prospect','contact','demo','nego','won','lost'];
+  document.getElementById('trackerBody').innerHTML=data.map(p=>`
+    <tr onclick="openEdit(${p.id})">
+      <td><div style="font-size:12px;font-weight:500">${p.nom}</div><div style="font-size:10px;color:var(--text3)">${p.zone}</div></td>
+      <td><div style="font-size:12px">${p.contact}</div><div style="font-size:10px;color:var(--text3)">${p.tel}</div></td>
+      <td><span class="seg-tag ${segCls[p.seg]||'seg-lycee'}">${segL[p.seg]}</span></td>
+      <td><span class="badge ${stageCls[p.stage]}">${stageL[p.stage]}</span></td>
+      <td><span class="badge ${p.type==='cold'?'b-cold':'b-warm'}">${p.type==='cold'?'Cold':'Warm'}</span></td>
+      <td style="font-size:11px;color:var(--text2)">${p.action}</td>
+      <td style="font-size:11px;color:var(--text3)">${p.date}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteProspect(${p.id},event)"><i class="ti ti-trash" style="font-size:11px"></i></button></td>
+    </tr>`).join('');
+  renderFunnelTracker();
+  renderSegStats();
+}
+
+function renderFunnelTracker(){
+  const stages=['prospect','contact','demo','nego','won'];
+  const cnt={};stages.forEach(s=>cnt[s]=0);prospects.forEach(p=>cnt[p.stage]=(cnt[p.stage]||0)+1);
+  const max=Math.max(...Object.values(cnt),1);
+  const col={prospect:'#38bdf8',contact:'#fbbf24',demo:'#7c6fff',nego:'#e879f9',won:'#4ade80'};
+  document.getElementById('funnelTracker').innerHTML=stages.map(s=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--text2);width:80px;flex-shrink:0">${stageL[s]}</div>
+      <div style="flex:1;height:8px;background:var(--bg5);border-radius:3px;overflow:hidden"><div style="height:100%;border-radius:3px;background:${col[s]};width:${(cnt[s]/max)*100}%"></div></div>
+      <div style="font-size:11px;font-weight:600;color:${col[s]};width:20px;text-align:right">${cnt[s]}</div>
+    </div>`).join('');
+}
+
+function renderSegStats(){
+  const segs=['lycee','univ','centre','forma'];
+  const cnt={};segs.forEach(s=>cnt[s]=0);prospects.forEach(p=>cnt[p.seg]=(cnt[p.seg]||0)+1);
+  const max=Math.max(...Object.values(cnt),1);
+  const col={lycee:'#38bdf8',univ:'#7c6fff',centre:'#fbbf24',forma:'#4ade80'};
+  document.getElementById('segStats').innerHTML=segs.map(s=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--text2);width:110px;flex-shrink:0">${segL[s]}</div>
+      <div style="flex:1;height:8px;background:var(--bg5);border-radius:3px;overflow:hidden"><div style="height:100%;border-radius:3px;background:${col[s]};width:${(cnt[s]/max)*100}%"></div></div>
+      <div style="font-size:11px;font-weight:600;color:${col[s]};width:20px;text-align:right">${cnt[s]}</div>
+    </div>`).join('');
+}
+
+function deleteProspect(id,e){
+  e.stopPropagation();
+  if(confirm('Supprimer ce prospect ?')){prospects=prospects.filter(p=>p.id!==id);renderTracker();}
+}
+
+function openEdit(id){
+  const p=prospects.find(x=>x.id===id);if(!p)return;
+  document.getElementById('m-nom').value=p.nom;
+  document.getElementById('m-contact').value=p.contact;
+  document.getElementById('m-tel').value=p.tel;
+  document.getElementById('m-zone').value=p.zone;
+  document.getElementById('m-seg').value=p.seg;
+  document.getElementById('m-type').value=p.type;
+  document.getElementById('m-stage').value=p.stage;
+  document.getElementById('m-action').value=p.action;
+  document.getElementById('m-date').value=p.date;
+  document.getElementById('m-notes').value=p.notes;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modalOverlay').dataset.editId=id;
+}
+
+function openModal(){
+  ['m-nom','m-contact','m-tel','m-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-date').value='';
+  delete document.getElementById('modalOverlay').dataset.editId;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+
+function addProspect(){
+  const nom=document.getElementById('m-nom').value.trim();
+  if(!nom){alert('Nom obligatoire');return;}
+  const editId=document.getElementById('modalOverlay').dataset.editId;
+  const data={
+    id:editId?+editId:Date.now(),
+    nom,contact:document.getElementById('m-contact').value,
+    tel:document.getElementById('m-tel').value,
+    zone:document.getElementById('m-zone').value,
+    seg:document.getElementById('m-seg').value,
+    type:document.getElementById('m-type').value,
+    stage:document.getElementById('m-stage').value,
+    action:document.getElementById('m-action').value,
+    date:document.getElementById('m-date').value,
+    notes:document.getElementById('m-notes').value,
+  };
+  if(editId){const i=prospects.findIndex(p=>p.id===+editId);if(i>-1)prospects[i]=data;}
+  else prospects.push(data);
+  closeModal();renderTracker();
+}
+
+// ===== FICHE QUALIFICATION =====
+const scoreItems=[
+  {id:'s1',label:'A des impayés / problème de recouvrement',weight:2},
+  {id:'s2',label:'Utilise déjà le Mobile Money',weight:1},
+  {id:'s3',label:'Décideur joignable directement',weight:2},
+  {id:'s4',label:'Plus de 100 apprenants / élèves',weight:1},
+  {id:'s5',label:'Budget alloué à la digitalisation',weight:1},
+  {id:'s6',label:'Ouvert à une démo cette semaine',weight:2},
+  {id:'s7',label:'Contact warm (réseau commun)',weight:1},
+];
+
+function renderFiche(){
+  document.getElementById('scoreGrid').innerHTML=scoreItems.map(s=>`
+    <div style="background:var(--bg3);border:0.5px solid var(--border);border-radius:8px;padding:10px 12px;cursor:pointer" id="sc-${s.id}" onclick="toggleScore('${s.id}',${s.weight})">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:11px;color:var(--text2)">${s.label}</div>
+        <div style="width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:8px" id="sc-chk-${s.id}"></div>
+      </div>
+      <div style="font-size:9px;color:var(--text3);margin-top:4px">+${s.weight} point${s.weight>1?'s':''}</div>
+    </div>`).join('');
+}
+
+let scoreState={};
+function toggleScore(id,w){
+  scoreState[id]=!scoreState[id];
+  const chk=document.getElementById('sc-chk-'+id);
+  const card=document.getElementById('sc-'+id);
+  if(scoreState[id]){
+    chk.innerHTML='<i class="ti ti-check" style="font-size:11px;color:#0c0c0f"></i>';
+    chk.style.background=scoreState[id]?'var(--a2)':'transparent';
+    chk.style.borderColor='var(--a2)';
+    card.style.borderColor='rgba(74,222,128,0.3)';
+  } else {
+    chk.innerHTML='';chk.style.background='transparent';chk.style.borderColor='var(--border2)';
+    card.style.borderColor='var(--border)';
+  }
+  const total=scoreItems.reduce((a,s)=>a+(scoreState[s.id]?s.weight:0),0);
+  const max=scoreItems.reduce((a,s)=>a+s.weight,0);
+  document.getElementById('scoreVal').textContent=total+'/'+max;
+  const pct=total/max;
+  const badge=document.getElementById('scoreBadge');
+  if(pct>=0.7){badge.textContent='Prospect chaud — à closer';badge.style.background='rgba(74,222,128,0.15)';badge.style.color='#4ade80';}
+  else if(pct>=0.4){badge.textContent='Prospect tiède — à nurturer';badge.style.background='rgba(251,191,36,0.15)';badge.style.color='#fbbf24';}
+  else{badge.textContent='Prospect froid — qualifier davantage';badge.style.background='rgba(248,113,113,0.15)';badge.style.color='#f87171';}
+}
+
+function resetFiche(){
+  scoreState={};renderFiche();
+  ['f-nom','f-contact','f-tel','f-wa','f-email','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('scoreVal').textContent='0/10';
+  document.getElementById('scoreBadge').textContent='—';
+  document.getElementById('scoreBadge').style.background='';
+}
+
+function saveFicheToTracker(){
+  const nom=document.getElementById('f-nom').value.trim();
+  if(!nom){alert('Remplis au moins le nom');return;}
+  prospects.push({
+    id:Date.now(),nom,
+    contact:document.getElementById('f-contact').value,
+    tel:document.getElementById('f-tel').value||document.getElementById('f-wa').value,
+    zone:document.getElementById('f-zone').value,
+    seg:document.getElementById('f-seg').value,
+    type:'cold',stage:'prospect',
+    action:document.getElementById('f-action').value,
+    date:document.getElementById('f-date').value,
+    notes:document.getElementById('f-notes').value,
+  });
+  alert('Prospect ajouté au tracker !');goTab('tracker');renderTracker();
+}
+
+// ===== SEMAINE TYPE =====
+const weekData=[
+  {day:'Lundi',items:[
+    {time:'8h-10h',text:'Bloc appels cold — Lycées & Collèges (5-8 appels)',prio:'high'},
+    {time:'10h-12h',text:'Suivi emails prospects de la semaine dernière',prio:'med'},
+    {time:'14h-16h',text:'Visite terrain — Yopougon ou Abobo (centres formation)',prio:'high'},
+    {time:'16h-17h',text:'Mise à jour CRM tracker + planification semaine',prio:'low'},
+  ]},
+  {day:'Mardi',items:[
+    {time:'8h-10h',text:'Bloc appels cold — Universités & grandes écoles',prio:'high'},
+    {time:'10h-12h',text:'Démo Payiskoul (1-2 prospects chauds)',prio:'high'},
+    {time:'14h-16h',text:'Prospection formateurs indépendants (DM WhatsApp/LinkedIn)',prio:'med'},
+    {time:'16h-17h',text:'Envoi emails de suivi post-démo',prio:'med'},
+  ]},
+  {day:'Mercredi',items:[
+    {time:'8h-10h',text:'Bloc appels warm — prospects référés par réseau',prio:'high'},
+    {time:'10h-12h',text:'Visite terrain — Cocody & Plateau (lycées privés)',prio:'high'},
+    {time:'14h-16h',text:'Démo ou réunion prospect université',prio:'med'},
+    {time:'16h-17h',text:'Relances WhatsApp prospects non-répondants (J+4)',prio:'low'},
+  ]},
+  {day:'Jeudi',items:[
+    {time:'8h-10h',text:'Bloc appels cold — Centres de formation (5-8 appels)',prio:'high'},
+    {time:'10h-12h',text:'Démo + présentation one-pager en présentiel',prio:'high'},
+    {time:'14h-16h',text:'Négociation & closing prospects chauds',prio:'high'},
+    {time:'16h-17h',text:'Préparation propositions et contrats pilotes',prio:'med'},
+  ]},
+  {day:'Vendredi',items:[
+    {time:'8h-10h',text:'Relances finales de la semaine (email + WhatsApp)',prio:'med'},
+    {time:'10h-12h',text:'Démo ou call de closing',prio:'high'},
+    {time:'14h-15h',text:'Bilan hebdo — mise à jour CRM et OKRs',prio:'med'},
+    {time:'15h-17h',text:'Préparation liste prospects semaine suivante',prio:'low'},
+  ]},
+];
+
+function renderWeek(){
+  document.getElementById('weekGrid').innerHTML=weekData.map(d=>`
+    <div class="day-col">
+      <div class="day-name">${d.day}</div>
+      ${d.items.map(i=>`<div class="day-item ${i.prio}"><div class="di-time">${i.time}</div>${i.text}</div>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('creneaux').innerHTML=[
+    {t:'8h00 – 9h30',note:'Idéal pour joindre les directeurs avant les réunions',col:'var(--a2)'},
+    {t:'10h00 – 11h30',note:'Bon pour les DAF et responsables admin',col:'var(--a3)'},
+    {t:'14h00 – 15h30',note:'Après la pause déjeuner — reprise en douceur',col:'var(--a5)'},
+    {t:'À éviter : Lundi matin',note:'Réunions de début de semaine dans les établissements',col:'var(--a4)'},
+    {t:'À éviter : Vendredi 16h+',note:'Départ anticipé fréquent en fin de semaine',col:'var(--a4)'},
+  ].map(c=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)"><div style="width:3px;height:36px;border-radius:2px;background:${c.col};flex-shrink:0;margin-top:2px"></div><div><div style="font-size:12px;font-weight:500">${c.t}</div><div style="font-size:10px;color:var(--text3);margin-top:2px">${c.note}</div></div></div>`).join('');
+
+  document.getElementById('zones').innerHTML=[
+    {z:'Cocody',note:'Lycées privés haut de gamme, grandes écoles',nb:'+++',col:'var(--accent)'},
+    {z:'Plateau',note:'Bureaux administratifs, universités publiques',nb:'++',col:'var(--a5)'},
+    {z:'Yopougon',note:'Centres de formation, lycées, dense en population',nb:'+++',col:'var(--a3)'},
+    {z:'Marcory / Treichville',note:'PME éducatives, formateurs indépendants',nb:'++',col:'var(--a2)'},
+    {z:'Adjamé / Abobo',note:'Centres de formation professionnels, prix accessibles',nb:'+',col:'var(--a4)'},
+  ].map(z=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--border)"><div><div style="font-size:12px;font-weight:500">${z.z}</div><div style="font-size:10px;color:var(--text3)">${z.note}</div></div><span style="font-size:12px;font-weight:700;color:${z.col}">${z.nb}</span></div>`).join('');
+
+  document.getElementById('segObjectifs').innerHTML=`
+    <div style="overflow-x:auto"><table class="tbl">
+      <thead><tr><th>Segment</th><th>Appels / semaine</th><th>Emails</th><th>Visites terrain</th><th>Démos objectif</th><th>Closing mensuel</th></tr></thead>
+      <tbody>
+        <tr><td><span class="seg-tag seg-lycee">Lycées / Collèges</span></td><td>8-10</td><td>5</td><td>2</td><td>1-2</td><td>1</td></tr>
+        <tr><td><span class="seg-tag seg-univ">Universités</span></td><td>3-4</td><td>4</td><td>1</td><td>1</td><td>0-1</td></tr>
+        <tr><td><span class="seg-tag seg-centre">Centres formation</span></td><td>6-8</td><td>3</td><td>2</td><td>1-2</td><td>1</td></tr>
+        <tr><td><span class="seg-tag seg-forma">Formateurs indep.</span></td><td>5-6</td><td>2</td><td>0</td><td>1</td><td>1-2</td></tr>
+      </tbody>
+    </table></div>`;
+}
+
+// ===== OBJECTIONS =====
+const objections=[
+  {seg:'all',q:'On a déjà un système de paiement',a:'Je comprends. Payiskoul ne remplace pas votre système — on y ajoute le Mobile Money et le paiement échelonné. Vos parents continuent à payer comme avant, plus ils peuvent désormais payer en plusieurs fois via Orange Money. Résultat : moins d\'abandons et moins d\'impayés.',tip:'Ne pas attaquer le système existant. Positionner Payiskoul comme un complément, pas un remplacement.'},
+  {seg:'all',q:'C\'est trop cher / Quels sont vos tarifs ?',a:'Notre modèle est 100% à la commission sur les transactions — zéro frais fixes pour vous. Vous ne payez que quand vous encaissez. Si vous n\'encaissez pas, vous ne payez rien. Et la commission est partagée avec les apprenants qui optent pour le paiement échelonné.',tip:'Ne jamais donner les pourcentages exact en cold call — garder ça pour la démo.'},
+  {seg:'all',q:'Je dois en parler à la direction / Je ne décide pas seul',a:'Tout à fait normal. Je peux vous préparer un document d\'une page, clair et concis, que vous pouvez présenter à votre direction en 5 minutes. Ça facilite la décision. Je vous l\'envoie dès aujourd\'hui par WhatsApp ?',tip:'Proposer immédiatement le one-pager. C\'est votre meilleur outil pour les décisions à plusieurs.'},
+  {seg:'all',q:'On n\'a pas le temps de s\'occuper de ça maintenant',a:'C\'est précisément pourquoi Payiskoul existe — pour vous faire gagner du temps. La mise en place prend 48h et ne demande aucune action technique de votre côté. Nous gérons tout. Après, c\'est votre tableau de bord qui gère les paiements à votre place.',tip:'Reformuler la douleur du temps en avantage produit.'},
+  {seg:'lycee',q:'Les parents n\'utilisent pas le Mobile Money',a:'En Côte d\'Ivoire, plus de 70% des adultes utilisent Orange Money ou MTN MoMo. Dans les établissements que nous accompagnons, le taux d\'adoption par les parents dépasse 60% dès la première rentrée. On peut faire une démo avec des vrais parents de votre zone.',tip:'Utiliser les chiffres Orange CI / MTN CI. Proposer de tester avec un petit groupe de parents.'},
+  {seg:'lycee',q:'Nos parents préfèrent payer en cash',a:'C\'est souvent ce qu\'on pense avant de proposer l\'option. La réalité : quand les parents savent qu\'ils peuvent payer en 3 fois sur leur téléphone sans se déplacer, beaucoup basculent naturellement. Et ceux qui préfèrent le cash peuvent continuer — Payiskoul ne les force pas.',tip:''},
+  {seg:'univ',q:'Nous avons un processus d\'appel d\'offres',a:'Je comprends tout à fait. Nous pouvons vous fournir un dossier technique complet pour votre processus AO. En parallèle, nous pouvons démarrer un pilote sur une seule promotion sans passer par un AO — ce qui vous permet de valider la solution avant de l\'engager formellement.',tip:'Le mot clé : "pilote sur une promotion". Ça contourne souvent l\'AO.'},
+  {seg:'univ',q:'Nos étudiants paient déjà en plusieurs fois entre eux',a:'C\'est courant, mais ça crée des risques : impayés non suivis, tensions entre étudiants, zéro visibilité pour l\'administration. Payiskoul formalise ce paiement échelonné avec un suivi automatique, des relances et une garantie de reversement à l\'établissement.',tip:''},
+  {seg:'centre',q:'On est une petite structure, ce n\'est pas pour nous',a:'Payiskoul est fait pour des structures comme la vôtre. Pas besoin d\'être une grande école. Un centre avec 50 stagiaires peut réduire son taux d\'abandon de 30% en proposant le paiement en plusieurs fois. Plus vos apprenants restent, plus vous gagnez.',tip:'Les petits centres sont souvent les plus rapides à onboarder — moins de process internes.'},
+  {seg:'forma',q:'J\'encaisse déjà via Orange Money directement',a:'C\'est bien ! Payiskoul va plus loin : vos apprenants peuvent payer en 2 ou 3 fois, ce que vous ne pouvez pas faire seul avec un simple numéro Orange. Et vous avez un tableau de bord pour voir qui a payé, qui doit encore. Vous gagnez du temps et toucherez des apprenants qui n\'auraient pas pu payer en une fois.',tip:''},
+  {seg:'forma',q:'Je n\'ai pas besoin de ça, mes formations se remplissent',a:'Félicitations ! Dans ce cas, Payiskoul vous permet d\'augmenter votre prix ou d\'accueillir plus d\'apprenants en réduisant la barrière d\'entrée financière. Des formateurs avec des formations "pleines" nous rejoignent pour scaler — passer de 20 à 40 apprenants par session.',tip:'Repositionner comme outil de croissance, pas de survie.'},
+];
+
+function renderObjections(seg){
+  const filtered=seg==='all'?objections:objections.filter(o=>o.seg===seg||o.seg==='all');
+  document.getElementById('objList').innerHTML=filtered.map(o=>`
+    <div class="obj-item">
+      <div class="obj-q"><i class="ti ti-message-circle" style="font-size:14px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>${o.q}</div>
+      <div class="obj-a">${o.a}</div>
+      ${o.tip?`<div class="obj-tip"><i class="ti ti-bulb" style="font-size:11px;margin-right:4px" aria-hidden="true"></i>${o.tip}</div>`:''}
+    </div>`).join('');
+}
+
+function setObjSeg(seg,btn){
+  document.querySelectorAll('.obj-seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderObjections(seg);
+}
+
+// ===== SCRIPTS =====
+const scripts={
+  lycee:[
+    {title:'Appel cold — Directeur / DAF',type:'cold',icon:'ti-phone',body:`ACCROCHE (15 sec)
+« Bonjour, je suis Thy Hamed de Payiskoul. Nous aidons les établissements scolaires à Abidjan à encaisser les frais de scolarité via Mobile Money et à réduire les impayés. Je vous appelle pour voir si c'est un sujet qui vous concerne actuellement. »
+
+QUALIFICATION (60 sec)
+« Vous avez combien d'élèves environ ? »
+« Comment gérez-vous aujourd'hui le recouvrement des frais de scolarité ? »
+« Est-ce que vous avez des retards de paiement fréquents de la part des parents ? »
+
+→ Si oui : « C'est exactement ce que Payiskoul résout. Les parents paient en plusieurs fois via Orange Money, et vous recevez l'argent automatiquement avec un tableau de bord de suivi. »
+
+PROPOSITION RDV
+« J'aimerais vous faire une démo de 20 minutes cette semaine. Vous êtes disponible mardi ou jeudi matin ? »
+
+CLÔTURE
+« Parfait, je vous envoie un email de confirmation maintenant. Merci [Prénom], à [jour] ! »`},
+    {title:'Email de suivi post-appel',type:'step',icon:'ti-mail',body:`Objet : Payiskoul — simplifier les paiements de scolarité à [Nom école]
+
+Bonjour [Prénom],
+
+Suite à notre échange de ce matin, voici en quelques lignes ce que Payiskoul peut faire pour [Nom école].
+
+CE QUE NOUS FAISONS :
+— Les parents paient les frais de scolarité en plusieurs fois via Orange Money / MTN MoMo
+— Vous recevez les fonds automatiquement avec un tableau de bord en temps réel
+— Zéro intégration technique — opérationnel en 48h — zéro frais fixes
+
+RÉSULTATS OBSERVÉS :
+— Réduction des impayés de 40% dès la première rentrée
+— Augmentation des inscriptions de 15 à 20%
+— 0 heure supplémentaire de gestion pour votre équipe
+
+Je vous propose une démo de 20 min cette semaine pour vous montrer concrètement comment ça fonctionne pour un établissement comme le vôtre.
+
+Dites-moi quel créneau vous convient : mardi ou jeudi matin ?
+
+Cordialement,
+Thy Hamed TRAORE — COO Payiskoul
++225 XX XX XX XX XX | contact@payiskoul.com`},
+    {title:'Relance WhatsApp J+4',type:'step',icon:'ti-brand-whatsapp',body:`Bonjour [Prénom], c'est Thy Hamed de Payiskoul.
+
+Je reviens vers vous suite à mon email de [jour]. Avez-vous eu l'occasion de le consulter ?
+
+Je reste disponible pour une démo rapide de 20 min, à votre convenance cette semaine ou la prochaine.
+
+Voici notre vidéo de présentation si vous voulez voir rapidement : https://youtube.com/shorts/X48FznNEJo
+
+Bonne journée !`},
+    {title:'Message warm — intro via contact commun',type:'warm',icon:'ti-users',body:`Bonjour [Prénom],
+
+[Nom du contact] m'a suggéré de vous contacter — il pensait que Payiskoul pourrait vous intéresser pour [Nom école].
+
+En deux mots : nous aidons les établissements à Abidjan à digitaliser le paiement des frais de scolarité via Mobile Money et à réduire les impayés.
+
+Seriez-vous ouvert à un échange de 20 min cette semaine pour voir si ça peut vous aider ?
+
+Cordialement,
+Thy Hamed — Payiskoul`},
+  ],
+  univ:[
+    {title:'Email d\'approche formelle — DAF / Direction',type:'cold',icon:'ti-mail',body:`Objet : Partenariat Payiskoul × [Nom université] — infrastructure de paiement des frais de formation
+
+Monsieur / Madame le Directeur(trice),
+
+Je me permets de vous contacter au nom de Payiskoul, solution d'infrastructure financière dédiée à l'enseignement supérieur en Afrique de l'Ouest.
+
+Payiskoul permet aux établissements comme le vôtre de :
+— Digitaliser entièrement l'encaissement des frais de scolarité via Mobile Money et carte bancaire
+— Offrir le paiement échelonné aux étudiants, sans risque financier pour l'établissement
+— Automatiser les reversements et disposer d'un tableau de bord de suivi en temps réel
+— Réduire significativement les impayés et les abandons liés aux difficultés financières
+
+Nous proposons à [Nom université] un partenariat pilote sur une promotion, sans frais d'intégration, afin de valider l'impact sur votre établissement.
+
+Je serais honoré de vous présenter notre solution lors d'un rendez-vous à votre convenance. Seriez-vous disponible la semaine du [date] ?
+
+Respectueusement,
+Thy Hamed TRAORE — COO Payiskoul
+[Email] | [Téléphone]`},
+    {title:'Script appel de suivi J+2',type:'step',icon:'ti-phone',body:`ACCROCHE
+« Bonjour, Thy Hamed de Payiskoul. Je vous avais adressé un email lundi concernant notre solution de paiement pour les frais de formation. L'avez-vous reçu ? »
+
+SI OUI
+« Parfait. Est-ce que la question des impayés ou de la digitalisation des paiements est un sujet d'actualité pour vous ? »
+
+SI NON
+« Je vous le renvoie de ce pas. En résumé, nous aidons les universités à encaisser les frais via Mobile Money et paiement échelonné, avec zéro intégration technique. »
+
+PROPOSITION
+« Nous proposons un pilote sans engagement sur une promotion. J'aimerais vous présenter ça en 30 minutes. Seriez-vous disponible jeudi ou vendredi prochain ? »`},
+  ],
+  centre:[
+    {title:'Appel cold — gérant de centre',type:'cold',icon:'ti-phone',body:`ACCROCHE DIRECTE
+« Bonjour, c'est Thy Hamed de Payiskoul. On aide les centres de formation à Abidjan à mieux encaisser leurs frais — via Mobile Money, paiement en plusieurs fois. J'ai 2 minutes ? »
+
+QUESTION DOULEUR
+« Est-ce que vous avez des stagiaires qui abandonnent en cours de formation parce qu'ils ne peuvent pas payer en une seule fois ? »
+
+SI OUI — SOLUTION
+« C'est exactement ce que Payiskoul résout. Vos stagiaires paient progressivement, vous avez votre argent en temps et en heure, et eux restent dans la formation. Zéro intégration technique de votre côté. »
+
+PROPOSITION VISITE
+« Je peux passer vous voir directement au centre cette semaine. Vous êtes là quel jour en fin de matinée ? »`},
+    {title:'WhatsApp post-appel — centres formation',type:'step',icon:'ti-brand-whatsapp',body:`Bonjour [Prénom],
+
+Suite à notre appel, voici la présentation Payiskoul en 1 min 30 : https://youtube.com/shorts/X48FznNEJo
+
+Pour votre centre en résumé :
+✓ Vos stagiaires paient en 2 ou 3 fois via Orange Money / MTN
+✓ Vous recevez les paiements automatiquement
+✓ Moins d'abandons en cours de formation, plus de trésorerie
+
+Je peux passer vous voir [jour proposé] vers [heure]. Ça vous va ?`},
+    {title:'Message warm — référence réseau',type:'warm',icon:'ti-users',body:`Bonjour [Prénom],
+
+[Nom du contact] m'a parlé de votre centre et m'a suggéré de vous contacter.
+
+Payiskoul aide les centres comme le vôtre à réduire les abandons en cours de formation en proposant le paiement échelonné via Mobile Money. Mise en place en 48h, zéro frais fixes.
+
+Est-ce que vous seriez dispo pour que je passe vous voir cette semaine ?`},
+  ],
+  forma:[
+    {title:'DM WhatsApp / Instagram — cold',type:'cold',icon:'ti-brand-whatsapp',body:`Bonjour [Prénom],
+
+J'ai vu votre formation sur [sujet] — vraiment intéressant.
+
+Je vous contacte car beaucoup de formateurs à Abidjan nous disent perdre des apprenants potentiels parce que ceux-ci ne peuvent pas payer en une seule fois.
+
+Payiskoul règle ça : vos apprenants paient en plusieurs fois via leur mobile money, vous recevez votre argent automatiquement. Aucune gestion de votre côté.
+
+Est-ce que c'est un problème que vous rencontrez aussi ?`},
+    {title:'Message warm — formateur dans votre réseau',type:'warm',icon:'ti-users',body:`Salut [Prénom] !
+
+Tu sais que je bosse sur Payiskoul — on aide les formateurs à encaisser plus facilement et à accueillir plus d'apprenants via le paiement échelonné Mobile Money.
+
+J'aimerais te montrer ça en 15 min — je pense que ça peut vraiment t'aider pour ta prochaine session. Tu es dispo cette semaine ?`},
+    {title:'Message de closing — onboarding express',type:'step',icon:'ti-rocket',body:`Bonjour [Prénom],
+
+Suite à notre échange, je vous propose de créer votre lien de paiement Payiskoul aujourd'hui — ça prend 10 minutes.
+
+Pour votre prochaine formation [sujet], vos apprenants pourront payer en 2 ou 3 fois via Orange Money. Vous aurez un tableau de bord pour suivre les paiements en temps réel.
+
+Je vous guide pas à pas. On s'appelle quand vous voulez ce [jour] ?`},
+  ],
+};
+
+let currentScriptSeg='lycee';
+function setScriptSeg(seg,btn){
+  document.querySelectorAll('#scriptSegNav .obj-seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');currentScriptSeg=seg;renderScripts(seg);
+}
+function renderScripts(seg){
+  const typeCls={cold:'b-cold',warm:'b-warm',step:'b-contact'};
+  const typeL={cold:'Cold',warm:'Warm',step:'Étape suivante'};
+  document.getElementById('scriptList').innerHTML=(scripts[seg]||[]).map((s,i)=>`
+    <div class="script-card">
+      <div class="script-header" onclick="toggleScript(this)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <i class="ti ${s.icon}" style="font-size:15px;color:var(--accent)" aria-hidden="true"></i>
+          <span style="font-size:12px;font-weight:500">${s.title}</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="badge ${typeCls[s.type]}">${typeL[s.type]}</span>
+          <button class="copy-btn" onclick="copyText(\`${s.body.replace(/`/g,"'")}\`,this);event.stopPropagation()"><i class="ti ti-copy" style="font-size:11px" aria-hidden="true"></i> Copier</button>
+          <i class="ti ti-chevron-down" style="font-size:14px;color:var(--text3)" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="script-body">${s.body.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>
+    </div>`).join('');
+}
+
+function toggleScript(header){
+  header.classList.toggle('open');
+  const body=header.nextElementSibling;
+  const icon=header.querySelector('.ti-chevron-down');
+  body.style.display=header.classList.contains('open')?'block':'none';
+  if(icon)icon.style.transform=header.classList.contains('open')?'rotate(180deg)':'rotate(0deg)';
+}
+
+function copyText(txt,btn){
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='Copié !';btn.classList.add('ok');
+    setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy" style="font-size:11px"></i> Copier';btn.classList.remove('ok');},2000);
+  });
+}
+
+// ===== NAV =====
+function goTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='semaine')renderWeek();
+  if(name==='objections')renderObjections('all');
+  if(name==='scripts')renderScripts('lycee');
+}
+
+function downloadOnePager(){alert('Pour télécharger en PDF : utilisez Ctrl+P (Imprimer) → Enregistrer en PDF dans votre navigateur.');}
+
+// ===== INIT =====
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderTracker();
+renderFiche();
+</script>
+</body>
+</html>
