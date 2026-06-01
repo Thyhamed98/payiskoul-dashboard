@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Dashboard COO</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;
+  --border:#252535;--border2:#32324a;
+  --text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;
+  --accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;
+  --font:'Syne',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.nav{display:flex;align-items:center;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:20px;padding:0 4px}
+.nav-tab{padding:10px 16px;font-size:10px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.5px;text-transform:uppercase}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+.tag{font-size:10px;padding:4px 10px;border-radius:20px;letter-spacing:0.4px;background:rgba(124,111,255,0.12);color:var(--accent);border:0.5px solid rgba(124,111,255,0.25)}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g21{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:16px}
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.kpi-v{font-size:22px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:5px;display:flex;align-items:center;gap:4px}
+.box{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px}
+.box-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.box-t{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
+.box-t i{font-size:14px;color:var(--accent)}
+.btn{font-size:10px;color:var(--accent);background:rgba(124,111,255,0.1);border:0.5px solid rgba(124,111,255,0.3);border-radius:6px;padding:4px 10px;cursor:pointer;letter-spacing:0.3px;font-family:var(--font)}
+.btn:hover{background:rgba(124,111,255,0.2)}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;padding:0 8px 10px;text-align:left;font-weight:500}
+.tbl td{padding:8px 8px;border-top:0.5px solid var(--border);vertical-align:middle}
+.tbl tr:hover td{background:var(--bg3)}
+.badge{display:inline-block;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600;letter-spacing:0.3px}
+.bp{background:rgba(56,189,248,0.1);color:#38bdf8}
+.bn{background:rgba(251,191,36,0.1);color:#fbbf24}
+.bc{background:rgba(74,222,128,0.12);color:#4ade80}
+.bw{background:rgba(74,222,128,0.2);color:#22c55e}
+.bl{background:rgba(248,113,113,0.1);color:#f87171}
+.pb-w{height:4px;background:var(--bg5);border-radius:2px;width:52px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:4px}
+.pb-f{height:100%;border-radius:2px}
+.okr{padding:12px 0;border-bottom:0.5px solid var(--border)}
+.okr:last-child{border-bottom:none}
+.okr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.okr-name{font-size:12px;font-weight:500;flex:1;margin-right:10px}
+.okr-pct{font-size:13px;font-weight:700;min-width:38px;text-align:right}
+.bar{height:5px;background:var(--bg5);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.bar-f{height:100%;border-radius:3px;transition:width 0.4s}
+.kr-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.kr{font-size:9px;color:var(--text2);background:var(--bg4);padding:2px 7px;border-radius:3px}
+.team-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tm{background:var(--bg3);border:0.5px solid var(--border);border-radius:8px;padding:11px}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;margin-bottom:8px}
+.tm-n{font-size:12px;font-weight:600}
+.tm-r{font-size:10px;color:var(--text2);margin-top:1px}
+.st{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;display:inline-block;margin-top:5px}
+.st-a{background:rgba(74,222,128,0.1);color:#4ade80}
+.st-b{background:rgba(251,191,36,0.1);color:#fbbf24}
+.st-o{background:rgba(90,90,114,0.15);color:#5a5a72}
+.task{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:0.5px solid var(--border)}
+.task:last-child{border-bottom:none}
+.chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all 0.15s}
+.chk.done{background:var(--a2);border-color:var(--a2)}
+.tk-t{font-size:12px}.tk-t.done{text-decoration:line-through;color:var(--text3)}
+.tk-m{font-size:10px;color:var(--text3);margin-top:2px;display:flex;gap:7px}
+.prio{font-size:9px;padding:2px 5px;border-radius:3px;font-weight:600}
+.ph{background:rgba(248,113,113,0.1);color:#f87171}
+.pm{background:rgba(251,191,36,0.1);color:#fbbf24}
+.pl{background:rgba(74,222,128,0.1);color:#4ade80}
+.ed{border:none;background:transparent;color:var(--text);font-size:12px;font-family:var(--font);width:100%;outline:none;padding:2px 4px;border-radius:4px}
+.ed:focus{background:var(--bg4);border:0.5px solid var(--border2)}
+.period-sel{display:flex;gap:6px;margin-bottom:16px}
+.period-btn{font-size:10px;padding:5px 14px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);letter-spacing:0.4px;transition:all 0.2s}
+.period-btn.active,.period-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.rs-title{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.metric-row:last-child{border-bottom:none}
+.metric-name{font-size:12px;color:var(--text2)}
+.metric-val{font-size:13px;font-weight:600}
+.report-section{margin-bottom:18px}
+.action-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.action-item:last-child{border-bottom:none}
+.action-num{width:18px;height:18px;border-radius:50%;background:rgba(124,111,255,0.15);color:var(--accent);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.action-text{font-size:12px;color:var(--text2);flex:1;line-height:1.5}
+.action-own{font-size:9px;color:var(--accent);font-weight:600}
+.report-gen-btn{width:100%;padding:10px;background:rgba(124,111,255,0.12);border:0.5px solid rgba(124,111,255,0.3);border-radius:8px;color:var(--accent);font-size:11px;font-family:var(--font);font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;margin-bottom:14px}
+.report-gen-btn:hover{background:rgba(124,111,255,0.22)}
+.spinner{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(124,111,255,0.3);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-block{background:var(--bg3);border:0.5px solid var(--border2);border-radius:10px;padding:14px;font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap}
+.ai-block strong{color:var(--text)}
+.funnel-r{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)}
+.funnel-r:last-child{border-bottom:none}
+.funnel-lbl{font-size:11px;color:var(--text2);width:88px;flex-shrink:0}
+.funnel-bw{flex:1;height:8px;background:var(--bg5);border-radius:3px;overflow:hidden}
+.funnel-bf{height:100%;border-radius:3px}
+.funnel-cnt{font-size:11px;font-weight:600;width:22px;text-align:right}
+.month-chart-wrap{position:relative;height:160px;margin-bottom:4px}
+@media(max-width:700px){.g4{grid-template-columns:1fr 1fr}.g2,.g21{grid-template-columns:1fr}.team-g{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Payiskoul</div>
+        <div class="brand-sub">COO · Business Developer · Infrastructure EdTech Africa</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="tag">Le Stripe de l'éducation</span>
+      <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-tab active" onclick="switchTab('board')">Dashboard</div>
+    <div class="nav-tab" onclick="switchTab('reporting')">Reporting</div>
+    <div class="nav-tab" onclick="switchTab('pipeline')">Pipeline</div>
+    <div class="nav-tab" onclick="switchTab('team')">Équipe</div>
+  </div>
+
+  <!-- BOARD -->
+  <div class="page active" id="tab-board">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Pipeline EdTech</div><div class="kpi-v" id="kpi1">—</div><div class="kpi-s"><i class="ti ti-trending-up" style="color:var(--a2)"></i><span id="kpi1s"></span></div></div>
+      <div class="kpi"><div class="kpi-l">Établissements cibles</div><div class="kpi-v" id="kpi2">—</div><div class="kpi-s"><i class="ti ti-school" style="color:var(--a5)"></i> écoles/univ/centres</div></div>
+      <div class="kpi"><div class="kpi-l">OKRs avg. S1 2026</div><div class="kpi-v" id="kpi3">—</div><div class="kpi-s"><i class="ti ti-target" style="color:var(--a3)"></i> progression globale</div></div>
+      <div class="kpi"><div class="kpi-l">Tâches prioritaires</div><div class="kpi-v" id="kpi4">—</div><div class="kpi-s"><i class="ti ti-check" style="color:var(--a2)"></i><span id="kpi4s"></span></div></div>
+    </div>
+    <div class="g21">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-target"></i> OKRs Payiskoul — S1 2026</div><button class="btn" onclick="addOKR()"><i class="ti ti-plus"></i> Ajouter</button></div>
+        <div id="okrList"></div>
+      </div>
+      <div>
+        <div class="box" style="margin-bottom:14px"><div class="box-h"><div class="box-t"><i class="ti ti-filter"></i> Funnel biz dev</div></div><div id="funnelView"></div></div>
+        <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-chart-bar"></i> Pipeline pondéré</div></div><div style="position:relative;height:120px"><canvas id="weightedChart" role="img" aria-label="Pipeline pondéré"></canvas></div></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-checklist"></i> Priorités opérationnelles</div><button class="btn" onclick="addTask()"><i class="ti ti-plus"></i></button></div><div id="taskList"></div></div>
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-activity"></i> Activité & signaux</div></div><div id="activityFeed"></div></div>
+    </div>
+  </div>
+
+  <!-- REPORTING -->
+  <div class="page" id="tab-reporting">
+    <div class="period-sel">
+      <button class="period-btn active" onclick="setPeriod('hebdo',this)">Hebdomadaire</button>
+      <button class="period-btn" onclick="setPeriod('mensuel',this)">Mensuel</button>
+    </div>
+    <div id="report-hebdo">
+      <div class="g3" style="margin-bottom:16px">
+        <div class="kpi"><div class="kpi-l">Semaine</div><div class="kpi-v" id="rh-week">—</div><div class="kpi-s" id="rh-dates" style="font-size:10px;color:var(--text3)"></div></div>
+        <div class="kpi"><div class="kpi-l">Actions complétées</div><div class="kpi-v" id="rh-done">—</div><div class="kpi-s"><i class="ti ti-check" style="color:var(--a2)"></i> tâches & suivis</div></div>
+        <div class="kpi"><div class="kpi-l">Nouveaux contacts biz</div><div class="kpi-v">3</div><div class="kpi-s"><i class="ti ti-user-plus" style="color:var(--a5)"></i> prospects qualifiés</div></div>
+      </div>
+      <div class="g2">
+        <div class="box">
+          <div class="box-h"><div class="box-t"><i class="ti ti-chart-arrows"></i> Pipeline — mouvements semaine</div></div>
+          <div class="report-section"><div class="rs-title">Deals actifs (nego + closing)</div><div id="rh-deals"></div></div>
+          <div class="report-section"><div class="rs-title">Métriques clés</div>
+            <div class="metric-row"><span class="metric-name">Valeur totale pipeline</span><span class="metric-val" id="rh-total">—</span></div>
+            <div class="metric-row"><span class="metric-name">Valeur pondérée</span><span class="metric-val" id="rh-weighted">—</span></div>
+            <div class="metric-row"><span class="metric-name">Deals en closing</span><span class="metric-val" id="rh-closing">—</span></div>
+            <div class="metric-row"><span class="metric-name">Closés ce mois</span><span class="metric-val" id="rh-won">—</span></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-h"><div class="box-t"><i class="ti ti-sparkles"></i> Analyse IA de la semaine</div></div>
+          <button class="report-gen-btn" id="btnHebdo" onclick="generateReport('hebdo')"><i class="ti ti-robot"></i> Générer l'analyse IA</button>
+          <div id="aiHebdoOut" style="display:none"></div>
+          <div class="report-section" style="margin-top:16px"><div class="rs-title">Actions semaine prochaine</div><div id="rh-actions"></div></div>
+        </div>
+      </div>
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-target"></i> OKRs — état de la semaine</div></div><div id="rh-okrs"></div></div>
+    </div>
+    <div id="report-mensuel" style="display:none">
+      <div class="g4" style="margin-bottom:16px">
+        <div class="kpi"><div class="kpi-l">Mois</div><div class="kpi-v">Juin 2026</div><div class="kpi-s" style="font-size:10px;color:var(--text3)">Mois en cours</div></div>
+        <div class="kpi"><div class="kpi-l">Pipeline total</div><div class="kpi-v" id="rm-total">—</div><div class="kpi-s"><span style="font-size:10px;background:rgba(74,222,128,0.1);color:#4ade80;padding:2px 6px;border-radius:4px">+18%</span> vs Mai</div></div>
+        <div class="kpi"><div class="kpi-l">Deals closés</div><div class="kpi-v" id="rm-won">—</div><div class="kpi-s"><i class="ti ti-trophy" style="color:var(--a3)"></i> ce mois</div></div>
+        <div class="kpi"><div class="kpi-l">Score santé biz</div><div class="kpi-v" style="color:var(--a3)">72<span style="font-size:14px;color:var(--text3)">/100</span></div><div class="kpi-s"><i class="ti ti-heart" style="color:var(--a4)"></i> bon momentum</div></div>
+      </div>
+      <div class="g2">
+        <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-chart-line"></i> Évolution pipeline — 5 mois</div></div><div class="month-chart-wrap"><canvas id="monthlyChart" role="img" aria-label="Évolution pipeline mensuel"></canvas></div></div>
+        <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-sparkles"></i> Analyse IA mensuelle</div></div><button class="report-gen-btn" id="btnMensuel" onclick="generateReport('mensuel')"><i class="ti ti-robot"></i> Générer le rapport mensuel IA</button><div id="aiMensuelOut" style="display:none"></div></div>
+      </div>
+      <div class="g2">
+        <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-target"></i> OKRs — bilan mensuel</div></div><div id="rm-okrs"></div></div>
+        <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-road"></i> Focus stratégique — Juillet</div></div><div id="rm-focus"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div class="page" id="tab-pipeline">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3)">Établissements · Banques · Mobile Money · Institutions</div>
+      <button class="btn" onclick="addDeal()"><i class="ti ti-plus"></i> Nouveau deal</button>
+    </div>
+    <div class="box"><table class="tbl"><thead><tr><th>Prospect / Partenaire</th><th>Segment</th><th>Montant (FCFA)</th><th>Étape</th><th>Prob.</th><th>Resp.</th></tr></thead><tbody id="pipelineBody"></tbody></table></div>
+  </div>
+
+  <!-- ÉQUIPE -->
+  <div class="page" id="tab-team">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3)">RACI · Founders Governance · Dream Team Payiskoul</div>
+      <button class="btn" onclick="addMember()"><i class="ti ti-plus"></i> Ajouter</button>
+    </div>
+    <div class="g2">
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-users"></i> Dream Team</div></div><div class="team-g" id="teamGrid"></div></div>
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-sitemap"></i> RACI — responsabilités COO</div></div><div id="raciView"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let pipeline=[
+  {id:1,name:'Banque Atlantique CI',segment:'Fintech/Banque',amount:12000000,stage:'nego',prob:60,owner:'COO'},
+  {id:2,name:'Orange Money CI',segment:'Mobile Money',amount:25000000,stage:'closing',prob:85,owner:'COO'},
+  {id:3,name:'Ministère Éducation CI',segment:'Institution',amount:8500000,stage:'prospect',prob:30,owner:'BizDev'},
+  {id:4,name:'MTN MoMo',segment:'Mobile Money',amount:18000000,stage:'prospect',prob:25,owner:'COO'},
+  {id:5,name:'NSIA Banque',segment:'Fintech/Banque',amount:6000000,stage:'won',prob:100,owner:'COO'},
+  {id:6,name:'UVCI Université',segment:'Éducation Sup.',amount:4500000,stage:'prospect',prob:40,owner:'BizDev'},
+  {id:7,name:'Réseau EFA (lycées)',segment:'Éducation K-12',amount:9000000,stage:'nego',prob:55,owner:'BizDev'},
+  {id:8,name:'Wave CI',segment:'Mobile Money',amount:15000000,stage:'prospect',prob:20,owner:'COO'},
+];
+let okrs=[
+  {id:1,label:'Onboarder 5 établissements pilotes',pct:40,color:'#7c6fff',krs:['2/5 signés','3 en négociation']},
+  {id:2,label:'Atteindre 50M FCFA volume transactions T3',pct:38,color:'#fbbf24',krs:['19M volume actuel','Mobile Money prioritaire']},
+  {id:3,label:'Signer 3 partenaires Mobile Money',pct:33,color:'#38bdf8',krs:['Orange en closing','MTN/Wave prospect']},
+  {id:4,label:'Lancer le pilote School Onboarding SOP',pct:60,color:'#4ade80',krs:['SOP rédigé ✓','2 écoles en test']},
+  {id:5,label:'Lever un seed round / grants EdTech',pct:20,color:'#e879f9',krs:['Pitch deck prêt ✓','4 VCs contactés']},
+];
+let team=[
+  {id:1,name:'Vous',role:'COO · Biz Dev',initials:'PK',color:'#7c6fff',bg:'rgba(124,111,255,0.15)',status:'active'},
+  {id:2,name:'Co-founder',role:'CEO · Vision',initials:'CF',color:'#4ade80',bg:'rgba(74,222,128,0.15)',status:'active'},
+  {id:3,name:'Lead Tech',role:'CTO · Product',initials:'LT',color:'#38bdf8',bg:'rgba(56,189,248,0.15)',status:'busy'},
+  {id:4,name:'Biz Dev',role:'Commercial',initials:'BD',color:'#fbbf24',bg:'rgba(251,191,36,0.15)',status:'active'},
+  {id:5,name:'Finance',role:'Gestion & Budget',initials:'FI',color:'#f87171',bg:'rgba(248,113,113,0.15)',status:'busy'},
+  {id:6,name:'Ops',role:'Support & Ops',initials:'OP',color:'#e879f9',bg:'rgba(232,121,249,0.15)',status:'active'},
+];
+let tasks=[
+  {id:1,title:'Finaliser onboarding Orange Money — contrat',done:false,prio:'high',due:'Auj.',owner:'COO'},
+  {id:2,title:'Préparer deck investisseur seed round',done:false,prio:'high',due:'Auj.',owner:'COO'},
+  {id:3,title:'Relancer Ministère Éducation — suivi démo',done:false,prio:'med',due:'Demain',owner:'BD'},
+  {id:4,title:'Tester School Onboarding SOP avec UVCI',done:true,prio:'high',due:'Hier',owner:'COO'},
+  {id:5,title:'Valider Business Plan avec équipe finance',done:false,prio:'med',due:'Ven.',owner:'FI'},
+  {id:6,title:'Go-To-Market : segmentation Côte d\'Ivoire',done:false,prio:'med',due:'Ven.',owner:'COO'},
+  {id:7,title:'Call Wave CI — intro partenariat MoMo',done:false,prio:'low',due:'Lun.',owner:'COO'},
+];
+const raci=[
+  {domain:'Business Development',role:'Responsible',tasks:'Pipeline, prospects, négociations'},
+  {domain:'Opérations produit',role:'Accountable',tasks:'School Onboarding SOP, pilotes'},
+  {domain:'Partenariats MoMo',role:'Responsible',tasks:'Orange, MTN, Wave, Banques'},
+  {domain:'Levée de fonds',role:'Responsible',tasks:'Deck, VCs, grants EdTech'},
+  {domain:'Go-To-Market',role:'Consulted',tasks:'Stratégie, segmentation, pricing'},
+  {domain:'Finance / Business Plan',role:'Informed',tasks:'Suivi mensuel, budget ops'},
+];
+const activity=[
+  {icon:'ti-building-bank',color:'#4ade80',text:'NSIA Banque — deal closé · 6M FCFA',time:'Il y a 2j'},
+  {icon:'ti-file-check',color:'#7c6fff',text:'School Onboarding SOP finalisé',time:'Il y a 3j'},
+  {icon:'ti-users',color:'#38bdf8',text:'Orange Money — passage en closing (85%)',time:'Il y a 4j'},
+  {icon:'ti-presentation',color:'#fbbf24',text:'Pitch deck mis à jour (Canva)',time:'Il y a 5j'},
+  {icon:'ti-certificate',color:'#e879f9',text:'Certificat IDU CI reçu — conformité légale',time:'Il y a 6j'},
+];
+const stageL={prospect:'Prospect',nego:'Négociation',closing:'Closing',won:'Closé',lost:'Perdu'};
+const stageCls={prospect:'bp',nego:'bn',closing:'bc',won:'bw',lost:'bl'};
+const stages=['prospect','nego','closing','won','lost'];
+function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1).replace('.0','')+'M FCFA';if(n>=1000)return Math.round(n/1000)+'k FCFA';return n+' FCFA';}
+function fmtS(n){if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return Math.round(n/1000)+'k';return n;}
+
+function renderKPIs(){
+  const act=pipeline.filter(d=>d.stage!=='lost');
+  document.getElementById('kpi1').textContent=fmtS(act.reduce((a,d)=>a+d.amount,0))+' FCFA';
+  document.getElementById('kpi1s').textContent=act.length+' deals actifs';
+  document.getElementById('kpi2').textContent=pipeline.filter(d=>['Éducation K-12','Éducation Sup.'].includes(d.segment)).length;
+  document.getElementById('kpi3').textContent=Math.round(okrs.reduce((a,o)=>a+o.pct,0)/okrs.length)+'%';
+  const due=tasks.filter(t=>t.due==='Auj.').length;const done=tasks.filter(t=>t.done).length;
+  document.getElementById('kpi4').textContent=due;document.getElementById('kpi4s').textContent=done+' complétées';
+}
+function renderOKRs(){
+  document.getElementById('kpi3').textContent=Math.round(okrs.reduce((a,o)=>a+o.pct,0)/okrs.length)+'%';
+  document.getElementById('okrList').innerHTML=okrs.map(o=>`<div class="okr"><div class="okr-row"><div class="okr-name">${o.label}</div><div class="okr-pct" style="color:${o.color}">${o.pct}%</div></div><div class="bar"><div class="bar-f" style="width:${o.pct}%;background:${o.color}"></div></div><input type="range" min="0" max="100" value="${o.pct}" oninput="okrs.find(x=>x.id==${o.id}).pct=+this.value;renderOKRs();renderReportHebdo();renderReportMensuel()" style="width:100%;accent-color:${o.color};margin:4px 0"><div class="kr-row">${o.krs.map(k=>`<span class="kr">${k}</span>`).join('')}</div></div>`).join('');
+}
+function renderFunnel(){
+  const cnt={};stages.forEach(s=>cnt[s]=0);pipeline.forEach(d=>cnt[d.stage]=(cnt[d.stage]||0)+1);
+  const max=Math.max(...Object.values(cnt),1);
+  const col={prospect:'#38bdf8',nego:'#fbbf24',closing:'#7c6fff',won:'#4ade80',lost:'#f87171'};
+  document.getElementById('funnelView').innerHTML=stages.filter(s=>s!=='lost').map(s=>`<div class="funnel-r"><div class="funnel-lbl">${stageL[s]}</div><div class="funnel-bw"><div class="funnel-bf" style="width:${(cnt[s]/max)*100}%;background:${col[s]}"></div></div><div class="funnel-cnt" style="color:${col[s]}">${cnt[s]}</div></div>`).join('');
+}
+let wChart=null;
+function renderWC(){
+  const so=['prospect','nego','closing','won'];
+  const w=so.map(s=>pipeline.filter(d=>d.stage===s).reduce((a,d)=>a+d.amount*d.prob/100,0));
+  const ctx=document.getElementById('weightedChart').getContext('2d');
+  if(wChart)wChart.destroy();
+  wChart=new Chart(ctx,{type:'bar',data:{labels:so.map(s=>stageL[s]),datasets:[{data:w,backgroundColor:['#38bdf8','#fbbf24','#7c6fff','#4ade80'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#4a4a6a',font:{size:10}},grid:{display:false},border:{display:false}},y:{ticks:{color:'#4a4a6a',font:{size:10},callback:v=>fmtS(v)},grid:{color:'#1a1a24'},border:{display:false}}}}});
+}
+let mChart=null;
+function renderMC(){
+  const el=document.getElementById('monthlyChart');if(!el)return;
+  const ctx=el.getContext('2d');if(mChart)mChart.destroy();
+  mChart=new Chart(ctx,{type:'line',data:{labels:['Fév','Mar','Avr','Mai','Juin'],datasets:[{label:'Pipeline',data:[32,41,55,68,98],borderColor:'#7c6fff',backgroundColor:'rgba(124,111,255,0.08)',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#7c6fff'},{label:'Pondéré',data:[12,18,24,31,47],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.06)',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#4ade80',borderDash:[4,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#4a4a6a',font:{size:10}},grid:{display:false},border:{display:false}},y:{ticks:{color:'#4a4a6a',font:{size:10},callback:v=>v+'M'},grid:{color:'#1a1a24'},border:{display:false}}}}});
+}
+function renderTasks(){
+  const due=tasks.filter(t=>t.due==='Auj.').length;const done=tasks.filter(t=>t.done).length;
+  document.getElementById('kpi4').textContent=due;document.getElementById('kpi4s').textContent=done+' complétées';
+  const pcls={high:'ph',med:'pm',low:'pl'};const plbl={high:'Haute',med:'Moyenne',low:'Basse'};
+  document.getElementById('taskList').innerHTML=tasks.map(t=>`<div class="task"><div class="chk ${t.done?'done':''}" onclick="toggleTask(${t.id})">${t.done?'<i class="ti ti-check" style="font-size:10px;color:#0c0c0f"></i>':''}</div><div style="flex:1"><div class="tk-t ${t.done?'done':''}">${t.title}</div><div class="tk-m"><span><i class="ti ti-calendar" style="font-size:10px"></i> ${t.due}</span><span class="prio ${pcls[t.prio]}">${plbl[t.prio]}</span><span>${t.owner}</span></div></div></div>`).join('');
+}
+function renderActivity(){
+  document.getElementById('activityFeed').innerHTML=activity.map(a=>`<div class="task" style="gap:10px"><div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${a.icon}" style="font-size:14px;color:${a.color}"></i></div><div style="flex:1"><div style="font-size:12px">${a.text}</div><div style="font-size:10px;color:var(--text3)">${a.time}</div></div></div>`).join('');
+}
+function renderPipeline(){
+  document.getElementById('pipelineBody').innerHTML=pipeline.map(d=>`<tr><td><input class="ed" value="${d.name}" onchange="pipeline.find(x=>x.id==${d.id}).name=this.value;renderAll()" style="font-weight:600"></td><td><span style="font-size:10px;color:var(--text2)">${d.segment}</span></td><td><input class="ed" value="${fmtS(d.amount)}" onchange="parseAmt(${d.id},this.value)" style="width:80px;text-align:right;font-weight:600"></td><td><select style="background:var(--bg4);color:var(--text);border:0.5px solid var(--border);border-radius:5px;font-size:10px;padding:3px 5px;cursor:pointer;font-family:var(--font)" onchange="pipeline.find(x=>x.id==${d.id}).stage=this.value;renderAll()">${stages.map(s=>`<option value="${s}" ${d.stage===s?'selected':''}>${stageL[s]}</option>`).join('')}</select></td><td><div style="display:flex;align-items:center;gap:5px"><div class="pb-w"><div class="pb-f" style="width:${d.prob}%;background:${d.prob>70?'#4ade80':d.prob>40?'#fbbf24':'#7c6fff'}"></div></div><input class="ed" value="${d.prob}" onchange="pipeline.find(x=>x.id==${d.id}).prob=Math.min(100,Math.max(0,+this.value||0));renderAll()" style="width:30px;font-size:10px;text-align:center">%</div></td><td><span style="font-size:10px;color:var(--text3)">${d.owner}</span></td></tr>`).join('');
+}
+function renderTeam(){
+  const stlbl={active:'Actif',busy:'Occupé',away:'Absent'};const stcls={active:'st-a',busy:'st-b',away:'st-o'};
+  document.getElementById('teamGrid').innerHTML=team.map(m=>`<div class="tm"><div class="av" style="background:${m.bg};color:${m.color}">${m.initials}</div><div class="tm-n">${m.name}</div><div class="tm-r">${m.role}</div><span class="st ${stcls[m.status]}">${stlbl[m.status]}</span></div>`).join('');
+  document.getElementById('raciView').innerHTML=raci.map(r=>`<div class="metric-row"><div><div style="font-size:12px;font-weight:500">${r.domain}</div><div style="font-size:10px;color:var(--text3)">${r.tasks}</div></div><span class="badge ${r.role==='Responsible'?'bc':r.role==='Accountable'?'bn':'bp'}">${r.role}</span></div>`).join('');
+}
+function renderReportHebdo(){
+  const act=pipeline.filter(d=>d.stage!=='lost');const total=act.reduce((a,d)=>a+d.amount,0);
+  const weighted=act.reduce((a,d)=>a+d.amount*d.prob/100,0);
+  const closing=pipeline.filter(d=>d.stage==='closing');const won=pipeline.filter(d=>d.stage==='won');
+  document.getElementById('rh-total').textContent=fmtS(total)+'M FCFA';
+  document.getElementById('rh-weighted').textContent=fmtS(Math.round(weighted/1000000*10)/10)+'M FCFA';
+  document.getElementById('rh-closing').textContent=closing.length+' deal'+(closing.length>1?'s':'');
+  document.getElementById('rh-won').textContent=won.length+' deal'+(won.length>1?'s':'');
+  document.getElementById('rh-done').textContent=tasks.filter(t=>t.done).length;
+  const now=new Date();const s=Math.ceil((now-new Date(now.getFullYear(),0,1))/604800000);
+  document.getElementById('rh-week').textContent='S'+s+' · '+now.getFullYear();
+  document.getElementById('rh-dates').textContent=now.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+  document.getElementById('rh-deals').innerHTML=pipeline.filter(d=>['closing','nego'].includes(d.stage)).map(d=>`<div class="metric-row"><div><div style="font-size:12px;font-weight:500">${d.name}</div><div style="font-size:10px;color:var(--text3)">${d.segment}</div></div><div style="text-align:right"><span class="badge ${stageCls[d.stage]}">${stageL[d.stage]}</span><div style="font-size:11px;font-weight:600;margin-top:3px">${fmtS(d.amount)}</div></div></div>`).join('');
+  document.getElementById('rh-okrs').innerHTML=okrs.map(o=>`<div class="okr"><div class="okr-row"><div class="okr-name">${o.label}</div><div class="okr-pct" style="color:${o.color}">${o.pct}%</div></div><div class="bar"><div class="bar-f" style="width:${o.pct}%;background:${o.color}"></div></div><div class="kr-row">${o.krs.map(k=>`<span class="kr">${k}</span>`).join('')}</div></div>`).join('');
+  document.getElementById('rh-actions').innerHTML=[{t:'Closer le deal Orange Money — relance signature',o:'COO'},{t:'Mettre à jour pitch deck investisseur S1 2026',o:'COO'},{t:'Planifier démo avec Réseau EFA (lycées)',o:'BizDev'},{t:'Valider SOP Onboarding avec UVCI — retour test',o:'COO'},{t:'Prospecter Wave CI — qualification MoMo',o:'COO'}].map((a,i)=>`<div class="action-item"><div class="action-num">${i+1}</div><div class="action-text">${a.t} <span class="action-own">${a.o}</span></div></div>`).join('');
+}
+function renderReportMensuel(){
+  const act=pipeline.filter(d=>d.stage!=='lost');
+  document.getElementById('rm-total').textContent=fmtS(act.reduce((a,d)=>a+d.amount,0))+'M FCFA';
+  document.getElementById('rm-won').textContent=pipeline.filter(d=>d.stage==='won').length;
+  document.getElementById('rm-okrs').innerHTML=okrs.map(o=>`<div class="okr"><div class="okr-row"><div class="okr-name">${o.label}</div><div class="okr-pct" style="color:${o.color}">${o.pct}%</div></div><div class="bar"><div class="bar-f" style="width:${o.pct}%;background:${o.color}"></div></div><div class="kr-row">${o.krs.map(k=>`<span class="kr">${k}</span>`).join('')}</div></div>`).join('');
+  document.getElementById('rm-focus').innerHTML=[{icon:'ti-building-bank',color:'#4ade80',t:'Finaliser partenariat Orange Money MoMo'},{icon:'ti-school',color:'#38bdf8',t:'Onboarder 2 nouveaux établissements pilotes'},{icon:'ti-coin',color:'#fbbf24',t:'Préparer dossier levée de fonds seed'},{icon:'ti-map',color:'#7c6fff',t:'Lancer Go-To-Market Bouaké & Yamoussoukro'},{icon:'ti-api',color:'#e879f9',t:'Avancer intégration API Mobile Money'}].map(f=>`<div class="task" style="gap:10px"><div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${f.icon}" style="font-size:13px;color:${f.color}"></i></div><div style="font-size:12px">${f.t}</div></div>`).join('');
+}
+async function generateReport(type){
+  const btn=document.getElementById(type==='hebdo'?'btnHebdo':'btnMensuel');
+  const out=document.getElementById(type==='hebdo'?'aiHebdoOut':'aiMensuelOut');
+  btn.innerHTML='<span class="spinner"></span> Analyse en cours...';btn.disabled=true;out.style.display='none';
+  const act=pipeline.filter(d=>d.stage!=='lost');const total=act.reduce((a,d)=>a+d.amount,0);
+  const weighted=Math.round(act.reduce((a,d)=>a+d.amount*d.prob/100,0));
+  const closing=pipeline.filter(d=>d.stage==='closing').map(d=>d.name).join(', ');
+  const avgOkr=Math.round(okrs.reduce((a,o)=>a+o.pct,0)/okrs.length);
+  const prompt=type==='hebdo'?`Tu es un assistant COO senior pour Payiskoul, fintech EdTech africaine ("Stripe de l'éducation"). État cette semaine : Pipeline ${fmtS(total)}M FCFA, pondéré ${fmtS(weighted/1000000)}M FCFA, en closing: ${closing}, OKRs: ${avgOkr}% avg, deals closés: ${pipeline.filter(d=>d.stage==='won').length}. Génère un reporting hebdomadaire COO concis en français (250 mots max) avec : 1.**Synthèse exécutive** (2-3 phrases) 2.**Points positifs** (2 items) 3.**Points d'attention** (2 items) 4.**1 recommandation stratégique prioritaire**. Sois direct, orienté action, spécifique EdTech Afrique de l'Ouest.`:`Tu es un assistant COO senior pour Payiskoul (fintech EdTech, "Stripe de l'éducation" en Afrique). Bilan juin 2026 : Pipeline ${fmtS(total)}M FCFA, ${act.length} deals actifs, OKRs: ${avgOkr}% avg, Orange Money en closing, pilote 2 établissements. Génère un rapport mensuel COO en français (350 mots max) avec : 1.**Bilan mensuel** 2.**Faits marquants** (3 items) 3.**Risques identifiés** (2 items) 4.**Priorités stratégiques juillet** (3 items) 5.**Score de santé business** /100. Contexte: Côte d'Ivoire, phase pilote, seed round en préparation.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const txt=data.content?.find(b=>b.type==='text')?.text||'Erreur de génération.';
+    out.style.display='block';out.innerHTML='<div class="ai-block">'+txt.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')+'</div>';
+  }catch(e){out.style.display='block';out.innerHTML='<div class="ai-block" style="color:var(--a4)">Erreur de connexion à l\'API.</div>';}
+  btn.innerHTML='<i class="ti ti-robot"></i> Régénérer';btn.disabled=false;
+}
+function toggleTask(id){const t=tasks.find(x=>x.id===id);t.done=!t.done;renderTasks();}
+function addDeal(){pipeline.push({id:Date.now(),name:'Nouveau prospect',segment:'Éducation K-12',amount:5000000,stage:'prospect',prob:20,owner:'COO'});renderAll();}
+function addOKR(){okrs.push({id:Date.now(),label:'Nouvel objectif',pct:0,color:'#7c6fff',krs:['KR 1','KR 2']});renderOKRs();}
+function addMember(){team.push({id:Date.now(),name:'Nouveau membre',role:'Rôle',initials:'??',color:'#8888aa',bg:'rgba(136,136,170,0.15)',status:'active'});renderTeam();}
+function addTask(){tasks.unshift({id:Date.now(),title:'Nouvelle tâche',done:false,prio:'med',due:'Auj.',owner:'COO'});renderTasks();}
+function parseAmt(id,v){let n=parseFloat(v.replace(/[^0-9.]/g,''));if(v.includes('M')||v.includes('m'))n*=1000000;else if(v.includes('k')||v.includes('K'))n*=1000;if(!isNaN(n))pipeline.find(x=>x.id===id).amount=n;renderAll();}
+function switchTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='reporting'){renderReportHebdo();renderReportMensuel();setTimeout(renderMC,100);}
+}
+function setPeriod(p,btn){
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('report-hebdo').style.display=p==='hebdo'?'block':'none';
+  document.getElementById('report-mensuel').style.display=p==='mensuel'?'block':'none';
+  if(p==='mensuel')setTimeout(renderMC,100);
+}
+function renderAll(){renderKPIs();renderOKRs();renderFunnel();renderWC();renderTasks();renderActivity();renderPipeline();renderTeam();}
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderAll();
+</script>
+</body>
+</html>
