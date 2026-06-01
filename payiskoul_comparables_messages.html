@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Comparables & Messages CEO</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;--border:#252535;--border2:#32324a;--text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;--accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;--font:'DM Sans',sans-serif}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+.nav{display:flex;flex-wrap:wrap;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:24px}
+.nav-tab{padding:10px 16px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.box{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.box-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.box-t{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
+.box-t i{font-size:14px;color:var(--accent)}
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.kpi-v{font-size:22px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:5px}
+.badge{display:inline-block;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600}
+.seg-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.seg-btn{font-size:10px;padding:5px 12px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);transition:all 0.15s;font-weight:500}
+.seg-btn.active,.seg-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+/* LANDSCAPE */
+.layer-label{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg4)}
+.layer-items{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-bottom:0.5px solid var(--border)}
+.layer-item{display:flex;align-items:center;gap:7px;background:var(--bg4);border:0.5px solid var(--border);border-radius:8px;padding:7px 10px}
+.li-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.li-name{font-size:11px;font-weight:500}
+.li-type{font-size:9px;color:var(--text3)}
+/* COMP CARDS */
+.comp-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+.comp-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.comp-logo{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.comp-name{font-size:14px;font-weight:700}
+.comp-tagline{font-size:11px;color:var(--text2);margin-top:2px}
+.comp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cs{background:var(--bg4);border-radius:7px;padding:8px 10px;text-align:center}
+.cs-v{font-size:14px;font-weight:700}
+.cs-l{font-size:9px;color:var(--text3);margin-top:2px}
+.lesson{background:var(--bg4);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 12px;font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:6px}
+.lesson strong{color:var(--text);font-weight:500}
+.opp{background:rgba(74,222,128,0.07);border-left:2px solid var(--a2);border-radius:0 8px 8px 0;padding:9px 12px;font-size:11px;color:var(--text2);line-height:1.6;margin-top:8px}
+.opp strong{color:var(--a2)}
+.threat-meter{height:6px;background:var(--bg5);border-radius:3px;overflow:hidden;margin-top:6px}
+.threat-fill{height:100%;border-radius:3px}
+/* MESSAGES */
+.msg-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.msg-to{font-size:13px;font-weight:600}
+.msg-sub-label{font-size:11px;color:var(--text2);margin-top:2px;margin-bottom:10px}
+.msg-body{font-size:12px;color:var(--text2);line-height:1.8;white-space:pre-wrap;background:var(--bg4);border-radius:8px;padding:14px;border:0.5px solid var(--border)}
+.msg-body strong{color:var(--text)}
+.copy-btn{font-size:10px;padding:4px 10px;border-radius:5px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;font-family:var(--font)}
+.copy-btn.ok{color:var(--a2);border-color:rgba(74,222,128,0.3)}
+/* CEO */
+.validate-btn{font-size:11px;padding:7px 14px;border-radius:7px;background:rgba(74,222,128,0.12);border:0.5px solid rgba(74,222,128,0.3);color:var(--a2);cursor:pointer;font-family:var(--font);font-weight:600}
+.validate-btn.v{background:rgba(74,222,128,0.25);color:#22c55e}
+.reject-btn{font-size:11px;padding:7px 14px;border-radius:7px;background:rgba(248,113,113,0.1);border:0.5px solid rgba(248,113,113,0.3);color:var(--a4);cursor:pointer;font-family:var(--font);font-weight:600}
+.reject-btn.r{background:rgba(248,113,113,0.25)}
+.status-badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;display:inline-block;margin-top:6px}
+@media(max-width:700px){.g2,.g4,.comp-stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div><div class="brand-name">Payiskoul</div><div class="brand-sub">Comparables Fintech CI · Messages Cibles · Validation CEO</div></div>
+    </div>
+    <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+  </div>
+  <div class="nav">
+    <div class="nav-tab active" onclick="goTab('landscape')">Paysage CI</div>
+    <div class="nav-tab" onclick="goTab('comparables')">Comparables</div>
+    <div class="nav-tab" onclick="goTab('messages')">Messages cibles</div>
+    <div class="nav-tab" onclick="goTab('ceo')">Validation CEO</div>
+  </div>
+
+  <!-- PAYSAGE -->
+  <div class="page active" id="tab-landscape">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Fintechs CI recensées</div><div class="kpi-v" style="color:var(--a5)">61</div><div class="kpi-s">dont 13 financées (2025)</div></div>
+      <div class="kpi"><div class="kpi-l">Comptes électroniques CI</div><div class="kpi-v" style="color:var(--a2)">45M+</div><div class="kpi-s">leader UEMOA paiements digitaux</div></div>
+      <div class="kpi"><div class="kpi-l">Inclusion financière CI</div><div class="kpi-v" style="color:var(--a3)">60%+</div><div class="kpi-s">via monnaie électronique 2025</div></div>
+      <div class="kpi"><div class="kpi-l">Position Payiskoul</div><div class="kpi-v" style="color:var(--accent)">Unique</div><div class="kpi-s">seul EdTech payment CI</div></div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-layers"></i> Paysage fintech paiement CI 2026</div></div>
+      <div style="background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;overflow:hidden" id="landscapeView"></div>
+    </div>
+    <div class="g2">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-target"></i> Où se positionne Payiskoul</div></div>
+        <div id="posView"></div>
+      </div>
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-trending-up"></i> Tendances 2025-2026</div></div>
+        <div id="trendsView"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARABLES -->
+  <div class="page" id="tab-comparables">
+    <div class="seg-nav" id="segNav">
+      <button class="seg-btn active" onclick="filterComp('all',this)">Tous</button>
+      <button class="seg-btn" onclick="filterComp('infrastructure',this)">Infrastructure</button>
+      <button class="seg-btn" onclick="filterComp('agregateur',this)">Agrégateurs</button>
+      <button class="seg-btn" onclick="filterComp('neobanque',this)">Néobanques</button>
+      <button class="seg-btn" onclick="filterComp('momo',this)">Mobile Money</button>
+    </div>
+    <div id="compList"></div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="page" id="tab-messages">
+    <div class="seg-nav" id="msgSegNav">
+      <button class="seg-btn active" onclick="filterMsg('all',this)">Tous</button>
+      <button class="seg-btn" onclick="filterMsg('partner',this)">Partenaires MoMo</button>
+      <button class="seg-btn" onclick="filterMsg('client',this)">Clients établissements</button>
+      <button class="seg-btn" onclick="filterMsg('investor',this)">Investisseurs</button>
+      <button class="seg-btn" onclick="filterMsg('institution',this)">Institutions</button>
+    </div>
+    <div id="msgList"></div>
+  </div>
+
+  <!-- CEO VALIDATION -->
+  <div class="page" id="tab-ceo">
+    <div class="box" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:0.5px solid var(--border)">
+        <div style="width:38px;height:38px;border-radius:50%;background:rgba(124,111,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--accent);flex-shrink:0">CEO</div>
+        <div>
+          <div style="font-size:13px;font-weight:600">Validation CEO — messages avant envoi</div>
+          <div style="font-size:10px;color:var(--text2)"><span id="validCount" style="color:var(--a2)">0</span> validés · <span id="rejectCount" style="color:var(--a4)">0</span> rejetés · <span id="pendingCount" style="color:var(--text3)">8</span> en attente</div>
+        </div>
+      </div>
+      <div id="ceoList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const landscape=[
+  {layer:'Opérateurs Mobile Money',color:'#4ade80',items:[{name:'Orange Money CI',type:'Opérateur'},{name:'MTN MoMo CI',type:'Opérateur'},{name:'Wave CI',type:'Licorne UEMOA'},{name:'Moov Money',type:'Opérateur'}]},
+  {layer:'Infrastructure & agrégateurs',color:'#38bdf8',items:[{name:'CinetPay',type:'Fondé CI'},{name:'HUB2',type:'API paiement'},{name:'Bizao',type:'Hub paiement'},{name:'FedaPay',type:'UEMOA'},{name:'InTouch',type:'27 pays'}]},
+  {layer:'Néobanques & super-apps',color:'#7c6fff',items:[{name:'Djamo',type:'17M$ levés 2025'},{name:'Julaya',type:'Agrément EP BCEAO'},{name:'APAYM',type:'Super-app locale'},{name:'SudPay',type:'Dématérialisation'}]},
+  {layer:'EdTech paiement',color:'#fbbf24',items:[{name:'IvoirEdu',type:'ERP scolaire'},{name:'Galactis',type:'ERP universitaire'},{name:'Educ Go On',type:'SaaS scolaire'},{name:'Payiskoul ⭐',type:'Infrastructure financement éducation'}]},
+  {layer:'Banques partenaires potentielles',color:'#e879f9',items:[{name:'Banque Atlantique CI',type:'Commerciale'},{name:'NSIA Banque',type:'Commerciale'},{name:'BGFIBank CI',type:'Partenaire Djamo'},{name:'SIB',type:'Commerciale'}]},
+];
+
+const comparables=[
+  {id:'djamo',cat:'neobanque',name:'Djamo',tagline:'Néobanque B2C ivoirienne — carte Visa + épargne + budget',logo:'DJ',color:'#7c6fff',bg:'rgba(124,111,255,0.15)',founded:'2020 · Abidjan',funding:'31M$ total',pays:'CI + Sénégal',stats:{f:'31M$',u:'10K+ PME',t:'4.5Mds$'},lessons:['<strong>Leçon 1</strong> — Y Combinator + Partech ont investi : les VCs regardent les fintechs CI/UEMOA','<strong>Leçon 2</strong> — Agrément microfinance BCEAO obtenu sept 2025 : chemin réglementaire à tracer','<strong>Leçon 3</strong> — Focus sur un segment clair avant d\'élargir'],opp:'<strong>Opportunité</strong> — Djamo cible PME et particuliers. Payiskoul cible l\'éducation. Complémentaires — partenariat wallets étudiants envisageable.',threat:20},
+  {id:'julaya',cat:'infrastructure',name:'Julaya',tagline:'Paiements B2B — compte pro en ligne pour entreprises CI',logo:'JL',color:'#38bdf8',bg:'rgba(56,189,248,0.15)',founded:'2019 · Paris/Abidjan',funding:'7M$ (Proparco, Orange Ventures)',pays:'CI + Sénégal + Mali',stats:{f:'7M$',u:'PME',t:'—'},lessons:['<strong>Leçon 1</strong> — Premier agrément EP BCEAO (EP.CI.004/2025) : tracer la même voie','<strong>Leçon 2</strong> — Orange Ventures + Proparco comme investisseurs : cibles pour Payiskoul'],opp:'<strong>Opportunité</strong> — Partenariat API Julaya × Payiskoul pour les reversements automatisés aux établissements.',threat:15},
+  {id:'cinetpay',cat:'agregateur',name:'CinetPay',tagline:'Agrégateur de paiement multicanal — fondé en CI',logo:'CP',color:'#f87171',bg:'rgba(248,113,113,0.15)',founded:'2016 · Abidjan',funding:'Non divulguée',pays:'9 pays Afrique',stats:{f:'N/C',u:'10K+ marchands',t:'—'},lessons:['<strong>Leçon 1</strong> — Partir de CI et s\'étendre dans 9 pays : roadmap possible pour Payiskoul','<strong>Leçon 2</strong> — School fees actif mais sans échelonnement : gap que Payiskoul occupe'],opp:'<strong>Opportunité</strong> — CinetPay peut devenir partenaire API plutôt que concurrent. Leur réseau = base de prospection.',threat:85},
+  {id:'hub2',cat:'infrastructure',name:'HUB2',tagline:'Infrastructure API de paiement présent en CI',logo:'H2',color:'#e879f9',bg:'rgba(232,121,249,0.15)',founded:'2019 · Paris/Afrique',funding:'N/C',pays:'CI + UEMOA',stats:{f:'N/C',u:'Dev/entreprises',t:'—'},lessons:['<strong>Leçon 1</strong> — Infrastructure invisible mais critique : Payiskoul peut s\'appuyer sur HUB2','<strong>Leçon 2</strong> — Modèle B2B2C est le bon modèle pour Payiskoul'],opp:'<strong>Opportunité</strong> — HUB2 comme partenaire technique pour les intégrations MoMo multi-opérateurs.',threat:10},
+  {id:'bizao',cat:'infrastructure',name:'Bizao',tagline:'Hub de paiement panafricain — 350M requêtes/mois',logo:'BZ',color:'#fbbf24',bg:'rgba(251,191,36,0.15)',founded:'2019 · Paris/CI',funding:'8M€ série A (AfricInvest)',pays:'CI + Cameroun + Burkina',stats:{f:'8M€',u:'Commerçants',t:'350M/mois'},lessons:['<strong>Leçon 1</strong> — AfricInvest comme investisseur : à cibler pour seed Payiskoul','<strong>Leçon 2</strong> — TPE Mobile Money déployés en CI : modèle de distribution à étudier'],opp:'<strong>Opportunité</strong> — AfricInvest (investisseur Bizao) actif en CI. Cible prioritaire pour levée seed.',threat:20},
+  {id:'wave',cat:'momo',name:'Wave CI',tagline:'Mobile Money licorne — 20M+ utilisateurs actifs UEMOA',logo:'WV',color:'#4ade80',bg:'rgba(74,222,128,0.15)',founded:'2018 · Dakar',funding:'137M$ (2025)',pays:'8 pays Afrique Ouest',stats:{f:'137M$',u:'20M+',t:'—'},lessons:['<strong>Leçon 1</strong> — 137M$ levés : marché UEMOA très attractif pour investisseurs','<strong>Leçon 2</strong> — Disruption par les prix : Payiskoul doit disruper par la valeur (échelonnement)'],opp:'<strong>Opportunité</strong> — Partenariat API Wave × paiement échelonné frais scolaires. Wave a l\'infra, Payiskoul la verticale.',threat:50},
+];
+
+const messages=[
+  {id:'m1',cat:'partner',to:'Orange Money CI — Direction Partenariats',sub:'Partenariat stratégique Orange Money × Payiskoul',type:'Email',body:`Objet : Proposition de partenariat — Payiskoul × Orange Money CI
+
+Madame, Monsieur,
+
+Je me permets de vous contacter au nom de Payiskoul, infrastructure de paiement dédiée à l'éducation en Côte d'Ivoire.
+
+Nous accompagnons les établissements scolaires, universités et centres de formation à digitaliser le recouvrement de leurs frais de scolarité via Mobile Money, avec la particularité d'offrir un paiement échelonné aux apprenants.
+
+Avec plus de 45 millions de comptes électroniques en Côte d'Ivoire, Orange Money est naturellement notre partenaire prioritaire. Nous souhaitons proposer à vos équipes un partenariat d'intégration API qui permettrait à l'ensemble des abonnés Orange d'accéder au paiement échelonné de leurs frais de formation directement depuis leur application.
+
+Ce partenariat représente une opportunité d'extension de l'usage d'Orange Money sur un secteur à fort impact social : l'éducation.
+
+Je serais honoré de vous présenter Payiskoul lors d'un rendez-vous de 30 minutes à votre convenance.
+
+Cordialement,
+Thy Hamed TRAORE — COO, Payiskoul
++225 XX XX XX XX XX | contact@payiskoul.com`},
+  {id:'m2',cat:'partner',to:'Wave CI — Business Development',sub:'Intégration Wave × paiement échelonné éducation',type:'WhatsApp',body:`Bonjour,
+
+Je suis Thy Hamed, COO de Payiskoul — infrastructure de paiement pour l'éducation en CI.
+
+Nous utilisons Wave comme l'un de nos rails de paiement et souhaitons aller plus loin avec vous.
+
+Notre proposition : un partenariat API qui permet aux utilisateurs Wave de payer leurs frais scolaires en 2 ou 3 fois directement depuis l'app Wave.
+
+Wave a l'infrastructure, Payiskoul a la verticale éducation et les établissements partenaires.
+
+Seriez-vous disponibles pour un échange cette semaine ?
+
+Thy Hamed — Payiskoul`},
+  {id:'m3',cat:'partner',to:'Banque Atlantique CI — Direction Innovation',sub:'Partenariat bancaire — infrastructure financement éducatif',type:'Email',body:`Objet : Partenariat Banque Atlantique × Payiskoul — financement éducatif Mobile Money
+
+Monsieur le Directeur,
+
+Payiskoul est une fintech ivoirienne qui construit l'infrastructure financière de l'éducation en Afrique de l'Ouest.
+
+Nous souhaitons explorer avec Banque Atlantique CI un partenariat sur deux axes :
+1. Intégration de vos solutions de paiement carte bancaire dans notre plateforme
+2. Ligne de crédit éducatif pour les apprenants qui souhaitent financer leur formation
+
+Ce partenariat nous permettrait d'élargir notre offre au-delà du Mobile Money et vous ouvrirait un segment de clientèle jeune, en croissance.
+
+Thy Hamed TRAORE — COO, Payiskoul`},
+  {id:'m4',cat:'client',to:'Réseau EFA — Directeur Général',sub:'Payiskoul — simplifier les paiements dans vos lycées',type:'Email',body:`Objet : Payiskoul × Réseau EFA — solution de paiement échelonné pour vos lycées
+
+Monsieur le Directeur,
+
+Je vous contacte au nom de Payiskoul, solution de paiement innovante dédiée aux établissements éducatifs en Côte d'Ivoire.
+
+Ce que Payiskoul apporte concrètement à votre réseau :
+— Vos parents paient les frais de scolarité en plusieurs fois via Orange Money / MTN MoMo
+— Tableau de bord en temps réel pour suivre les paiements
+— Relances aux parents en retard automatisées
+— Zéro intégration technique — opérationnel en 48h
+
+Nos premiers établissements partenaires ont réduit leurs impayés de 40% dès la première rentrée.
+
+Je propose une démo de 20 minutes à votre convenance cette semaine.
+
+Thy Hamed TRAORE — COO, Payiskoul`},
+  {id:'m5',cat:'client',to:'UVCI — Vice-Président Finance',sub:'Partenariat pilote Payiskoul × UVCI',type:'Email',body:`Objet : Proposition de partenariat pilote — paiement digital des frais universitaires UVCI
+
+Monsieur le Vice-Président,
+
+Payiskoul propose à l'UVCI un partenariat pilote sur une filière, sans engagement et sans frais d'intégration :
+— Paiement des frais en 3 mensualités via Mobile Money
+— Reversement automatique à l'université
+— Mesure de l'impact sur inscriptions et taux d'abandon
+
+Je serais heureux de vous présenter notre solution.
+
+Thy Hamed TRAORE — COO, Payiskoul`},
+  {id:'m6',cat:'investor',to:'Janngo Capital — Équipe Investissement',sub:'Payiskoul — seed round · infrastructure EdTech payment UEMOA',type:'Email',body:`Objet : Payiskoul — Opportunité d'investissement seed · Infrastructure EdTech payment UEMOA
+
+Madame, Monsieur,
+
+Je vous contacte suite à votre investissement dans Djamo — une décision qui confirme votre conviction dans l'écosystème fintech ivoirien.
+
+Payiskoul occupe un segment complémentaire et non adressé : l'infrastructure financière de l'éducation. Nous sommes le premier acteur à proposer un paiement échelonné des frais scolaires via Mobile Money.
+
+Marché addressable : 9 millions d'élèves en CI, 1 828 établissements privés (mai 2026), 45M+ comptes MoMo.
+
+Nous cherchons à lever [montant] en seed round.
+
+Seriez-vous disponible pour un premier échange ?
+
+Thy Hamed TRAORE — COO, Payiskoul
+[Lien pitch deck]`},
+  {id:'m7',cat:'investor',to:'AfricInvest — Équipe CI',sub:'Payiskoul — seed round · fintech éducation CI',type:'Email',body:`Objet : Payiskoul — Opportunité seed round · Vertical EdTech payment, Côte d'Ivoire
+
+Madame, Monsieur,
+
+En tant qu'investisseur de Bizao en Côte d'Ivoire, vous avez démontré votre intérêt pour les infrastructures de paiement africaines.
+
+Payiskoul se positionne sur la couche manquante : le financement éducatif échelonné. Là où Bizao traite les paiements marchands, Payiskoul orchestre les paiements et financements scolaires.
+
+Le gouvernement CI a lui-même rendu obligatoire le Mobile Money pour les inscriptions scolaires 2025-2026.
+
+Nous cherchons un investisseur anchor pour notre seed round. Seriez-vous disponible ?
+
+Thy Hamed TRAORE — COO, Payiskoul`},
+  {id:'m8',cat:'institution',to:'Ministère Éducation CI — Direction Numérique',sub:'Payiskoul — partenariat digitalisation paiements scolaires',type:'Email',body:`Objet : Proposition de partenariat — Payiskoul × Ministère de l'Éducation nationale
+
+Monsieur le Directeur,
+
+Payiskoul est une fintech ivoirienne dont la mission est d'accélérer la digitalisation des paiements scolaires en Côte d'Ivoire, en cohérence avec les ambitions du MENAET.
+
+Notre solution est déjà opérationnelle et certifiée (Certificat IDU CI-2026-0053987M).
+
+Nous souhaitons explorer les modalités d'un partenariat public-privé pour déployer cette solution à l'échelle nationale.
+
+Thy Hamed TRAORE — COO, Payiskoul`},
+];
+
+let statuses={};
+messages.forEach(m=>statuses[m.id]='pending');
+
+function renderLandscape(){
+  document.getElementById('landscapeView').innerHTML=landscape.map(l=>`
+    <div class="layer-label" style="color:${l.color}">${l.layer}</div>
+    <div class="layer-items">${l.items.map(i=>`<div class="layer-item" style="${i.name.includes('Payiskoul')?'border-color:'+l.color+';background:rgba(251,191,36,0.08)':''}"><div class="li-dot" style="background:${l.color}${i.name.includes('Payiskoul')?'':'55'}"></div><div><div class="li-name" style="${i.name.includes('Payiskoul')?'color:'+l.color+';font-weight:700':''}">${i.name}</div><div class="li-type">${i.type}</div></div></div>`).join('')}</div>`).join('');
+
+  document.getElementById('posView').innerHTML=[
+    {icon:'ti-puzzle',color:'#7c6fff',t:'Couche manquante de l\'écosystème',d:'Orange Money, Wave, MTN gèrent le transfert. CinetPay l\'encaissement. Djamo la banque. Personne le financement éducatif échelonné. C\'est Payiskoul.'},
+    {icon:'ti-link',color:'#4ade80',t:'Agrégateur de couches existantes',d:'Payiskoul ne réinvente pas le Mobile Money — il s\'y branche et orchestre Orange, MTN, Wave pour l\'éducation.'},
+    {icon:'ti-school',color:'#fbbf24',t:'Seul acteur verticalement spécialisé',d:'Tous les autres sont horizontaux (tous secteurs). Payiskoul est le seul 100% éducation.'},
+  ].map(p=>`<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)"><div style="width:28px;height:28px;border-radius:6px;background:${p.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${p.icon}" style="font-size:14px;color:${p.color}"></i></div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">${p.t}</div><div style="font-size:11px;color:var(--text2);line-height:1.6">${p.d}</div></div></div>`).join('');
+
+  document.getElementById('trendsView').innerHTML=[
+    {t:'Djamo lève 17M$ en 2025',d:'Plus grande levée startup ivoirienne. Preuve que les VCs regardent CI.',c:'var(--accent)'},
+    {t:'Govt CI impose MoMo inscriptions scolaires',d:'Validation officielle du marché EdTech payment par l\'État.',c:'var(--a3)'},
+    {t:'45M+ comptes électroniques en CI',d:'Infrastructure MoMo prête. Le problème n\'est plus l\'adoption.',c:'var(--a2)'},
+    {t:'Agrément EP BCEAO obligatoire',d:'Capital min 100M FCFA — signal de maturité pour investisseurs.',c:'var(--a5)'},
+    {t:'Interopérabilité BCEAO UEMOA en cours',d:'80 institutions connectées — simplification future des intégrations.',c:'var(--a6)'},
+  ].map(t=>`<div style="display:flex;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--border)"><div style="width:3px;border-radius:2px;background:${t.c};flex-shrink:0;align-self:stretch"></div><div><div style="font-size:11px;font-weight:600;margin-bottom:2px">${t.t}</div><div style="font-size:10px;color:var(--text3);line-height:1.5">${t.d}</div></div></div>`).join('');
+}
+
+function renderComparables(f='all'){
+  const list=f==='all'?comparables:comparables.filter(c=>c.cat===f);
+  document.getElementById('compList').innerHTML=list.map(c=>`
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-logo" style="background:${c.bg};color:${c.color}">${c.logo}</div>
+        <div style="flex:1">
+          <div class="comp-name">${c.name}</div>
+          <div class="comp-tagline">${c.tagline}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--text3)">${c.founded}</span>
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--text3)">${c.pays}</span>
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:${c.color}18;color:${c.color}">${c.funding}</span>
+          </div>
+        </div>
+      </div>
+      <div class="comp-stats">
+        <div class="cs"><div class="cs-v" style="color:${c.color}">${c.stats.f}</div><div class="cs-l">Levée fonds</div></div>
+        <div class="cs"><div class="cs-v" style="color:var(--a5)">${c.stats.u}</div><div class="cs-l">Utilisateurs</div></div>
+        <div class="cs"><div class="cs-v" style="color:var(--a3)">${c.stats.t}</div><div class="cs-l">Transactions</div></div>
+      </div>
+      ${c.lessons.map(l=>`<div class="lesson">${l}</div>`).join('')}
+      <div class="opp">${c.opp}</div>
+      <div style="margin-top:10px"><div style="font-size:10px;color:var(--text3);margin-bottom:5px">Niveau de menace</div>
+        <div style="display:flex;align-items:center;gap:8px"><div class="threat-meter" style="flex:1"><div class="threat-fill" style="width:${c.threat}%;background:${c.threat>70?'var(--a4)':c.threat>40?'var(--a3)':'var(--a5)'}"></div></div>
+        <span style="font-size:11px;font-weight:600;color:${c.threat>70?'var(--a4)':c.threat>40?'var(--a3)':'var(--a5)'}">${c.threat}%</span></div>
+      </div>
+    </div>`).join('');
+}
+
+function filterComp(f,btn){document.querySelectorAll('#segNav .seg-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderComparables(f);}
+
+function renderMessages(f='all'){
+  const list=f==='all'?messages:messages.filter(m=>m.cat===f);
+  const catL={partner:'Partenaire MoMo/Banque',client:'Client établissement',investor:'Investisseur',institution:'Institution'};
+  const catC={partner:'var(--accent)',client:'var(--a4)',investor:'var(--a3)',institution:'var(--a6)'};
+  document.getElementById('msgList').innerHTML=list.map(m=>`
+    <div class="msg-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+        <div><div class="msg-to">${m.to}</div><div class="msg-sub-label">${m.sub}</div></div>
+        <button class="copy-btn" id="cb-${m.id}" onclick="copyMsg('${m.id}',this)"><i class="ti ti-copy" style="font-size:11px"></i> Copier</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <span class="badge" style="background:rgba(56,189,248,0.12);color:#38bdf8">${m.type}</span>
+        <span class="badge" style="background:${catC[m.cat]}18;color:${catC[m.cat]}">${catL[m.cat]}</span>
+        <span class="status-badge" id="sb-${m.id}" style="background:rgba(90,90,114,0.15);color:var(--text3)">En attente</span>
+      </div>
+      <div class="msg-body">${m.body.replace(/\n/g,'<br>')}</div>
+    </div>`).join('');
+}
+
+function filterMsg(f,btn){document.querySelectorAll('#msgSegNav .seg-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMessages(f);}
+
+function copyMsg(id,btn){
+  const m=messages.find(x=>x.id===id);
+  navigator.clipboard.writeText(m.body).then(()=>{btn.textContent='Copié !';btn.classList.add('ok');setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy" style="font-size:11px"></i> Copier';btn.classList.remove('ok');},2000);});
+}
+
+function renderCEO(){
+  updateCounts();
+  document.getElementById('ceoList').innerHTML=messages.map(m=>`
+    <div style="background:var(--bg3);border:0.5px solid ${statuses[m.id]==='validated'?'rgba(74,222,128,0.4)':statuses[m.id]==='rejected'?'rgba(248,113,113,0.4)':'var(--border)'};border-radius:10px;padding:14px;margin-bottom:10px" id="ceo-${m.id}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600;margin-bottom:2px">${m.to}</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:8px">${m.sub}</div>
+          <div style="font-size:11px;color:var(--text2);background:var(--bg4);border-radius:7px;padding:10px 12px;line-height:1.7;overflow:hidden;max-height:80px">${m.body.substring(0,220).replace(/\n/g,'<br>')}...</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="validate-btn ${statuses[m.id]==='validated'?'v':''}" onclick="validate('${m.id}',true)">${statuses[m.id]==='validated'?'✓ Validé':'Valider'}</button>
+          <button class="reject-btn ${statuses[m.id]==='rejected'?'r':''}" onclick="validate('${m.id}',false)">${statuses[m.id]==='rejected'?'✗ Rejeté':'Rejeter'}</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function validate(id,ok){
+  statuses[id]=ok?'validated':'rejected';
+  updateCounts();renderCEO();
+  const sb=document.getElementById('sb-'+id);
+  if(sb){sb.textContent=ok?'Validé ✓':'Rejeté ✗';sb.style.background=ok?'rgba(74,222,128,0.15)':'rgba(248,113,113,0.15)';sb.style.color=ok?'var(--a2)':'var(--a4)';}
+}
+
+function updateCounts(){
+  const v=Object.values(statuses).filter(s=>s==='validated').length;
+  const r=Object.values(statuses).filter(s=>s==='rejected').length;
+  const p=Object.values(statuses).filter(s=>s==='pending').length;
+  document.getElementById('validCount').textContent=v;
+  document.getElementById('rejectCount').textContent=r;
+  document.getElementById('pendingCount').textContent=p;
+}
+
+function goTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='comparables')renderComparables();
+  if(name==='messages')renderMessages();
+  if(name==='ceo')renderCEO();
+}
+
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderLandscape();
+</script>
+</body>
+</html>
