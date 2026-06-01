@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Cartographie Abidjan & Concurrents</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;
+  --border:#252535;--border2:#32324a;
+  --text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;
+  --accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;
+  --font:'DM Sans',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+.nav{display:flex;flex-wrap:wrap;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:24px}
+.nav-tab{padding:10px 16px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.box{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.box-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.box-t{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
+.box-t i{font-size:14px;color:var(--accent)}
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.kpi-v{font-size:22px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:5px}
+.badge{display:inline-block;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600}
+.b-threat{background:rgba(248,113,113,0.12);color:#f87171}
+.b-indirect{background:rgba(251,191,36,0.12);color:#fbbf24}
+.b-adjacent{background:rgba(56,189,248,0.12);color:#38bdf8}
+.b-weak{background:rgba(74,222,128,0.12);color:#4ade80}
+.abidjan-map{background:var(--bg3);border-radius:12px;border:0.5px solid var(--border);overflow:hidden}
+.commune-zone{cursor:pointer;transition:opacity 0.2s}
+.commune-zone:hover{opacity:0.8}
+.commune-label{font-size:11px;font-weight:600;fill:#eaeaf5;pointer-events:none;font-family:'DM Sans',sans-serif}
+.commune-sub{font-size:8px;fill:#8888aa;pointer-events:none;font-family:'DM Sans',sans-serif}
+.commune-detail{background:var(--bg3);border:0.5px solid var(--border2);border-radius:10px;padding:14px;margin-top:12px}
+.cd-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cd-name{font-size:15px;font-weight:700}
+.cd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.cd-stat{background:var(--bg4);border-radius:7px;padding:10px 12px;text-align:center}
+.cd-stat-v{font-size:18px;font-weight:700}
+.cd-stat-l{font-size:9px;color:var(--text3);margin-top:3px}
+.etab-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.etab-item{background:var(--bg4);border-radius:7px;padding:9px 11px;border-left:2px solid var(--border2)}
+.etab-name{font-size:11px;font-weight:500}
+.etab-type{font-size:9px;color:var(--text3);margin-top:2px}
+.comp-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+.comp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.comp-name{font-size:14px;font-weight:700}
+.comp-tagline{font-size:11px;color:var(--text2);margin-top:2px}
+.comp-logo{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.feat-item{background:var(--bg4);border-radius:7px;padding:8px 10px}
+.feat-label{font-size:9px;color:var(--text3);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px}
+.feat-val{font-size:11px;font-weight:500}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.swot-item{padding:8px 10px;border-radius:7px;font-size:11px;line-height:1.5}
+.sw-force{background:rgba(74,222,128,0.08);border-left:2px solid var(--a2)}
+.sw-faib{background:rgba(248,113,113,0.08);border-left:2px solid var(--a4)}
+.sw-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.threat-meter{height:6px;background:var(--bg5);border-radius:3px;overflow:hidden;margin-top:6px}
+.threat-fill{height:100%;border-radius:3px}
+.diff-table{width:100%;border-collapse:collapse;font-size:11px}
+.diff-table th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;padding:0 10px 10px;text-align:left;font-weight:500}
+.diff-table td{padding:8px 10px;border-top:0.5px solid var(--border);vertical-align:middle;text-align:center}
+.diff-table td:first-child{text-align:left;font-weight:500}
+.check{color:var(--a2)}.cross{color:var(--a4)}.partial{color:var(--a3)}
+.insight-item{display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.insight-item:last-child{border-bottom:none}
+.insight-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+@media(max-width:700px){.g2,.g4,.feat-grid,.swot-grid,.cd-stats,.etab-list{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Payiskoul</div>
+        <div class="brand-sub">Cartographie Abidjan · Analyse Concurrentielle</div>
+      </div>
+    </div>
+    <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+  </div>
+
+  <div class="nav">
+    <div class="nav-tab active" onclick="goTab('carte')"><i class="ti ti-map" style="font-size:12px;margin-right:4px"></i>Carte Abidjan</div>
+    <div class="nav-tab" onclick="goTab('concurrents')"><i class="ti ti-shield" style="font-size:12px;margin-right:4px"></i>Concurrents</div>
+    <div class="nav-tab" onclick="goTab('positionnement')"><i class="ti ti-target" style="font-size:12px;margin-right:4px"></i>Positionnement</div>
+    <div class="nav-tab" onclick="goTab('opportunites')"><i class="ti ti-bulb" style="font-size:12px;margin-right:4px"></i>Opportunités</div>
+  </div>
+
+  <!-- CARTE -->
+  <div class="page active" id="tab-carte">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Établissements privés CI</div><div class="kpi-v" style="color:var(--a5)">1 828</div><div class="kpi-s">dossiers agrément 2025-2026</div></div>
+      <div class="kpi"><div class="kpi-l">Acteurs formés Abidjan</div><div class="kpi-v" style="color:var(--accent)">3 688</div><div class="kpi-s">session 2025 — 4 sites</div></div>
+      <div class="kpi"><div class="kpi-l">Cible prioritaire Payiskoul</div><div class="kpi-v" style="color:var(--a3)">500+</div><div class="kpi-s">établissements privés Abidjan</div></div>
+      <div class="kpi"><div class="kpi-l">Communes priorité 1</div><div class="kpi-v" style="color:var(--a2)">3</div><div class="kpi-s">Cocody · Yopougon · Plateau</div></div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-map-2"></i> Cliquer sur une commune pour explorer</div></div>
+      <div class="abidjan-map">
+        <svg viewBox="0 0 700 480" width="100%" style="display:block" xmlns="http://www.w3.org/2000/svg">
+          <g class="commune-zone" onclick="showCommune('cocody')">
+            <ellipse cx="460" cy="130" rx="110" ry="80" fill="rgba(124,111,255,0.18)" stroke="#7c6fff" stroke-width="1.5"/>
+            <text x="460" y="118" text-anchor="middle" class="commune-label">Cocody</text>
+            <text x="460" y="132" text-anchor="middle" class="commune-sub">Lycées haut de gamme · Grandes écoles</text>
+            <text x="460" y="148" text-anchor="middle" font-size="11" fill="#7c6fff" font-family="DM Sans" font-weight="600">⭐⭐⭐ Priorité 1</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('plateau')">
+            <ellipse cx="300" cy="220" rx="62" ry="46" fill="rgba(56,189,248,0.15)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="300" y="213" text-anchor="middle" class="commune-label">Plateau</text>
+            <text x="300" y="226" text-anchor="middle" class="commune-sub">Universités · Institutions</text>
+            <text x="300" y="240" text-anchor="middle" font-size="10" fill="#38bdf8" font-family="DM Sans" font-weight="600">⭐⭐⭐ Priorité 1</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('yopougon')">
+            <ellipse cx="130" cy="225" rx="100" ry="75" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="1.5"/>
+            <text x="130" y="214" text-anchor="middle" class="commune-label">Yopougon</text>
+            <text x="130" y="228" text-anchor="middle" class="commune-sub">Centres form. · Lycées · Dense</text>
+            <text x="130" y="244" text-anchor="middle" font-size="10" fill="#fbbf24" font-family="DM Sans" font-weight="600">⭐⭐⭐ Priorité 1</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('abobo')">
+            <ellipse cx="200" cy="100" rx="90" ry="65" fill="rgba(248,113,113,0.12)" stroke="#f87171" stroke-width="1.5"/>
+            <text x="200" y="90" text-anchor="middle" class="commune-label">Abobo</text>
+            <text x="200" y="104" text-anchor="middle" class="commune-sub">Centres form. prof. · Lycées</text>
+            <text x="200" y="118" text-anchor="middle" font-size="10" fill="#f87171" font-family="DM Sans" font-weight="600">⭐⭐ Priorité 2</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('marcory')">
+            <ellipse cx="375" cy="330" rx="75" ry="50" fill="rgba(74,222,128,0.13)" stroke="#4ade80" stroke-width="1.5"/>
+            <text x="375" y="322" text-anchor="middle" class="commune-label">Marcory</text>
+            <text x="375" y="336" text-anchor="middle" class="commune-sub">PME éduc. · Formateurs</text>
+            <text x="375" y="350" text-anchor="middle" font-size="10" fill="#4ade80" font-family="DM Sans" font-weight="600">⭐⭐ Priorité 2</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('treichville')">
+            <ellipse cx="298" cy="330" rx="56" ry="38" fill="rgba(232,121,249,0.12)" stroke="#e879f9" stroke-width="1"/>
+            <text x="298" y="323" text-anchor="middle" class="commune-label" font-size="10">Treichville</text>
+            <text x="298" y="337" text-anchor="middle" class="commune-sub">Collèges · Centres form.</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('adjame')">
+            <ellipse cx="310" cy="132" rx="65" ry="48" fill="rgba(74,222,128,0.1)" stroke="#4ade80" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="310" y="126" text-anchor="middle" class="commune-label" font-size="10">Adjamé</text>
+            <text x="310" y="140" text-anchor="middle" class="commune-sub">Centres form. commerciaux</text>
+          </g>
+          <g class="commune-zone" onclick="showCommune('koumassi')">
+            <ellipse cx="490" cy="322" rx="80" ry="55" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="490" y="315" text-anchor="middle" class="commune-label" font-size="10">Koumassi / Port-Bouët</text>
+            <text x="490" y="329" text-anchor="middle" class="commune-sub">Lycées · Centres techniques</text>
+          </g>
+          <ellipse cx="350" cy="422" rx="200" ry="38" fill="rgba(56,189,248,0.05)" stroke="rgba(56,189,248,0.15)" stroke-width="1"/>
+          <text x="350" y="426" text-anchor="middle" font-size="9" fill="#38bdf8" opacity="0.4" font-family="DM Sans">Lagune Ébrié</text>
+          <rect x="12" y="12" width="8" height="8" rx="2" fill="#7c6fff"/><text x="24" y="21" font-size="9" fill="#8888aa" font-family="DM Sans">Lycées/grandes écoles</text>
+          <rect x="12" y="26" width="8" height="8" rx="2" fill="#fbbf24"/><text x="24" y="35" font-size="9" fill="#8888aa" font-family="DM Sans">Centres de formation</text>
+          <rect x="12" y="40" width="8" height="8" rx="2" fill="#38bdf8"/><text x="24" y="49" font-size="9" fill="#8888aa" font-family="DM Sans">Universités/institutions</text>
+        </svg>
+      </div>
+      <div id="communeDetail" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- CONCURRENTS -->
+  <div class="page" id="tab-concurrents">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Concurrents directs</div><div class="kpi-v" style="color:var(--a4)">2</div><div class="kpi-s">CinetPay School · IvoirEdu</div></div>
+      <div class="kpi"><div class="kpi-l">Concurrents indirects</div><div class="kpi-v" style="color:var(--a3)">4</div><div class="kpi-s">agrégateurs paiement CI</div></div>
+      <div class="kpi"><div class="kpi-l">Acteurs adjacents</div><div class="kpi-v" style="color:var(--a5)">3</div><div class="kpi-s">ERP scolaires locaux</div></div>
+      <div class="kpi"><div class="kpi-l">Avantage unique</div><div class="kpi-v" style="color:var(--a2)">1</div><div class="kpi-s">seul avec paiement échelonné</div></div>
+    </div>
+    <div id="competitorList"></div>
+  </div>
+
+  <!-- POSITIONNEMENT -->
+  <div class="page" id="tab-positionnement">
+    <div class="g2">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-layout-grid"></i> Matrice de positionnement</div></div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:8px">X = Spécialisation éducation · Y = Paiement échelonné</div>
+        <div id="posMatrix" style="position:relative;background:var(--bg3);border-radius:10px;border:0.5px solid var(--border);overflow:hidden"></div>
+      </div>
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-table"></i> Comparatif fonctionnel</div></div>
+        <div style="overflow-x:auto"><table class="diff-table">
+          <thead><tr><th>Fonctionnalité</th><th>Payiskoul</th><th>CinetPay</th><th>IvoirEdu</th><th>Galactis</th><th>MoMo</th></tr></thead>
+          <tbody id="diffTable"></tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-sword"></i> Avantages concurrentiels Payiskoul</div></div>
+      <div id="avantagesList"></div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITÉS -->
+  <div class="page" id="tab-opportunites">
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-trending-up"></i> Signaux de marché favorables</div></div>
+      <div id="signalList"></div>
+    </div>
+    <div class="g2">
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-alert-triangle"></i> Risques & menaces</div></div>
+        <div id="riskList"></div>
+      </div>
+      <div class="box">
+        <div class="box-h"><div class="box-t"><i class="ti ti-rocket"></i> Fenêtres d'opportunité 2026</div></div>
+        <div id="oppList"></div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-message-2"></i> Arguments terrain vs concurrents</div></div>
+      <div id="argsList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const communes={
+  cocody:{name:'Cocody',color:'#7c6fff',prio:'Priorité 1',stats:{etab:120,lycees:45,univ:8,centres:30,forma:37},desc:'Zone la plus dense en établissements privés haut de gamme. Forte concentration de lycées internationaux, grandes écoles et universités privées.',etablissements:[{name:'Lycée Sainte-Marie Cocody',type:'Lycée catholique privé'},{name:'Lycée Saint-Viateur Angré',type:'Lycée privé'},{name:'UVCI — Université',type:'Université privée'},{name:'ESATIC',type:'Grande école tech'},{name:'Groupe scolaire Les Palmiers',type:'Complexe scolaire'},{name:'École Nouvelle Ivoirienne (ENICA)',type:'Établissement international'},{name:'Institut Supérieur de Gestion',type:'Grande école'},{name:'Centre CFPME Cocody',type:'Centre formation'}],bg:'rgba(124,111,255,0.08)'},
+  plateau:{name:'Plateau',color:'#38bdf8',prio:'Priorité 1',stats:{etab:40,lycees:5,univ:12,centres:15,forma:8},desc:'Centre des affaires. Sièges des institutions publiques et universités. Cycle de vente plus long mais deals à forte valeur.',etablissements:[{name:'Université FHB (campus)',type:'Université publique'},{name:'INPHB — Antenne Abidjan',type:'Grande école publique'},{name:'Centre CFCI',type:'Centre formation certifié'},{name:'Institut National Formation',type:'Formation professionnelle'},{name:'Ministère Éducation CI',type:'Institution décisionnaire'},{name:'DREN Abidjan',type:'Direction régionale éduc.'}],bg:'rgba(56,189,248,0.08)'},
+  yopougon:{name:'Yopougon',color:'#fbbf24',prio:'Priorité 1',stats:{etab:180,lycees:70,univ:3,centres:65,forma:42},desc:'Commune la plus peuplée d\'Abidjan. Très forte densité de lycées et centres de formation. Fort besoin de paiement échelonné.',etablissements:[{name:'Collège CIPIM Yopougon',type:'Collège privé'},{name:'Complexe Scolaire IGES',type:'Établissement privé'},{name:'Centre form. professionnel Yop.',type:'Centre formation'},{name:'Lycée Moderne Yopougon',type:'Lycée public'},{name:'Groupe scolaire Jean XXIII',type:'Établissement catholique'},{name:'Centre CFPME Yopougon',type:'Centre formation PME'},{name:'Institut Technique Yopougon',type:'Formation technique'},{name:'Collège D. BAZ Yopougon',type:'Collège privé'}],bg:'rgba(251,191,36,0.08)'},
+  abobo:{name:'Abobo',color:'#f87171',prio:'Priorité 2',stats:{etab:140,lycees:55,univ:1,centres:58,forma:26},desc:'Deuxième commune la plus peuplée. Marché populaire avec fort besoin de solutions de paiement échelonné. Centres de formation professionnelle nombreux.',etablissements:[{name:'Collège Adama Sanogo Abobo',type:'Collège privé'},{name:'Collège Anador d\'Abobo',type:'Collège privé'},{name:'Centre technique Abobo',type:'Formation technique'},{name:'Complexe scolaire Abobo',type:'Établissement privé'}],bg:'rgba(248,113,113,0.08)'},
+  marcory:{name:'Marcory',color:'#4ade80',prio:'Priorité 2',stats:{etab:85,lycees:30,univ:2,centres:35,forma:18},desc:'Zone mixte résidentielle-commerciale. Bonne densité de lycées et formateurs indépendants.',etablissements:[{name:'Lycée Les Génies de Demain',type:'Lycée privé'},{name:'Centre Sup. Form. Marcory',type:'Centre formation'},{name:'Institut Professionnel Marcory',type:'Formation professionnelle'},{name:'Complexe scolaire Marcory',type:'Établissement privé'}],bg:'rgba(74,222,128,0.08)'},
+  treichville:{name:'Treichville',color:'#e879f9',prio:'Priorité 2',stats:{etab:50,lycees:20,univ:1,centres:20,forma:9},desc:'Zone historique commerciale. Établissements de taille moyenne, profil populaire.',etablissements:[{name:'Collège Voltaire Treichville',type:'Collège privé'},{name:'École Technique Treichville',type:'Formation technique'},{name:'Centre de formation TREICH',type:'Centre formation'}],bg:'rgba(232,121,249,0.08)'},
+  adjame:{name:'Adjamé',color:'#4ade80',prio:'Priorité 3',stats:{etab:60,lycees:20,univ:0,centres:30,forma:10},desc:'Zone commerciale dense. Centres de formation tournés vers le commerce et l\'artisanat.',etablissements:[{name:'Centre form. commercial Adjamé',type:'Centre formation commerce'},{name:'Lycée Privé Adjamé',type:'Lycée privé'}],bg:'rgba(74,222,128,0.06)'},
+  koumassi:{name:'Koumassi / Port-Bouët',color:'#38bdf8',prio:'Priorité 3',stats:{etab:70,lycees:28,univ:1,centres:28,forma:13},desc:'Zone en développement. Lycées techniques et centres de formation industrielle.',etablissements:[{name:'Collège Koumassi Zone 4',type:'Collège privé'},{name:'Centre tech. Port-Bouët',type:'Formation technique'},{name:'Lycée privé Koumassi',type:'Lycée privé'}],bg:'rgba(56,189,248,0.06)'},
+};
+
+function showCommune(id){
+  const c=communes[id];if(!c)return;
+  const el=document.getElementById('communeDetail');
+  el.style.display='block';
+  el.innerHTML=`<div class="commune-detail" style="background:${c.bg};border:0.5px solid ${c.color}40;margin-top:12px">
+    <div class="cd-header"><div style="width:36px;height:36px;border-radius:8px;background:${c.color}22;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-map-pin" style="font-size:18px;color:${c.color}"></i></div>
+    <div><div class="cd-name">${c.name}</div><span style="font-size:10px;padding:2px 8px;border-radius:4px;background:${c.color}22;color:${c.color};font-weight:600">${c.prio}</span></div></div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">${c.desc}</div>
+    <div class="cd-stats">
+      <div class="cd-stat"><div class="cd-stat-v" style="color:${c.color}">${c.stats.etab}</div><div class="cd-stat-l">Établissements</div></div>
+      <div class="cd-stat"><div class="cd-stat-v" style="color:var(--accent)">${c.stats.lycees}</div><div class="cd-stat-l">Lycées/Collèges</div></div>
+      <div class="cd-stat"><div class="cd-stat-v" style="color:var(--a5)">${c.stats.univ}</div><div class="cd-stat-l">Universités</div></div>
+      <div class="cd-stat"><div class="cd-stat-v" style="color:var(--a3)">${c.stats.centres}</div><div class="cd-stat-l">Centres form.</div></div>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Établissements clés à prospecter</div>
+    <div class="etab-list">${c.etablissements.map(e=>`<div class="etab-item" style="border-left-color:${c.color}"><div class="etab-name">${e.name}</div><div class="etab-type">${e.type}</div></div>`).join('')}</div>
+  </div>`;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+const competitors=[
+  {name:'CinetPay School',tagline:'Fintech ivoirienne — solution paiement scolarité',logo:'CP',color:'#f87171',bg:'#7a1f1f',type:'direct',threat:85,features:{mobile:'✓',echelonne:'✗',dashboard:'✓',api:'✓',frais:'2-3% / transaction'},forces:['Marque établie en Côte d\'Ivoire','Présent dans 8 pays africains','Solution school fees active','API robuste et documentée'],faiblesses:['Pas de paiement échelonné apprenants','Solution généraliste non EdTech','Onboarding technique requis','Pas de wallet étudiant'],resume:'Concurrent direct le plus dangereux. Présent sur le marché CI avec school fees. Point faible : zéro échelonnement.'},
+  {name:'IvoirEdu',tagline:'Logiciel de gestion scolaire ivoirienne',logo:'IE',color:'#38bdf8',bg:'#0c3a52',type:'direct',threat:65,features:{mobile:'✓ via CinetPay',echelonne:'✗',dashboard:'✓ (notes)',api:'Partiel',frais:'Abonnement mensuel'},forces:['100% local ivoirien','Interface adaptée CI','Module notes + paiements','Support français'],faiblesses:['Utilise CinetPay comme agrégateur','Pas de paiement échelonné','ERP avant tout — pas fintech','Pas de crédit éducatif'],resume:'Acteur local sérieux mais positionné sur la gestion, pas le financement. Payiskoul peut coexister ou se différencier.'},
+  {name:'Galactis.Education',tagline:'ERP scolaire et universitaire tout-en-un',logo:'GL',color:'#e879f9',bg:'#4a1560',type:'adjacent',threat:40,features:{mobile:'✓',echelonne:'✗',dashboard:'✓ complet',api:'✓',frais:'Sur devis'},forces:['Solution très complète (RH, paie, académique)','Couvre tout le cycle scolaire','Adapté aux grandes structures'],faiblesses:['Prix élevé hors portée petits établissements','Pas de paiement échelonné','Implémentation longue'],resume:'Focalisé grandes structures. Payiskoul peut coexister. Pas de compétition sur les petits établissements.'},
+  {name:'Educ Go On',tagline:'Plateforme SaaS gestion scolaire CI',logo:'EG',color:'#fbbf24',bg:'#52360c',type:'adjacent',threat:30,features:{mobile:'✓',echelonne:'✗',dashboard:'✓',api:'Partiel',frais:'Abonnement / nb élèves'},forces:['Ciblage petites écoles primaires','Essai gratuit 30 jours','Simple à prendre en main'],faiblesses:['Focalisé primaire uniquement','Pas de paiement échelonné','Jeune acteur sans historique'],resume:'Segment primaire que Payiskoul ne cible pas en priorité. Risque faible.'},
+  {name:'Wave / Orange / MTN MoMo',tagline:'Opérateurs Mobile Money — infrastructure de base',logo:'MM',color:'#4ade80',bg:'#0d3d1e',type:'indirect',threat:50,features:{mobile:'✓✓',echelonne:'✗',dashboard:'✗',api:'✓ (technique)',frais:'1-2% / transaction'},forces:['Adoption massive (70% adultes CI)','Infrastructure de confiance','Frais très bas','Présent partout'],faiblesses:['Pas d\'échelonnement','Aucun outil gestion scolaire','Pas de reversement automatisé','Gestion manuelle pour établissements'],resume:'Payiskoul est construit sur leur infrastructure. Partenaires, pas concurrents. Leur faiblesse est exactement ce que Payiskoul résout.'},
+  {name:'FedaPay / KKiaPay / PayDunya',tagline:'Agrégateurs paiement UEMOA généralistes',logo:'AG',color:'#8888aa',bg:'#2a2a3a',type:'indirect',threat:25,features:{mobile:'✓',echelonne:'✗',dashboard:'Basique',api:'✓',frais:'1.5-3% / transaction'},forces:['Multi-pays UEMOA','API développeur simple','Tarifs compétitifs'],faiblesses:['Aucune spécialisation éducation','Pas d\'échelonnement','Pas de suivi paiements scolaires'],resume:'Agrégateurs généralistes. Pourraient entrer sur l\'éducation mais aucun signe. Surveiller.'},
+];
+
+function renderCompetitors(){
+  const typeL={direct:'Concurrent direct',indirect:'Concurrent indirect',adjacent:'Acteur adjacent'};
+  document.getElementById('competitorList').innerHTML=competitors.map(c=>`
+    <div class="comp-card">
+      <div class="comp-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <div class="comp-name">${c.name}</div>
+            <span class="badge ${c.type==='direct'?'b-threat':c.type==='indirect'?'b-indirect':'b-adjacent'}">${typeL[c.type]}</span>
+          </div>
+          <div class="comp-tagline">${c.tagline}</div>
+        </div>
+        <div class="comp-logo" style="background:${c.bg};color:${c.color}">${c.logo}</div>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-item"><div class="feat-label">Mobile Money</div><div class="feat-val">${c.features.mobile}</div></div>
+        <div class="feat-item"><div class="feat-label">Paiement échelonné</div><div class="feat-val" style="color:${c.features.echelonne==='✗'?'var(--a4)':'var(--a2)'}">${c.features.echelonne}</div></div>
+        <div class="feat-item"><div class="feat-label">Dashboard</div><div class="feat-val">${c.features.dashboard}</div></div>
+        <div class="feat-item"><div class="feat-label">Frais</div><div class="feat-val">${c.features.frais}</div></div>
+      </div>
+      <div class="swot-grid">
+        ${c.forces.map(f=>`<div class="swot-item sw-force"><div class="sw-label" style="color:var(--a2)">Force</div>${f}</div>`).join('')}
+        ${c.faiblesses.map(f=>`<div class="swot-item sw-faib"><div class="sw-label" style="color:var(--a4)">Faiblesse</div>${f}</div>`).join('')}
+      </div>
+      <div style="margin-top:12px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:5px">Niveau de menace</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="threat-meter" style="flex:1"><div class="threat-fill" style="width:${c.threat}%;background:${c.threat>70?'var(--a4)':c.threat>45?'var(--a3)':'var(--a5)'}"></div></div>
+          <span style="font-size:11px;font-weight:600;color:${c.threat>70?'var(--a4)':c.threat>45?'var(--a3)':'var(--a5)'}">${c.threat}%</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;background:var(--bg4);border-radius:7px;padding:8px 12px;font-size:11px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Synthèse :</strong> ${c.resume}</div>
+    </div>`).join('');
+}
+
+function renderPositionnement(){
+  const actors=[
+    {name:'Payiskoul',x:85,y:90,r:22,color:'#7c6fff'},
+    {name:'CinetPay',x:55,y:30,r:18,color:'#f87171'},
+    {name:'IvoirEdu',x:70,y:25,r:16,color:'#38bdf8'},
+    {name:'Galactis',x:80,y:15,r:15,color:'#e879f9'},
+    {name:'Educ Go',x:65,y:20,r:13,color:'#fbbf24'},
+    {name:'Wave/MoMo',x:20,y:35,r:20,color:'#4ade80'},
+    {name:'FedaPay',x:25,y:15,r:13,color:'#8888aa'},
+  ];
+  document.getElementById('posMatrix').innerHTML=`<svg viewBox="0 0 400 380" width="100%" style="display:block">
+    <line x1="200" y1="10" x2="200" y2="370" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    <line x1="10" y1="190" x2="390" y2="190" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    <text x="388" y="202" font-size="9" fill="#4a4a6a" text-anchor="end" font-family="DM Sans">Spécialisé éduc. →</text>
+    <text x="205" y="18" font-size="9" fill="#4a4a6a" font-family="DM Sans">Échelonné ↑</text>
+    ${actors.map(a=>`<g><circle cx="${a.x*4}" cy="${(100-a.y)*3.7}" r="${a.r}" fill="${a.color}" opacity="0.85"/>
+    <text x="${a.x*4}" y="${(100-a.y)*3.7+4}" text-anchor="middle" font-size="9" fill="#fff" font-weight="600" font-family="DM Sans">${a.name}</text></g>`).join('')}
+  </svg>`;
+
+  const features=[
+    {name:'Mobile Money',pk:'✓',cp:'✓',ie:'✓',gl:'✓',wa:'✓'},
+    {name:'Paiement échelonné',pk:'✓',cp:'✗',ie:'✗',gl:'✗',wa:'✗'},
+    {name:'Spécialisé éducation',pk:'✓',cp:'Partiel',ie:'✓',gl:'✓',wa:'✗'},
+    {name:'Dashboard temps réel',pk:'✓',cp:'✓',ie:'✓',gl:'✓',wa:'✗'},
+    {name:'Reversement automatique',pk:'✓',cp:'✓',ie:'Partiel',gl:'Partiel',wa:'✗'},
+    {name:'Wallet étudiant',pk:'✓',cp:'✗',ie:'✗',gl:'✗',wa:'Partiel'},
+    {name:'Micro-crédit éducatif',pk:'✓',cp:'✗',ie:'✗',gl:'✗',wa:'✗'},
+    {name:'Onboarding 48h',pk:'✓',cp:'✗',ie:'Partiel',gl:'✗',wa:'✓'},
+    {name:'Zéro frais fixes',pk:'✓',cp:'✓',ie:'✗',gl:'✗',wa:'✓'},
+  ];
+  const r=v=>v==='✓'?`<span class="check">✓</span>`:v==='✗'?`<span class="cross">✗</span>`:`<span class="partial">${v}</span>`;
+  document.getElementById('diffTable').innerHTML=features.map(f=>`<tr><td>${f.name}</td><td>${r(f.pk)}</td><td>${r(f.cp)}</td><td>${r(f.ie)}</td><td>${r(f.gl)}</td><td>${r(f.wa)}</td></tr>`).join('');
+
+  document.getElementById('avantagesList').innerHTML=[
+    {icon:'ti-calendar-repeat',color:'#7c6fff',title:'Seul acteur avec paiement échelonné EdTech en CI',desc:'Aucun concurrent ne propose un paiement en plusieurs fois spécifiquement conçu pour les apprenants. C\'est votre avantage concurrentiel principal.'},
+    {icon:'ti-wallet',color:'#4ade80',title:'Wallet étudiant + micro-crédit éducatif',desc:'CinetPay et IvoirEdu font du paiement. Payiskoul fait du financement éducatif. Positionnement infrastructure financière, bien plus défendable.'},
+    {icon:'ti-rocket',color:'#fbbf24',title:'Onboarding 48h sans intégration technique',desc:'Galactis demande une formation longue, CinetPay une intégration API. Payiskoul est opérationnel en 2 jours — argument décisif pour les petits établissements.'},
+    {icon:'ti-africa',color:'#38bdf8',title:'Construit pour l\'Afrique francophone dès le départ',desc:'Conçu pour les réalités locales : Mobile Money, FCFA, réglementation UEMOA, conformité BCEAO. Pas une adaptation d\'un produit occidental.'},
+  ].map(a=>`<div class="insight-item"><div class="insight-icon" style="background:${a.color}18"><i class="ti ${a.icon}" style="font-size:16px;color:${a.color}"></i></div><div><div style="font-size:12px;font-weight:600;margin-bottom:3px">${a.title}</div><div style="font-size:11px;color:var(--text2);line-height:1.6">${a.desc}</div></div></div>`).join('');
+}
+
+function renderOpportunites(){
+  document.getElementById('signalList').innerHTML=[
+    {icon:'ti-file-certificate',color:'#7c6fff',text:'1 828 dossiers d\'agrément d\'établissements privés examinés en mai 2026 — marché en forte croissance',src:'Ministère MENAET — mai 2026'},
+    {icon:'ti-device-mobile',color:'#4ade80',text:'Le gouvernement CI impose le Mobile Money pour les inscriptions scolaires 2025-2026 — validation de marché officielle',src:'Ministère Éducation CI — août 2025'},
+    {icon:'ti-school',color:'#fbbf24',text:'9 millions d\'élèves en Côte d\'Ivoire — marché addressable gigantesque, pénétration encore très faible',src:'Rentrée 2025-2026'},
+    {icon:'ti-trending-up',color:'#38bdf8',text:'TechCabal mars 2026 : les fintechs EdTech identifiées comme prochain grand marché africain — timing parfait',src:'TechCabal — mars 2026'},
+    {icon:'ti-award',color:'#e879f9',text:'Mastercard Foundation EdTech Fellowship 2026 : 60 000$ de grant sans dilution pour startups EdTech africaines',src:'Mastercard Foundation — 2026'},
+    {icon:'ti-building-bank',color:'#a78bfa',text:'BCEAO développe l\'interopérabilité MoMo UEMOA — Payiskoul bien positionné pour en bénéficier',src:'BCEAO — 2025'},
+  ].map(s=>`<div class="insight-item"><div class="insight-icon" style="background:${s.color}18"><i class="ti ${s.icon}" style="font-size:15px;color:${s.color}"></i></div><div style="flex:1"><div style="font-size:12px;line-height:1.6">${s.text}</div><div style="font-size:10px;color:var(--text3);margin-top:3px">${s.src}</div></div></div>`).join('');
+
+  document.getElementById('riskList').innerHTML=[
+    {risk:'CinetPay ajoute le paiement échelonné',level:'high',mit:'Accélérer onboarding et partenariats avant réaction'},
+    {risk:'Orange/MTN lancent une solution scolaire dédiée',level:'high',mit:'Construire relation directe avec établissements — switching cost protège'},
+    {risk:'Réglementation BCEAO plus restrictive sur le crédit',level:'med',mit:'Conformité dès le départ — certificat IDU CI est un atout'},
+    {risk:'Arrivée d\'acteur étranger financé (Flutterwave)',level:'med',mit:'S\'ancrer localement — connaissance terrain est un avantage durable'},
+    {risk:'Lenteur adoption établissements publics',level:'low',mit:'Cibler le privé en priorité — le public vient ensuite'},
+  ].map(r=>`<div style="padding:10px 0;border-bottom:0.5px solid var(--border)"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span class="badge ${r.level==='high'?'b-threat':r.level==='med'?'b-indirect':'b-weak'}">${r.level==='high'?'Élevé':r.level==='med'?'Moyen':'Faible'}</span><span style="font-size:12px;font-weight:500">${r.risk}</span></div><div style="font-size:11px;color:var(--text2);padding-left:4px"><i class="ti ti-shield" style="font-size:11px;margin-right:4px;color:var(--a2)"></i>${r.mit}</div></div>`).join('');
+
+  document.getElementById('oppList').innerHTML=[
+    {icon:'ti-calendar',color:'#7c6fff',text:'Rentrée scolaire sept. 2026 — fenêtre d\'acquisition maximale, directeurs cherchent des solutions maintenant'},
+    {icon:'ti-coin',color:'#fbbf24',text:'Mastercard Foundation EdTech Fellowship — candidater avant fin juillet 2026'},
+    {icon:'ti-users',color:'#4ade80',text:'Réseau CEFICI — accéder rapidement aux 1 828 établissements en demande d\'agrément'},
+    {icon:'ti-api',color:'#38bdf8',text:'Partenariat API avec CinetPay — devenir leur couche éducation plutôt que concurrent frontal'},
+    {icon:'ti-map',color:'#e879f9',text:'Bouaké & Yamoussoukro — zéro concurrent sérieux, expansion facile post-Abidjan'},
+  ].map(o=>`<div class="insight-item"><div class="insight-icon" style="background:${o.color}18"><i class="ti ${o.icon}" style="font-size:15px;color:${o.color}"></i></div><div style="font-size:12px;line-height:1.6">${o.text}</div></div>`).join('');
+
+  document.getElementById('argsList').innerHTML=[
+    {vs:'CinetPay',color:'#f87171',arg:'« CinetPay fait du paiement. Payiskoul fait du financement éducatif. Avec nous, vos apprenants paient en 3 fois — CinetPay ne peut pas faire ça. »'},
+    {vs:'IvoirEdu',color:'#38bdf8',arg:'« IvoirEdu gère vos notes et votre admin. Payiskoul gère votre trésorerie et réduit vos impayés. Les deux sont complémentaires. »'},
+    {vs:'Galactis',color:'#e879f9',arg:'« Galactis nécessite 6 mois d\'implémentation. Payiskoul est opérationnel en 48h, coût indexé sur vos encaissements. »'},
+    {vs:'Wave / Orange Money',color:'#4ade80',arg:'« Vous utilisez déjà Orange Money — parfait. Payiskoul est construit par-dessus : il ajoute l\'échelonnement, le suivi automatique et les relances. »'},
+  ].map(a=>`<div style="padding:12px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:10px;padding:2px 8px;border-radius:4px;background:${a.color}18;color:${a.color};font-weight:600;display:inline-block;margin-bottom:6px">vs ${a.vs}</span><div style="font-size:12px;color:var(--text2);line-height:1.7;font-style:italic">${a.arg}</div></div>`).join('');
+}
+
+function goTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='concurrents')renderCompetitors();
+  if(name==='positionnement')renderPositionnement();
+  if(name==='opportunites')renderOpportunites();
+}
+
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+</script>
+</body>
+</html>
