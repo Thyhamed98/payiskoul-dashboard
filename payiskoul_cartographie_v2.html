@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Cartographie Prospects Abidjan v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;
+  --border:#252535;--border2:#32324a;
+  --text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;
+  --accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;
+  --font:'DM Sans',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1200px;margin:0 auto;padding:20px}
+
+/* TOP BAR */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:8px;padding:10px 12px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px}
+.kpi-v{font-size:20px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:3px}
+
+/* MAIN LAYOUT */
+.main{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:14px;position:sticky;top:20px}
+.sb-section{margin-bottom:16px}
+.sb-title{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.search-box{width:100%;background:var(--bg4);border:0.5px solid var(--border2);border-radius:7px;color:var(--text);font-family:var(--font);font-size:11px;padding:7px 10px;outline:none}
+.search-box:focus{border-color:var(--accent)}
+.search-box::placeholder{color:var(--text3)}
+.f-select{width:100%;background:var(--bg4);color:var(--text2);border:0.5px solid var(--border);border-radius:6px;font-size:10px;padding:6px 8px;font-family:var(--font);cursor:pointer;outline:none;margin-bottom:6px}
+.f-select:focus{border-color:var(--accent)}
+
+/* ZONE TABS */
+.zone-tabs{display:flex;flex-direction:column;gap:4px}
+.zone-tab{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
+.zone-tab:hover{background:var(--bg3)}
+.zone-tab.active{border-color:var(--accent);background:rgba(124,111,255,0.08)}
+.zone-tab-name{font-size:11px;font-weight:500}
+.zone-tab-count{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.zone-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:8px}
+
+/* TYPE FILTERS */
+.type-filters{display:flex;flex-direction:column;gap:3px}
+.type-check{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:5px;cursor:pointer;transition:background 0.15s}
+.type-check:hover{background:var(--bg3)}
+.type-check input{accent-color:var(--accent)}
+.type-label{font-size:11px;color:var(--text2)}
+.type-count{font-size:10px;color:var(--text3);margin-left:auto}
+
+/* PRIO FILTERS */
+.prio-filters{display:flex;flex-direction:column;gap:3px}
+.prio-btn{padding:5px 10px;border-radius:6px;border:0.5px solid var(--border);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);font-size:10px;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+.prio-btn.active,.prio-btn:hover{background:var(--bg3);border-color:var(--border2);color:var(--text)}
+.prio-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* CONTENT AREA */
+.content{min-height:600px}
+.content-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.result-count{font-size:12px;color:var(--text2)}
+.view-btns{display:flex;gap:4px}
+.v-btn{font-size:10px;padding:4px 10px;border-radius:5px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;font-family:var(--font);transition:all 0.15s}
+.v-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.p-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px;transition:all 0.2s;cursor:pointer}
+.p-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.p-card.p1{border-left:3px solid var(--a4)}
+.p-card.p2{border-left:3px solid var(--a3)}
+.p-card.p3{border-left:3px solid var(--a2)}
+.pc-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.pc-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
+.pc-name{font-size:12px;font-weight:600;line-height:1.3}
+.pc-type{font-size:9px;margin-top:2px;font-weight:500}
+.pc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.tag{font-size:9px;padding:2px 6px;border-radius:3px;background:var(--bg4);color:var(--text3)}
+.pain-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px}
+.pain-row i{font-size:12px;color:var(--a4);flex-shrink:0;margin-top:1px}
+.pain-text{font-size:11px;color:var(--text2);line-height:1.5}
+.hook-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:8px}
+.hook-row i{font-size:12px;color:var(--accent);flex-shrink:0;margin-top:1px}
+.hook-text{font-size:11px;color:var(--text2);line-height:1.5;font-style:italic}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.pc-contact{font-size:10px;color:var(--text3)}
+.badge{display:inline-block;font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600}
+.b-p1{background:rgba(248,113,113,0.12);color:#f87171}
+.b-p2{background:rgba(251,191,36,0.12);color:#fbbf24}
+.b-p3{background:rgba(74,222,128,0.12);color:#4ade80}
+.action-btn{font-size:10px;padding:4px 9px;border-radius:5px;background:rgba(124,111,255,0.1);border:0.5px solid rgba(124,111,255,0.3);color:var(--accent);cursor:pointer;font-family:var(--font);transition:all 0.15s}
+.action-btn:hover{background:rgba(124,111,255,0.2)}
+.action-btn.called{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.3);color:var(--a2)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;padding:0 10px 10px;text-align:left;font-weight:500;white-space:nowrap}
+.tbl td{padding:9px 10px;border-top:0.5px solid var(--border);vertical-align:top}
+.tbl tr:hover td{background:var(--bg3)}
+
+/* ZONE OVERVIEW */
+.zone-overview{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+.zo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.zo-name{font-size:14px;font-weight:700}
+.zo-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.zo-stats{display:flex;gap:8px;flex-wrap:wrap}
+.zo-stat{background:var(--bg3);border-radius:6px;padding:6px 10px;text-align:center}
+.zo-stat-v{font-size:16px;font-weight:700}
+.zo-stat-l{font-size:9px;color:var(--text3);margin-top:2px}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty i{font-size:40px;margin-bottom:12px;display:block;opacity:0.4}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:24px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-size:14px;font-weight:600}
+.close-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px}
+.modal-section{margin-bottom:14px}
+.ms-label{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.ms-value{font-size:12px;color:var(--text2);line-height:1.7}
+.ms-value strong{color:var(--text)}
+.modal-actions{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:0.5px solid var(--border)}
+.modal-btn{flex:1;padding:9px;border-radius:8px;font-size:11px;font-family:var(--font);font-weight:600;cursor:pointer;transition:all 0.2s;border:none}
+.modal-btn-primary{background:var(--accent);color:#fff}
+.modal-btn-primary:hover{opacity:0.9}
+.modal-btn-secondary{background:rgba(74,222,128,0.12);color:var(--a2)}
+
+/* SCROLL */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+@media(max-width:900px){.main{grid-template-columns:1fr}.sidebar{position:static}.kpi-strip{grid-template-columns:repeat(3,1fr)}.cards-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Payiskoul — Cartographie Prospects</div>
+        <div class="brand-sub">Abidjan · Tous segments · Interactif · v2</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:10px;padding:4px 10px;border-radius:20px;background:rgba(74,222,128,0.1);color:var(--a2);border:0.5px solid rgba(74,222,128,0.2)" id="progressBadge">0 contactés</span>
+      <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+    </div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi"><div class="kpi-l">Total prospects</div><div class="kpi-v" id="kpi-total" style="color:var(--accent)">0</div><div class="kpi-s">identifiés Abidjan</div></div>
+    <div class="kpi"><div class="kpi-l">Priorité 1 🔥</div><div class="kpi-v" id="kpi-p1" style="color:var(--a4)">0</div><div class="kpi-s">cette semaine</div></div>
+    <div class="kpi"><div class="kpi-l">Priorité 2</div><div class="kpi-v" id="kpi-p2" style="color:var(--a3)">0</div><div class="kpi-s">30 jours</div></div>
+    <div class="kpi"><div class="kpi-l">Priorité 3</div><div class="kpi-v" id="kpi-p3" style="color:var(--a2)">0</div><div class="kpi-s">90 jours</div></div>
+    <div class="kpi"><div class="kpi-l">Contactés</div><div class="kpi-v" id="kpi-called" style="color:var(--a5)">0</div><div class="kpi-s">ce mois</div></div>
+    <div class="kpi"><div class="kpi-l">Zones couvertes</div><div class="kpi-v" id="kpi-zones" style="color:var(--a6)">0</div><div class="kpi-s">communes</div></div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <!-- SEARCH -->
+      <div class="sb-section">
+        <div class="sb-title">Recherche</div>
+        <input class="search-box" id="searchInput" placeholder="🔍 Chercher un établissement..." oninput="applyFilters()">
+      </div>
+
+      <!-- ZONES -->
+      <div class="sb-section">
+        <div class="sb-title">Par zone / commune</div>
+        <div class="zone-tabs" id="zoneTabs"></div>
+      </div>
+
+      <!-- TYPES -->
+      <div class="sb-section">
+        <div class="sb-title">Par type</div>
+        <div class="type-filters" id="typeFilters"></div>
+      </div>
+
+      <!-- PRIORITÉ -->
+      <div class="sb-section">
+        <div class="sb-title">Par priorité</div>
+        <div class="prio-filters" id="prioFilters"></div>
+      </div>
+
+      <!-- RESET -->
+      <button onclick="resetFilters()" style="width:100%;padding:7px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;font-family:var(--font);font-size:11px;margin-top:4px">
+        <i class="ti ti-refresh" style="font-size:11px;margin-right:4px"></i>Réinitialiser les filtres
+      </button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div id="zoneOverview"></div>
+      <div class="content-header">
+        <div class="result-count" id="resultCount"></div>
+        <div class="view-btns">
+          <button class="v-btn active" id="btnCards" onclick="setView('cards')"><i class="ti ti-layout-grid" style="font-size:11px"></i> Cartes</button>
+          <button class="v-btn" id="btnTable" onclick="setView('table')"><i class="ti ti-table" style="font-size:11px"></i> Tableau</button>
+        </div>
+      </div>
+      <div id="cardsView"><div class="cards-grid" id="cardsGrid"></div></div>
+      <div id="tableView" style="display:none"><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Établissement</th><th>Zone</th><th>Effectif</th><th>Frais</th><th>Douleur</th><th>Contact</th><th>Prio</th><th>Action</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROSPECT -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const ZONES = [
+  {id:'all', name:'Toutes les zones', color:'#7c6fff', desc:'Vue globale de tous les prospects identifiés à Abidjan.'},
+  {id:'Cocody', name:'Cocody / Riviera', color:'#7c6fff', desc:'Zone premium d\'Abidjan. Forte concentration d\'universités privées, grandes écoles, centres de formation haut de gamme et formateurs digitaux. Cycle de vente moyen mais deals à forte valeur.'},
+  {id:'Plateau', name:'Plateau', color:'#38bdf8', desc:'Centre des affaires et des institutions. Universités, grandes écoles publiques, centres de formation professionnelle certifiés. Décisions plus lentes mais prospects institutionnels stratégiques.'},
+  {id:'Yopougon', name:'Yopougon', color:'#fbbf24', desc:'Commune la plus peuplée d\'Abidjan. Densité maximale de centres de formation, écoles de santé, auto-écoles et formateurs indépendants. Fort besoin de paiement échelonné — population à revenus irréguliers.'},
+  {id:'Marcory', name:'Marcory / Treichville', color:'#4ade80', desc:'Zone mixte résidentielle-commerciale. Bonne densité d\'écoles digitales, instituts techniques et centres de formation. Profil socio-économique moyen.'},
+  {id:'Abobo', name:'Abobo / Adjamé', color:'#f87171', desc:'Zones populaires à fort potentiel. Très forte demande de paiement échelonné. Centres de formation technique, auto-écoles, instituts de santé. Décision rapide.'},
+  {id:'Koumassi', name:'Koumassi / Port-Bouët', color:'#e879f9', desc:'Zone en développement. Instituts techniques, auto-écoles, centres BTP. Potentiel croissant avec l\'expansion urbaine.'},
+];
+
+const TYPES = [
+  {id:'univ', name:'Universités & Grandes Écoles', icon:'ti-building', color:'#7c6fff'},
+  {id:'centre', name:'Centres de Formation', icon:'ti-certificate', color:'#fbbf24'},
+  {id:'sante', name:'Instituts de Santé', icon:'ti-heart-rate-monitor', color:'#f87171'},
+  {id:'digital', name:'Écoles Digitales & Tech', icon:'ti-device-laptop', color:'#e879f9'},
+  {id:'auto', name:'Auto-Écoles & Conduite Pro', icon:'ti-car', color:'#38bdf8'},
+  {id:'btp', name:'BTP & Engins', icon:'ti-crane', color:'#fbbf24'},
+  {id:'hotel', name:'Hôtellerie & Cuisine', icon:'ti-chef-hat', color:'#f59e0b'},
+  {id:'langue', name:'Langues & Prépa', icon:'ti-language', color:'#4ade80'},
+  {id:'forma', name:'Formateurs Indépendants', icon:'ti-user-check', color:'#4ade80'},
+  {id:'incub', name:'Incubateurs & Plateformes', icon:'ti-rocket', color:'#a78bfa'},
+];
+
+const ALL_PROSPECTS = [
+  // UNIVERSITÉS & GRANDES ÉCOLES
+  {id:1,name:'UVCI — Université de la Vision CI',type:'univ',commune:'Cocody',zone:'Riviera',effectif:'5 000+',frais:'500 000–1 200 000 FCFA/an',prio:1,pain:'Abandons en cours d\'année liés aux frais semestriels non soldés',hook:'« Des étudiants quittent l\'UVCI parce qu\'ils ne peuvent pas payer en une fois — est-ce une réalité que vous vivez ? »',contact:'VP Finance / Dir. Administratif',tel:'',note:'Grande université privée — forte population estudiantine'},
+  {id:2,name:'UCAO-UUA — Université Catholique Afrique Ouest',type:'univ',commune:'Plateau',zone:'Plateau',effectif:'2 000+',frais:'400 000–900 000 FCFA/an',prio:1,pain:'Gestion manuelle des paiements — retards de début de semestre',hook:'« Comment gérez-vous les étudiants qui ne peuvent pas payer les frais en totalité à l\'inscription ? »',contact:'DAF',tel:'27 20 24 45 96',note:'Institution catholique réputée'},
+  {id:3,name:'Université Adama Sanogo (UAS)',type:'univ',commune:'Abobo',zone:'Abobo',effectif:'1 500+',frais:'300 000–700 000 FCFA/an',prio:1,pain:'Taux d\'abandon élevé — population à faibles revenus',hook:'« À Abobo, beaucoup d\'étudiants veulent continuer mais ne peuvent pas payer — vous le voyez aussi ? »',contact:'Direction Générale',tel:'',note:'Cible haute valeur sociale'},
+  {id:4,name:'UIPA — Université Internationale Privée d\'Abidjan',type:'univ',commune:'Cocody',zone:'Cocody',effectif:'2 000+',frais:'500 000–1 000 000 FCFA/an',prio:1,pain:'Impayés de fin de semestre — recouvrement chronophage',hook:'« Top 4 universités CI selon Sika Invest — avec autant d\'étudiants, les impayés de fin de semestre, c\'est combien ? »',contact:'VP Finance',tel:'',note:'Classée top 4 Sika Invest Challenge 2025'},
+  {id:5,name:'EDHEG — École des Hautes Études Commerciales',type:'univ',commune:'Cocody',zone:'Cocody',effectif:'1 500+',frais:'400 000–800 000 FCFA/an',prio:1,pain:'Abandons financiers — décrochage en cours de formation',hook:'« Les étudiants en gestion qui partent pour raisons financières — ça représente combien par promotion ? »',contact:'Directeur Général / DAF',tel:'',note:'Groupe avec sites à Bouaké et San Pédro'},
+  {id:6,name:'Pigier Côte d\'Ivoire',type:'univ',commune:'Plateau',zone:'Plateau',effectif:'2 000+',frais:'500 000–1 200 000 FCFA/an',prio:1,pain:'Demandes de facilités de paiement récurrentes',hook:'« Avec 70 ans en CI, vous connaissez la réalité financière de vos étudiants — combien demandent des délais de paiement chaque rentrée ? »',contact:'Direction Administrative / DAF',tel:'pigierci.com',note:'Réseau international — cible premium'},
+  {id:7,name:'UNISAT — Université Internationale Sciences Appliquées',type:'univ',commune:'Cocody',zone:'Cocody',effectif:'1 000+',frais:'400 000–800 000 FCFA/an',prio:2,pain:'Inscriptions en baisse — coût des frais freine les candidats',hook:'',contact:'Direction Administrative',tel:'',note:'Sciences et technologie'},
+  {id:8,name:'INPHB Abidjan — Formation Continue (ESCAE)',type:'univ',commune:'Plateau',zone:'Plateau',effectif:'500+ (FC)',frais:'Variable selon filière',prio:2,pain:'Salariés en formation — difficulté à avancer les frais sur salaire',hook:'« Pour les salariés en formation continue à l\'INPHB, payer en plusieurs fois changerait leur accès à vos programmes ? »',contact:'Direction Formation Continue',tel:'',note:'Focus formation continue — grands publics salariés'},
+  {id:9,name:'ISCOM Sup\' Management',type:'univ',commune:'Cocody',zone:'Deux-Plateaux',effectif:'500+',frais:'300 000–600 000 FCFA/an',prio:2,pain:'Paiement en plusieurs fois demandé par étudiants',hook:'',contact:'Direction',tel:'',note:''},
+  {id:10,name:'ESPI CI — École Supérieure Professions Immobilières',type:'univ',commune:'Cocody',zone:'Deux-Plateaux',effectif:'300+',frais:'400 000–700 000 FCFA/an',prio:2,pain:'Salariés en reconversion — frais élevés difficiles à solder en une fois',hook:'« Vos étudiants en immobilier sont souvent des salariés — ils peuvent rarement payer en une fois sur leur salaire. Vous leur proposez des facilités ? »',contact:'Direction',tel:'',note:''},
+  {id:11,name:'ICOGES — Institut Communication Gestion Sciences',type:'univ',commune:'Cocody',zone:'Riviera / Plateau',effectif:'600+',frais:'300 000–600 000 FCFA/an',prio:2,pain:'Inscriptions irrégulières — frais non soldés',hook:'',contact:'Direction Administrative',tel:'',note:'Deux campus'},
+
+  // CENTRES DE FORMATION
+  {id:12,name:'R&B Consulting — Cabinet formation agréé FDFP',type:'centre',commune:'Cocody',zone:'Riviera Faya',effectif:'200+ stagiaires/an',frais:'100 000–800 000 FCFA/formation',prio:1,pain:'Participants individuels bloqués par le coût des formations inter-entreprises',hook:'« Pour vos formations inter-entreprises, les participants individuels ont souvent du mal à avancer le coût seul — combien renoncent pour cette raison ? »',contact:'Direction',tel:'',note:'10+ ans, agréé FDFP'},
+  {id:13,name:'PANESS CI — Dale Carnegie Training UEMOA',type:'centre',commune:'Cocody',zone:'Deux-Plateaux Vallon',effectif:'500+ stagiaires/an',frais:'200 000–2 000 000 FCFA/formation',prio:2,pain:'Formations premium — individus qui veulent mais ne peuvent pas payer en une fois',hook:'« Vos formations Dale Carnegie sont un vrai investissement — est-ce que des candidats renoncent uniquement parce qu\'ils n\'ont pas le budget immédiat ? »',contact:'Direction Commerciale',tel:'',note:'ISO 9001 — présent dans 4 pays UEMOA'},
+  {id:14,name:'Institut de Formation Sainte Marie',type:'centre',commune:'Cocody',zone:'Cité des Arts',effectif:'400+ étudiants/an',frais:'200 000–600 000 FCFA/an',prio:1,pain:'Public jeune à faibles revenus — frais professionnels difficiles à payer en une fois',hook:'',contact:'Direction',tel:'',note:'Agréé FDFP + Ministère Enseignement Supérieur'},
+  {id:15,name:'Ivoire Formations & Consulting',type:'centre',commune:'Plateau',zone:'Plateau',effectif:'500+ stagiaires/an',frais:'200 000–1 500 000 FCFA/formation',prio:1,pain:'Formations coûteuses — participants individuels bloqués par le budget',hook:'« Avec plusieurs centaines de formations au catalogue, est-ce que le frein principal à l\'inscription est souvent financier ? »',contact:'Direction Commerciale',tel:'ivoireformations.com',note:'Acteur majeur CI — présence nationale'},
+  {id:16,name:'CAFS ARLU — Centre formation 50+ programmes',type:'centre',commune:'Abidjan',zone:'Abidjan',effectif:'400+ stagiaires/an',frais:'100 000–800 000 FCFA/formation',prio:1,pain:'10+ ans d\'expérience — participants individuels en difficulté de trésorerie',hook:'',contact:'Direction',tel:'cafsarlu.com',note:'50+ formations certifiantes, agréé FDFP'},
+  {id:17,name:'CCI-CI — Centre Consulaire de Formation',type:'centre',commune:'Plateau',zone:'Plateau',effectif:'400+ certifiés/an',frais:'Variable',prio:2,pain:'PME qui peinent à financer la formation de leurs équipes en une fois',hook:'« Vous avez certifié 406 auditeurs de 200 entreprises en 2025 — est-ce que certaines PME ont du mal à avancer le coût de formation en une fois ? »',contact:'Direction Centre Consulaire',tel:'',note:'Partenaire institutionnel stratégique'},
+  {id:18,name:'Africa Business — Cabinet formation FDFP',type:'centre',commune:'Cocody',zone:'Angré',effectif:'200+ stagiaires/an',frais:'100 000–600 000 FCFA/formation',prio:2,pain:'',hook:'',contact:'Direction',tel:'',note:'Agréé FDFP'},
+  {id:19,name:'SNS — Formation & Ressources Humaines ISO 9001',type:'centre',commune:'Cocody',zone:'Deux-Plateaux',effectif:'300+ stagiaires/an',frais:'150 000–1 000 000 FCFA/formation',prio:2,pain:'',hook:'',contact:'Direction Formation',tel:'',note:'Certifiée ISO 9001'},
+  {id:20,name:'CFPME Yopougon — Centre Formation PME',type:'centre',commune:'Yopougon',zone:'Yopougon',effectif:'300+ stagiaires/an',frais:'150 000–500 000 FCFA/session',prio:1,pain:'Abandons en cours de formation — stagiaires ne peuvent pas payer en une fois',hook:'« Vos stagiaires abandonnent parfois en cours de session parce qu\'ils ont du mal à payer d\'un coup — ça représente combien de personnes par session ? »',contact:'Gérant',tel:'',note:'Agréé FDFP'},
+  {id:21,name:'Centre Formation Technique Abobo',type:'centre',commune:'Abobo',zone:'Abobo',effectif:'200+ stagiaires/an',frais:'80 000–300 000 FCFA/session',prio:1,pain:'Population défavorisée — paiement en une fois souvent impossible',hook:'',contact:'Responsable',tel:'',note:'Cible sociale prioritaire'},
+
+  // INSTITUTS DE SANTÉ
+  {id:22,name:'IUSS-CI — Institut Univ. Sciences de la Santé CI',type:'sante',commune:'Cocody',zone:'Riviera Bonoumin',effectif:'500+ étudiants',frais:'400 000–900 000 FCFA/an',prio:1,pain:'Formation de 3 ans coûteuse — étudiants en santé à revenus nuls',hook:'« La formation infirmière dure 3 ans et coûte entre 400 000 et 900 000 FCFA/an — beaucoup d\'étudiants n\'ont pas cette somme disponible en une fois à l\'inscription. »',contact:'Direction des études',tel:'iuss-ci.com',note:'Infirmiers, sages-femmes, techniciens biologie médicale'},
+  {id:23,name:'ISA Santé CI — Institut Sciences Appliquées Santé',type:'sante',commune:'Cocody',zone:'Cocody',effectif:'400+ étudiants',frais:'350 000–800 000 FCFA/an',prio:1,pain:'Frais de formation paramédicale élevés — public sans revenus',hook:'« Les futurs infirmiers que vous formez n\'ont pas de revenus pendant leur formation — payer en plusieurs fois, c\'est ce qu\'il leur faut. »',contact:'Direction',tel:'isa.ci',note:'École de référence santé CI'},
+  {id:24,name:'INFAS — Institut National Formation Agents de Santé',type:'sante',commune:'Treichville',zone:'Treichville',effectif:'1 000+ étudiants',frais:'Frais concours 12 000 FCFA + frais formation',prio:2,pain:'Frais auxiliaires — préparation concours, logement, déplacements',hook:'« Les candidats INFAS doivent payer 12 000 FCFA de frais de concours + leurs frais de préparation — est-ce que vous avez des partenaires pour faciliter ça ? »',contact:'Direction',tel:'infas.ci',note:'École publique de référence — focus frais auxiliaires'},
+  {id:25,name:'CFOMIS — École de Santé Yopougon',type:'sante',commune:'Yopougon',zone:'Yopougon Millionnaire',effectif:'300+ étudiants',frais:'300 000–700 000 FCFA/an',prio:1,pain:'Zone populaire — étudiants en santé sans revenus, frais élevés',hook:'« Les futurs infirmiers et sages-femmes de votre école — ils ont besoin de 3 ans de formation sans revenu. Payer en plusieurs fois, ça change tout pour eux. »',contact:'Direction',tel:'cfomis-ci.com',note:'Infirmiers, sages-femmes — Yopougon'},
+  {id:26,name:'Écoles Privées Paramédicales Abidjan',type:'sante',commune:'Abidjan',zone:'Multiple',effectif:'Variable',frais:'300 000–800 000 FCFA/an',prio:2,pain:'Formations longues et coûteuses — public sans revenus stables',hook:'',contact:'Selon établissement',tel:'',note:'Plusieurs instituts privés en développement à Abidjan'},
+
+  // ÉCOLES DIGITALES & TECH
+  {id:27,name:'ISD — Institut Supérieur du Digital (IA, Marketing)',type:'digital',commune:'Cocody',zone:'Angré',effectif:'300+',frais:'400 000–800 000 FCFA/an',prio:1,pain:'Étudiants jeunes sans revenus — formations tech premium difficiles à payer',hook:'« L\'IA et le marketing digital attirent des profils passionnés mais souvent sans revenus — le paiement en plusieurs fois va remplir vos promotions. »',contact:'Direction',tel:'',note:'IA, marketing digital, dev web'},
+  {id:28,name:'ESMA — École Sup. Multimédia & Design Digital',type:'digital',commune:'Cocody',zone:'Cocody',effectif:'250+',frais:'350 000–700 000 FCFA/an',prio:1,pain:'Créatifs sans revenus stables — frais difficiles à solder',hook:'',contact:'Direction',tel:'',note:'Dev web, animation 3D, journalisme multimédia'},
+  {id:29,name:'Pixl Academy — Marketing Digital & SEO',type:'digital',commune:'Cocody',zone:'Cocody',effectif:'100-200 apprenants',frais:'200 000–500 000 FCFA/formation',prio:1,pain:'Formations courtes coûteuses — abandon à l\'inscription faute de budget unique',hook:'« Vos formations SEO et social media — est-ce que des candidats abandonnent l\'inscription parce qu\'ils n\'ont pas la totalité du budget disponible ? »',contact:'Direction',tel:'',note:'SEO, Social Media'},
+  {id:30,name:'Digital College Marcory',type:'digital',commune:'Marcory',zone:'Marcory',effectif:'300+',frais:'400 000–900 000 FCFA/an',prio:1,pain:'Jeunes développeurs sans revenus — formations longues et coûteuses',hook:'« Vos étudiants en e-commerce sont jeunes et passionnés mais sans revenus fixes — le paiement en plusieurs fois, c\'est exactement ce qu\'il leur faut. »',contact:'Direction',tel:'',note:'Bac+3 et Mastère — Webmarketing'},
+  {id:31,name:'Global Digital School (GDS) Abidjan',type:'digital',commune:'Cocody',zone:'Abidjan',effectif:'200+',frais:'300 000–900 000 FCFA/formation',prio:1,pain:'Formations digitales premium — gap financier chez les apprenants',hook:'',contact:'Direction',tel:'gds.education',note:'Top 10 écoles digitales Abidjan 2025'},
+  {id:32,name:'IVESTP — Institut Voltaire Enseignement Sup. Tech',type:'digital',commune:'Marcory',zone:'Marcory',effectif:'200+',frais:'250 000–500 000 FCFA/an',prio:2,pain:'',hook:'',contact:'Direction',tel:'',note:'Technique et professionnel'},
+  {id:33,name:'ENSIT — École Nationale Sup. Technologies',type:'digital',commune:'Cocody',zone:'Cocody',effectif:'400+',frais:'Frais inscription publique',prio:3,pain:'',hook:'',contact:'Direction',tel:'',note:'Ingénieurs — public'},
+
+  // AUTO-ÉCOLES & CONDUITE PROFESSIONNELLE
+  {id:34,name:'SITMA-Formation — Conduite Engins & Poids Lourds',type:'auto',commune:'Yopougon',zone:'Yopougon Ananeraie',effectif:'500+ stagiaires/an',frais:'300 000–1 500 000 FCFA/formation',prio:1,pain:'Formations coûteuses — chauffeurs et opérateurs sans épargne disponible',hook:'« Une formation poids lourds coûte entre 500 000 et 1 500 000 FCFA — vos candidats ont rarement cette somme disponible d\'un coup. »',contact:'Direction',tel:'sitmaformation.com',note:'Leader africain conduite poids lourds + engins — Yopougon'},
+  {id:35,name:'CERCI Auto-École — ISO 9001, agréé FDFP',type:'auto',commune:'Abidjan',zone:'Abidjan',effectif:'300+ élèves/an',frais:'125 000–800 000 FCFA/permis',prio:1,pain:'Permis coûteux — déjà pratiqué le paiement en 2-3 tranches',hook:'« Vous proposez déjà le paiement en 2-3 tranches — Payiskoul peut automatiser ça et vous éviter de gérer les relances. »',contact:'Direction',tel:'cer-ci.com',note:'ISO 9001 + FDFP — déjà habitués au paiement fractionné !'},
+  {id:36,name:'IMPACT Auto-École',type:'auto',commune:'Abidjan',zone:'Abidjan',effectif:'200+ élèves/an',frais:'125 000–600 000 FCFA/permis',prio:1,pain:'Forfaits à partir de 125 000 FCFA — paiement en 2-3 tranches déjà pratiqué',hook:'« Vous dites sur votre site "possibilité de payer en 2 ou 3 tranches" — Payiskoul peut rendre ça automatique et vous éviter la gestion manuelle. »',contact:'Direction',tel:'impact-autoecole.com',note:'Signale déjà paiement en tranches sur leur site !'},
+  {id:37,name:'Auto-École Humilité',type:'auto',commune:'Koumassi',zone:'Koumassi Remblais',effectif:'100+ élèves/an',frais:'120 000–400 000 FCFA/permis',prio:2,pain:'',hook:'',contact:'Direction',tel:'',note:'Koumassi'},
+  {id:38,name:'ECEFA Motors — Formation Engins BTP',type:'auto',commune:'Abidjan',zone:'Abidjan',effectif:'200+ stagiaires/an',frais:'300 000–1 000 000 FCFA/formation',prio:1,pain:'Certifications BTP coûteuses — ouvriers et opérateurs sans épargne',hook:'« Vos formations d\'opérateurs d\'engins BTP coûtent entre 300 000 et 1 000 000 FCFA — vos candidats ont rarement cette somme disponible en une fois. »',contact:'Direction',tel:'ecefamotors.com',note:'Agréé État CI — chariot élévateur, pelle, poids lourds'},
+  {id:39,name:'Institut SOTRA — École Techniques Exploitation',type:'auto',commune:'Treichville',zone:'Treichville',effectif:'200+ stagiaires/an',frais:'Variable',prio:2,pain:'Formations transport routier — chauffeurs sans épargne',hook:'',contact:'Direction Formations',tel:'sotra.ci',note:'Seule structure Afrique Ouest avec ce savoir-faire transport'},
+
+  // BTP & ENGINS
+  {id:40,name:'Centres Formation BTP Abidjan (multiples)',type:'btp',commune:'Yopougon',zone:'Yopougon / Abobo',effectif:'Variable',frais:'200 000–800 000 FCFA/formation',prio:2,pain:'Reconversions BTP — ouvriers sans épargne disponible',hook:'« Les formations maçonnerie, plomberie, électricité — votre public est souvent des travailleurs qui veulent se qualifier mais n\'ont pas les fonds en une fois. »',contact:'Directeurs respectifs',tel:'',note:'Plusieurs centres agréés FDFP actifs dans ces zones'},
+  {id:41,name:'CFPA — Centre Formation Professionnelle Apprentissage',type:'btp',commune:'Abobo',zone:'Abobo',effectif:'300+ apprentis/an',frais:'100 000–400 000 FCFA/an',prio:2,pain:'Apprentis sans revenus — frais de formation difficiles',hook:'',contact:'Direction',tel:'',note:'Public populaire — fort besoin échelonnement'},
+
+  // HÔTELLERIE & CUISINE
+  {id:42,name:'Lycée Hôtelier d\'Abidjan (Formation Continue)',type:'hotel',commune:'Cocody',zone:'Cocody',effectif:'200+ apprenants FC',frais:'200 000–600 000 FCFA/formation',prio:2,pain:'Formation continue hôtelière — salariés qui avancent leurs propres frais',hook:'« Les professionnels de l\'hôtellerie qui veulent se perfectionner — est-ce que les frais de formation sont un frein pour eux ? »',contact:'Direction Formation Continue',tel:'',note:'Focus formation continue adultes'},
+  {id:43,name:'Formateurs Cuisine & Pâtisserie Indépendants',type:'hotel',commune:'Yopougon',zone:'Yopougon / Abidjan',effectif:'10-30/session',frais:'80 000–250 000 FCFA/formation',prio:1,pain:'Reconversions professionnelles — publics sans revenus fixes',hook:'« Vos apprenants en cuisine veulent se reconvertir mais n\'ont souvent pas le budget complet disponible — payer en 2-3 fois changerait tout pour eux. »',contact:'Via Instagram CI',tel:'',note:'Très actifs sur Instagram — forte audience'},
+  {id:44,name:'École Hôtelière & Tourisme CI (structures privées)',type:'hotel',commune:'Marcory',zone:'Marcory / Cocody',effectif:'200+ étudiants',frais:'300 000–700 000 FCFA/an',prio:2,pain:'Public jeune sans revenus — formation longue',hook:'',contact:'Directeurs',tel:'',note:'Plusieurs structures privées actives'},
+
+  // LANGUES & PRÉPA
+  {id:45,name:'Alliance Française d\'Abidjan',type:'langue',commune:'Plateau',zone:'Plateau',effectif:'2 000+ apprenants/an',frais:'80 000–300 000 FCFA/session',prio:1,pain:'Sessions trimestrielles coûteuses — étudiants et jeunes professionnels à budgets limités',hook:'« Vos apprenants de français ou d\'anglais paient par session — est-ce que certains abandonnent entre deux sessions faute de budget disponible ? »',contact:'Direction Culturelle',tel:'',note:'Institution culturelle — fort trafic, paiements récurrents'},
+  {id:46,name:'British Council Abidjan',type:'langue',commune:'Plateau',zone:'Plateau',effectif:'500+ apprenants/an',frais:'150 000–500 000 FCFA/session',prio:1,pain:'Cours d\'anglais premium — jeunes professionnels et étudiants à revenus limités',hook:'« Vos cours IELTS et anglais des affaires — est-ce que le coût en une fois est un frein pour vos candidats ? »',contact:'Director of Teaching',tel:'',note:'Certifications IELTS / TOEFL — frais élevés'},
+  {id:47,name:'Centres IELTS / TOEFL / Cambridge Abidjan',type:'langue',commune:'Cocody',zone:'Cocody / Plateau',effectif:'300+ candidats/an',frais:'100 000–400 000 FCFA/préparation',prio:2,pain:'Préparation coûteuse — étudiants qui préparent leur départ à l\'étranger',hook:'',contact:'Responsables respectifs',tel:'',note:'Plusieurs centres de prépa langues actifs'},
+  {id:48,name:'Instituts de Langues Privés Abidjan',type:'langue',commune:'Cocody',zone:'Cocody / Marcory',effectif:'Variable',frais:'80 000–300 000 FCFA/session',prio:2,pain:'Paiements récurrents par session — abandon entre sessions',hook:'',contact:'Directeurs',tel:'',note:'Multiples instituts dans toutes communes'},
+
+  // FORMATEURS INDÉPENDANTS
+  {id:49,name:'Formateurs Marketing Digital CI (LinkedIn/Instagram)',type:'forma',commune:'Cocody',zone:'Online/Abidjan',effectif:'20-100/session',frais:'50 000–300 000 FCFA/formation',prio:1,pain:'Apprenants intéressés qui abandonnent faute de budget complet à l\'inscription',hook:'« Vous formez au digital — est-ce que vous avez des gens motivés qui renoncent parce que le tarif en une fois les bloque ? »',contact:'Via LinkedIn CI 500+ abonnés',tel:'',note:'Cible réseaux sociaux — décision rapide'},
+  {id:50,name:'Coaches Business & Entrepreneuriat CI',type:'forma',commune:'Cocody',zone:'Online/Abidjan',effectif:'10-50/programme',frais:'100 000–500 000 FCFA/programme',prio:1,pain:'Programmes coûteux — entrepreneurs sans revenus fixes',hook:'« Vous aidez des entrepreneurs à se lancer — mais beaucoup abandonnent parce qu\'ils n\'ont pas le budget en une fois. Payiskoul change ça. »',contact:'Via LinkedIn/Instagram',tel:'',note:'Profil actif réseaux sociaux CI'},
+  {id:51,name:'Formateurs Comptabilité & Finance (SYSCOHADA)',type:'forma',commune:'Plateau',zone:'Abidjan',effectif:'20-50/session',frais:'100 000–400 000 FCFA/formation',prio:2,pain:'Demande forte mais budget limité',hook:'',contact:'Via réseaux professionnels',tel:'',note:'SYSCOHADA, CPA, DSCG...'},
+  {id:52,name:'Formateurs RH & Management',type:'forma',commune:'Plateau',zone:'Abidjan',effectif:'20-80/session',frais:'150 000–800 000 FCFA/formation',prio:2,pain:'Formations B2B mais aussi B2C — particuliers bloqués',hook:'',contact:'Via LinkedIn CI',tel:'',note:''},
+  {id:53,name:'Formateurs Couture & Mode CI',type:'forma',commune:'Yopougon',zone:'Yopougon/Adjamé',effectif:'10-30/session',frais:'60 000–200 000 FCFA/formation',prio:1,pain:'Publics féminins — revenus irréguliers, fort besoin de paiement progressif',hook:'',contact:'Via Instagram/Facebook CI',tel:'',note:''},
+  {id:54,name:'Formateurs Informatique & Bureautique',type:'forma',commune:'Abobo',zone:'Yopougon/Abobo',effectif:'15-40/session',frais:'50 000–200 000 FCFA/session',prio:1,pain:'Public populaire — revenus limités, paiement en une fois impossible',hook:'',contact:'Via annonces locales + réseaux',tel:'',note:'Très dense dans zones populaires'},
+
+  // INCUBATEURS & PLATEFORMES
+  {id:55,name:'Incub\'Ivoir — Incubateur startups CI',type:'incub',commune:'Cocody',zone:'Cocody',effectif:'50+ entrepreneurs/cohorte',frais:'Variable selon programme',prio:2,pain:'Programmes payants — entrepreneurs en phase early sans revenus',hook:'« Vos entrepreneurs en incubation n\'ont pas encore de revenus — payer les frais de programme en plusieurs fois les aide à rester dans la cohorte. »',contact:'Équipe programme',tel:'',note:'Coaching + formation entrepreneurs'},
+  {id:56,name:'CTIC Abidjan — Hub Innovation',type:'incub',commune:'Plateau',zone:'Plateau',effectif:'Variable',frais:'Variable',prio:3,pain:'',hook:'',contact:'Direction',tel:'',note:'Hub tech — partenariat stratégique plutôt que commercial'},
+  {id:57,name:'Jangolo — Plateforme e-learning CI',type:'incub',commune:'Abidjan',zone:'Online',effectif:'5 000+ apprenants',frais:'20 000–100 000 FCFA/cours',prio:1,pain:'Apprenants en ligne — paiement ponctuel difficile à honorer en une fois pour les cours groupés',hook:'« Vos apprenants Jangolo achètent cours par cours — mais ceux qui veulent s\'abonner à plusieurs cours ne peuvent pas toujours payer en une fois. »',contact:'Équipe produit',tel:'',note:'Plateforme e-learning locale CI — partenariat API possible'},
+  {id:58,name:'Orange Fab Abidjan — Accélérateur',type:'incub',commune:'Plateau',zone:'Plateau',effectif:'Variable',frais:'Variable',prio:3,pain:'',hook:'',contact:'Programme Manager',tel:'',note:'Partenariat Orange Money potentiel'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let activeZone = 'all';
+let activeTypes = new Set(TYPES.map(t=>t.id));
+let activePrio = 'all';
+let currentView = 'cards';
+let calledIds = new Set();
+
+// ============================================================
+// COMPUTED
+// ============================================================
+function getFiltered(){
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  return ALL_PROSPECTS.filter(p => {
+    const matchZone = activeZone === 'all' || p.commune === activeZone || (activeZone === 'Abobo' && (p.commune === 'Abobo' || p.commune === 'Adjamé'));
+    const matchType = activeTypes.has(p.type);
+    const matchPrio = activePrio === 'all' || p.prio === +activePrio;
+    const matchSearch = !search || p.name.toLowerCase().includes(search) || p.commune.toLowerCase().includes(search) || p.pain.toLowerCase().includes(search) || (p.note||'').toLowerCase().includes(search);
+    return matchZone && matchType && matchPrio && matchSearch;
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderSidebar(){
+  // Zones
+  const zoneTabs = document.getElementById('zoneTabs');
+  zoneTabs.innerHTML = ZONES.map(z => {
+    const count = z.id === 'all' ? ALL_PROSPECTS.length : ALL_PROSPECTS.filter(p => p.commune === z.id || (z.id === 'Abobo' && (p.commune === 'Abobo' || p.commune === 'Adjamé'))).length;
+    return `<div class="zone-tab ${activeZone === z.id ? 'active' : ''}" onclick="setZone('${z.id}')">
+      <div style="display:flex;align-items:center">
+        <div class="zone-dot" style="background:${z.color}"></div>
+        <span class="zone-tab-name">${z.name}</span>
+      </div>
+      <span class="zone-tab-count" style="background:${z.color}18;color:${z.color}">${count}</span>
+    </div>`;
+  }).join('');
+
+  // Types
+  const typeFilters = document.getElementById('typeFilters');
+  typeFilters.innerHTML = TYPES.map(t => {
+    const count = ALL_PROSPECTS.filter(p => p.type === t.id).length;
+    return `<label class="type-check">
+      <input type="checkbox" ${activeTypes.has(t.id) ? 'checked' : ''} onchange="toggleType('${t.id}', this.checked)">
+      <i class="ti ${t.icon}" style="font-size:13px;color:${t.color}"></i>
+      <span class="type-label">${t.name}</span>
+      <span class="type-count">${count}</span>
+    </label>`;
+  }).join('');
+
+  // Prio
+  const prioFilters = document.getElementById('prioFilters');
+  prioFilters.innerHTML = [
+    {id:'all', label:'Toutes priorités', dot:'#8888aa'},
+    {id:'1', label:'🔥 Priorité 1 — Cette semaine', dot:'#f87171'},
+    {id:'2', label:'Priorité 2 — 30 jours', dot:'#fbbf24'},
+    {id:'3', label:'Priorité 3 — 90 jours', dot:'#4ade80'},
+  ].map(p => `<button class="prio-btn ${activePrio === p.id ? 'active' : ''}" onclick="setPrio('${p.id}')">
+    <div class="prio-dot" style="background:${p.dot}"></div>${p.label}
+  </button>`).join('');
+}
+
+function renderKPIs(){
+  document.getElementById('kpi-total').textContent = ALL_PROSPECTS.length;
+  document.getElementById('kpi-p1').textContent = ALL_PROSPECTS.filter(p=>p.prio===1).length;
+  document.getElementById('kpi-p2').textContent = ALL_PROSPECTS.filter(p=>p.prio===2).length;
+  document.getElementById('kpi-p3').textContent = ALL_PROSPECTS.filter(p=>p.prio===3).length;
+  document.getElementById('kpi-called').textContent = calledIds.size;
+  document.getElementById('kpi-zones').textContent = ZONES.length - 1;
+  document.getElementById('progressBadge').textContent = calledIds.size + ' contactés';
+}
+
+function renderZoneOverview(){
+  const zone = ZONES.find(z => z.id === activeZone);
+  if(!zone || activeZone === 'all'){ document.getElementById('zoneOverview').innerHTML = ''; return; }
+  const zoneProspects = ALL_PROSPECTS.filter(p => p.commune === zone.id || (zone.id === 'Abobo' && (p.commune === 'Abobo' || p.commune === 'Adjamé')));
+  const typeBreakdown = TYPES.map(t => ({...t, count: zoneProspects.filter(p=>p.type===t.id).length})).filter(t=>t.count>0);
+  document.getElementById('zoneOverview').innerHTML = `
+    <div class="zone-overview">
+      <div class="zo-header">
+        <div class="zo-name" style="color:${zone.color}">${zone.name}</div>
+        <span class="badge" style="background:${zone.color}18;color:${zone.color}">${zoneProspects.length} prospects</span>
+      </div>
+      <div class="zo-desc">${zone.desc}</div>
+      <div class="zo-stats">
+        ${typeBreakdown.map(t=>`<div class="zo-stat"><div class="zo-stat-v" style="color:${t.color}">${t.count}</div><div class="zo-stat-l">${t.name.split(' ')[0]}</div></div>`).join('')}
+        <div class="zo-stat"><div class="zo-stat-v" style="color:var(--a4)">${zoneProspects.filter(p=>p.prio===1).length}</div><div class="zo-stat-l">Prio 1</div></div>
+      </div>
+    </div>`;
+}
+
+function renderContent(){
+  const filtered = getFiltered();
+  document.getElementById('resultCount').textContent = filtered.length + ' prospect'+(filtered.length>1?'s':'') + ' trouvé'+(filtered.length>1?'s':'');
+
+  if(!filtered.length){
+    document.getElementById('cardsGrid').innerHTML = `<div class="empty" style="grid-column:span 2"><i class="ti ti-search"></i>Aucun prospect ne correspond à vos filtres.<br>Essayez de modifier la zone ou le type.</div>`;
+    document.getElementById('tableBody').innerHTML = '';
+    return;
+  }
+
+  const typeMeta = {};
+  TYPES.forEach(t => typeMeta[t.id] = t);
+
+  if(currentView === 'cards'){
+    document.getElementById('cardsGrid').innerHTML = filtered.map(p => {
+      const tm = typeMeta[p.type] || {color:'#8888aa',icon:'ti-building'};
+      const prioCls = p.prio === 1 ? 'p1' : p.prio === 2 ? 'p2' : 'p3';
+      const prioLabel = p.prio === 1 ? 'Priorité 1 🔥' : p.prio === 2 ? 'Priorité 2' : 'Priorité 3';
+      const bPrioCls = p.prio === 1 ? 'b-p1' : p.prio === 2 ? 'b-p2' : 'b-p3';
+      const isCalled = calledIds.has(p.id);
+      return `<div class="p-card ${prioCls}" onclick="openModal(${p.id})">
+        <div class="pc-head">
+          <div class="pc-ico" style="background:${tm.color}18;color:${tm.color}"><i class="ti ${tm.icon}" style="font-size:16px"></i></div>
+          <div style="flex:1">
+            <div class="pc-name">${p.name}</div>
+            <div class="pc-type" style="color:${tm.color}">${TYPES.find(t=>t.id===p.type)?.name||''}</div>
+          </div>
+        </div>
+        <div class="pc-tags">
+          <span class="tag">${p.commune}</span>
+          <span class="tag">${p.zone}</span>
+          <span class="tag">${p.effectif}</span>
+          ${isCalled ? '<span class="tag" style="color:var(--a2);background:rgba(74,222,128,0.1)">✓ Contacté</span>' : ''}
+        </div>
+        ${p.pain ? `<div class="pain-row"><i class="ti ti-heartbeat"></i><div class="pain-text">${p.pain}</div></div>` : ''}
+        ${p.hook ? `<div class="hook-row"><i class="ti ti-message-circle"></i><div class="hook-text">${p.hook.substring(0,110)}${p.hook.length>110?'...':''}</div></div>` : ''}
+        <div class="pc-footer">
+          <span class="badge ${bPrioCls}">${prioLabel}</span>
+          <div style="display:flex;gap:6px" onclick="event.stopPropagation()">
+            <button class="action-btn ${isCalled?'called':''}" onclick="toggleCalled(${p.id},event)">${isCalled ? '✓ Contacté' : 'Marquer contacté'}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    document.getElementById('tableBody').innerHTML = filtered.map(p => {
+      const tm = typeMeta[p.type] || {color:'#8888aa'};
+      const bPrioCls = p.prio === 1 ? 'b-p1' : p.prio === 2 ? 'b-p2' : 'b-p3';
+      const isCalled = calledIds.has(p.id);
+      return `<tr onclick="openModal(${p.id})" style="cursor:pointer">
+        <td><div style="font-size:12px;font-weight:500;color:${isCalled?'var(--a2)':'var(--text)'}">${isCalled?'✓ ':''} ${p.name}</div><div style="font-size:10px;color:var(--text3)">${p.note||''}</div></td>
+        <td><div style="font-size:11px">${p.commune}</div><div style="font-size:10px;color:var(--text3)">${p.zone}</div></td>
+        <td style="font-size:11px">${p.effectif}</td>
+        <td style="font-size:10px;color:var(--text2)">${p.frais}</td>
+        <td style="font-size:11px;color:var(--a4);max-width:150px;line-height:1.4">${p.pain||'—'}</td>
+        <td style="font-size:10px;color:var(--text2)">${p.contact}</td>
+        <td><span class="badge ${bPrioCls}">P${p.prio}</span></td>
+        <td onclick="event.stopPropagation()"><button class="action-btn ${isCalled?'called':''}" onclick="toggleCalled(${p.id},event)">${isCalled?'✓':'Contacter'}</button></td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+function renderAll(){
+  renderSidebar();
+  renderKPIs();
+  renderZoneOverview();
+  renderContent();
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function setZone(id){
+  activeZone = id;
+  renderAll();
+}
+
+function toggleType(id, checked){
+  if(checked) activeTypes.add(id);
+  else activeTypes.delete(id);
+  applyFilters();
+}
+
+function setPrio(id){
+  activePrio = id;
+  renderAll();
+}
+
+function setView(v){
+  currentView = v;
+  document.getElementById('btnCards').classList.toggle('active', v==='cards');
+  document.getElementById('btnTable').classList.toggle('active', v==='table');
+  document.getElementById('cardsView').style.display = v==='cards' ? 'block' : 'none';
+  document.getElementById('tableView').style.display = v==='table' ? 'block' : 'none';
+  renderContent();
+}
+
+function applyFilters(){ renderSidebar(); renderKPIs(); renderZoneOverview(); renderContent(); }
+
+function resetFilters(){
+  activeZone = 'all';
+  activeTypes = new Set(TYPES.map(t=>t.id));
+  activePrio = 'all';
+  document.getElementById('searchInput').value = '';
+  renderAll();
+}
+
+function toggleCalled(id, e){
+  if(e) e.stopPropagation();
+  if(calledIds.has(id)) calledIds.delete(id);
+  else calledIds.add(id);
+  renderAll();
+}
+
+function openModal(id){
+  const p = ALL_PROSPECTS.find(x=>x.id===id);
+  if(!p) return;
+  const tm = TYPES.find(t=>t.id===p.type) || {color:'#8888aa',name:'',icon:'ti-building'};
+  const bPrioCls = p.prio === 1 ? 'b-p1' : p.prio === 2 ? 'b-p2' : 'b-p3';
+  const prioLabel = p.prio === 1 ? '🔥 Priorité 1 — Appeler cette semaine' : p.prio === 2 ? 'Priorité 2 — 30 jours' : 'Priorité 3 — 90 jours';
+  const isCalled = calledIds.has(p.id);
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-head">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:9px;background:${tm.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${tm.icon}" style="font-size:18px;color:${tm.color}"></i></div>
+        <div><div class="modal-title">${p.name}</div><div style="font-size:10px;color:${tm.color};margin-top:2px">${tm.name}</div></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+      <span class="badge ${bPrioCls}">${prioLabel}</span>
+      <span class="tag">${p.commune} · ${p.zone}</span>
+      <span class="tag">${p.effectif}</span>
+      ${isCalled ? '<span class="tag" style="color:var(--a2);background:rgba(74,222,128,0.1)">✓ Contacté</span>' : ''}
+    </div>
+
+    ${p.pain ? `<div class="modal-section"><div class="ms-label">Douleur principale</div><div style="background:rgba(248,113,113,0.07);border-left:2px solid var(--a4);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:var(--text2);line-height:1.6">${p.pain}</div></div>` : ''}
+
+    ${p.hook ? `<div class="modal-section"><div class="ms-label">Accroche recommandée</div><div style="background:rgba(124,111,255,0.07);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:var(--text2);line-height:1.6;font-style:italic">${p.hook}</div></div>` : ''}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="modal-section" style="margin-bottom:0"><div class="ms-label">Frais estimés</div><div class="ms-value">${p.frais}</div></div>
+      <div class="modal-section" style="margin-bottom:0"><div class="ms-label">Effectif</div><div class="ms-value">${p.effectif}</div></div>
+    </div>
+
+    <div class="modal-section"><div class="ms-label">Contact</div><div class="ms-value">${p.contact}${p.tel?`<br><span style="color:var(--accent)">${p.tel}</span>`:''}</div></div>
+
+    ${p.note ? `<div class="modal-section"><div class="ms-label">Notes</div><div class="ms-value">${p.note}</div></div>` : ''}
+
+    <div class="modal-section">
+      <div class="ms-label">Script d'approche suggéré</div>
+      <div style="background:var(--bg3);border-radius:8px;padding:12px;font-size:12px;color:var(--text2);line-height:1.8">
+        ${p.hook || `« Bonjour, je m'appelle Thy Hamed de Payiskoul. Nous aidons les ${tm.name.toLowerCase()} à Abidjan à encaisser leurs frais de formation via Mobile Money, avec la possibilité de payer en plusieurs fois. Est-ce que c'est un sujet qui vous concerne actuellement ? »`}
+        <br><br><strong style="color:var(--text)">Objectif :</strong> Qualifier la douleur → Proposer une démo de 20 min.
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-secondary" onclick="toggleCalled(${p.id});closeModal()">${isCalled ? '✗ Annuler contact' : '✓ Marquer comme contacté'}</button>
+      <button class="modal-btn modal-btn-primary" onclick="copyHook(${p.id})"><i class="ti ti-copy" style="font-size:12px;margin-right:4px"></i>Copier l'accroche</button>
+    </div>`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function copyHook(id){
+  const p = ALL_PROSPECTS.find(x=>x.id===id);
+  if(!p) return;
+  navigator.clipboard.writeText(p.hook || `Bonjour, je m'appelle Thy Hamed de Payiskoul. Nous aidons les établissements à Abidjan à encaisser leurs frais via Mobile Money avec paiement échelonné. Est-ce un sujet qui vous concerne ?`);
+  const btn = document.querySelector('.modal-btn-primary');
+  if(btn){ btn.textContent='Copié !'; setTimeout(()=>{btn.innerHTML='<i class="ti ti-copy" style="font-size:12px;margin-right:4px"></i>Copier l\'accroche';},2000); }
+}
+
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModalOut(e){ if(e.target===document.getElementById('modalOverlay')) closeModal(); }
+
+// ============================================================
+// INIT
+// ============================================================
+document.getElementById('dateLbl').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderAll();
+</script>
+</body>
+</html>
