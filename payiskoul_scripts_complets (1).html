@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Scripts & Séquences Complets</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;
+  --border:#252535;--border2:#32324a;
+  --text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;
+  --accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;
+  --font:'DM Sans',sans-serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+
+/* TOP */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+
+/* NAV TABS */
+.nav{display:flex;flex-wrap:wrap;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:20px}
+.nav-tab{padding:10px 14px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+
+/* LAYOUT */
+.main{display:grid;grid-template-columns:220px 1fr;gap:14px;align-items:start}
+.sidebar{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:14px;position:sticky;top:20px}
+.sb-title{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.sb-section{margin-bottom:16px}
+
+/* SEGMENT BTNS */
+.seg-btn{width:100%;text-align:left;padding:8px 10px;border-radius:7px;border:0.5px solid transparent;color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);font-size:11px;font-weight:500;transition:all 0.15s;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.seg-btn:hover{background:var(--bg3);color:var(--text)}
+.seg-btn.active{background:rgba(124,111,255,0.1);border-color:rgba(124,111,255,0.3);color:var(--accent)}
+.seg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* EMOTION BTNS */
+.emo-btn{width:100%;text-align:left;padding:7px 10px;border-radius:6px;border:0.5px solid transparent;color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);font-size:10px;transition:all 0.15s;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.emo-btn:hover{background:var(--bg3)}
+.emo-btn.active{background:var(--bg3);border-color:var(--border2);color:var(--text)}
+
+/* STEP NAV */
+.steps-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.step-btn{font-size:10px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);font-weight:500;transition:all 0.15s}
+.step-btn:hover,.step-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* SCRIPT BLOCKS */
+.script-block{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.sb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sb-meta{display:flex;align-items:center;gap:8px}
+.sb-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-title2{font-size:13px;font-weight:600}
+.sb-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.copy-btn{font-size:10px;padding:4px 10px;border-radius:5px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;font-family:var(--font);transition:all 0.15s;flex-shrink:0}
+.copy-btn:hover{background:var(--bg4)}
+.copy-btn.ok{color:var(--a2);border-color:rgba(74,222,128,0.3)}
+
+/* SCRIPT CONTENT */
+.script-content{background:var(--bg3);border-radius:10px;padding:16px;font-size:12px;color:var(--text2);line-height:1.9}
+.script-content .step-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin:14px 0 6px;display:block}
+.script-content .step-label:first-child{margin-top:0}
+.script-content strong{color:var(--text);font-weight:600}
+.script-content em{color:var(--a5);font-style:normal}
+.script-content .branch{color:var(--a3)}
+.script-content .warning{color:var(--a4)}
+.script-content .tip{color:var(--a2)}
+
+/* EMOTION BOX */
+.emotion-box{border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:12px;line-height:1.7}
+
+/* INFO BOX */
+.info-row{display:flex;gap:8px;padding:10px 12px;background:var(--bg3);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.info-row i{font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* BADGE */
+.badge{display:inline-block;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600}
+.b-call{background:rgba(56,189,248,0.1);color:#38bdf8}
+.b-wa{background:rgba(74,222,128,0.1);color:#4ade80}
+.b-email{background:rgba(124,111,255,0.1);color:#7c6fff}
+.b-sms{background:rgba(251,191,36,0.1);color:#fbbf24}
+
+/* SEQUENCE TIMELINE */
+.seq-timeline{position:relative;padding-left:28px;margin-bottom:16px}
+.seq-item{position:relative;margin-bottom:14px}
+.seq-item::before{content:'';position:absolute;left:-20px;top:14px;width:1px;height:calc(100% + 14px);background:var(--border2)}
+.seq-item:last-child::before{display:none}
+.seq-dot{position:absolute;left:-24px;top:8px;width:10px;height:10px;border-radius:50%;border:2px solid var(--border2);background:var(--bg)}
+.seq-item.active .seq-dot{background:var(--accent);border-color:var(--accent)}
+.seq-item.won .seq-dot{background:var(--a2);border-color:var(--a2)}
+.seq-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:9px;padding:12px 14px}
+.seq-day{font-size:9px;color:var(--text3);margin-bottom:4px;letter-spacing:0.5px;text-transform:uppercase}
+.seq-action{font-size:12px;font-weight:500;margin-bottom:3px}
+.seq-desc{font-size:11px;color:var(--text2);line-height:1.5}
+
+/* DIVIDER */
+.divider{border:none;border-top:0.5px solid var(--border);margin:16px 0}
+
+@media(max-width:800px){.main{grid-template-columns:1fr}.sidebar{position:static}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top-bar">
+  <div class="brand">
+    <div class="brand-mark">PK</div>
+    <div>
+      <div class="brand-name">Payiskoul — Scripts & Séquences</div>
+      <div class="brand-sub">Tous segments · Tous profils émotionnels · Complet</div>
+    </div>
+  </div>
+  <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active" onclick="goTab('mindset')">Mindset</div>
+  <div class="nav-tab" onclick="goTab('sequences')">Séquences complètes</div>
+  <div class="nav-tab" onclick="goTab('emotions')">Par profil émotionnel</div>
+  <div class="nav-tab" onclick="goTab('scripts')">Scripts par segment</div>
+  <div class="nav-tab" onclick="goTab('questions')">Questions de qualification</div>
+  <div class="nav-tab" onclick="goTab('objections')">Objections</div>
+</div>
+
+<!-- ===== MINDSET ===== -->
+<div class="page active" id="tab-mindset">
+  <div style="max-width:760px">
+    <div style="background:rgba(124,111,255,0.07);border:0.5px solid rgba(124,111,255,0.2);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px">Le mindset Payiskoul avant chaque appel</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.9">
+        Tu n'es pas un commercial qui vend. Tu es quelqu'un qui <strong style="color:var(--text)">résout un problème réel</strong> que cette personne vit probablement chaque jour sans solution. Ton rôle dans l'appel n'est pas de convaincre — c'est de <strong style="color:var(--text)">comprendre d'abord, puis montrer que tu as ce dont ils ont besoin</strong>.<br><br>
+        Avant de décrocher : rappelle-toi que le directeur en face de toi a peut-être relancé 30 parents ce matin pour des impayés. Qu'il a peut-être dû renvoyer un élève parce que ses parents n'avaient pas payé. Que son comptable lui a signalé un découvert. <strong style="color:var(--a2)">Tu arrives avec une solution à ce problème-là. Pas un produit à vendre.</strong>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div class="info-row"><i class="ti ti-ear" style="color:var(--accent)"></i><div><strong style="color:var(--text)">Écouter 70% du temps</strong><br>L'appel idéal : tu poses 3 questions et la personne parle. Ce qu'elle dit = ton script pour le reste de la conversation.</div></div>
+      <div class="info-row"><i class="ti ti-heart" style="color:var(--a4)"></i><div><strong style="color:var(--text)">Valider avant de proposer</strong><br>"Je comprends exactement ce que vous vivez" avant de parler de Payiskoul. La solution ne fait sens que si la douleur est reconnue.</div></div>
+      <div class="info-row"><i class="ti ti-clock" style="color:var(--a3)"></i><div><strong style="color:var(--text)">Respecter leur temps</strong><br>Annonce la durée dès le début : "J'ai besoin de 3 minutes pour voir si ça peut vous aider." Tiens-t'en à ça. Ça crée de la confiance.</div></div>
+      <div class="info-row"><i class="ti ti-notes" style="color:var(--a2)"></i><div><strong style="color:var(--text)">Note leurs mots exacts</strong><br>Si quelqu'un dit "les parents ne paient jamais à temps" — utilise exactement ces mots dans ton email de suivi. C'est la preuve que tu as écouté.</div></div>
+    </div>
+
+    <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:12px">Les 5 règles d'or</div>
+      <div id="golden-rules"></div>
+    </div>
+
+    <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:12px">Ce que tu vends vraiment</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="value-props"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SÉQUENCES ===== -->
+<div class="page" id="tab-sequences">
+  <div style="margin-bottom:16px;font-size:12px;color:var(--text2);background:var(--bg2);border-radius:10px;padding:14px;border:0.5px solid var(--border)">
+    <strong style="color:var(--text)">Comment utiliser les séquences :</strong> Chaque séquence est un parcours complet du premier contact jusqu'au closing. Choisissez le segment puis suivez les étapes dans l'ordre. Adaptez le timing selon la réactivité du prospect.
+  </div>
+  <div class="main">
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Segment</div>
+        <div id="seqSegNav"></div>
+      </div>
+    </div>
+    <div id="seqContent"></div>
+  </div>
+</div>
+
+<!-- ===== ÉMOTIONS ===== -->
+<div class="page" id="tab-emotions">
+  <div style="margin-bottom:16px;font-size:12px;color:var(--text2);background:var(--bg2);border-radius:10px;padding:14px;border:0.5px solid var(--border)">
+    <strong style="color:var(--text)">L'approche émotionnelle :</strong> Chaque prospect a un état émotionnel au moment où tu l'appelles. Identifier cet état en 30 secondes change tout à la conversation. Voici comment adapter ton approche.
+  </div>
+  <div class="main">
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Profil émotionnel</div>
+        <div id="emoNav"></div>
+      </div>
+    </div>
+    <div id="emoContent"></div>
+  </div>
+</div>
+
+<!-- ===== SCRIPTS PAR SEGMENT ===== -->
+<div class="page" id="tab-scripts">
+  <div class="main">
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Segment</div>
+        <div id="scriptSegNav"></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Étape</div>
+        <div id="scriptStepNav"></div>
+      </div>
+    </div>
+    <div id="scriptContent"></div>
+  </div>
+</div>
+
+<!-- ===== QUESTIONS ===== -->
+<div class="page" id="tab-questions">
+  <div style="max-width:760px" id="questionsContent"></div>
+</div>
+
+<!-- ===== OBJECTIONS ===== -->
+<div class="page" id="tab-objections">
+  <div style="max-width:760px" id="objectionsContent"></div>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const SEGMENTS = [
+  {id:'univ', name:'Universités & Grandes Écoles', color:'#7c6fff', icon:'ti-building'},
+  {id:'centre', name:'Centres de Formation', color:'#fbbf24', icon:'ti-certificate'},
+  {id:'sante', name:'Instituts de Santé', color:'#f87171', icon:'ti-heart-rate-monitor'},
+  {id:'digital', name:'Écoles Digitales & Tech', color:'#e879f9', icon:'ti-device-laptop'},
+  {id:'auto', name:'Auto-Écoles & Conduite Pro', color:'#38bdf8', icon:'ti-car'},
+  {id:'forma', name:'Formateurs Indépendants', color:'#4ade80', icon:'ti-user-check'},
+];
+
+const EMOTIONS = [
+  {id:'curious', name:'Curieux mais pas pressé', emoji:'🤔', color:'#38bdf8', desc:'Il écoute, pose des questions, mais ne ressent pas d\'urgence. Il compare. Il attend que tu le convainques.'},
+  {id:'skeptic', name:'Sceptique / Méfiant', emoji:'😒', color:'#f87171', desc:'A déjà été déçu par une solution ou un commercial. Met tes affirmations en doute. Teste ta crédibilité.'},
+  {id:'busy', name:'Débordé / Pas le temps', emoji:'😤', color:'#fbbf24', desc:'Te coupe, parle vite, signale sa charge. Ton seul objectif : sortir le problème en 60 secondes.'},
+  {id:'enthusiast', name:'Enthousiaste / Problème clair', emoji:'🙌', color:'#4ade80', desc:'A le problème, cherche une solution, est prêt à écouter. Attention à ne pas surpitcher — aller vite au RDV.'},
+  {id:'defensive', name:'Défensif / Résistant', emoji:'🛡️', color:'#a78bfa', desc:'Ne veut pas changer. Justifie son système actuel. Perçoit ta proposition comme une critique implicite.'},
+  {id:'polite', name:'Poli mais froid', emoji:'🥶', color:'#8888aa', desc:'Répond courtoisement mais sans engagement. Difficile à lire. Souvent c\'est un "non" poli qui n\'ose pas s\'affirmer.'},
+];
+
+const STEPS = [
+  {id:'contact', name:'1. Premier contact', icon:'ti-phone'},
+  {id:'suivi', name:'2. Suivi post-contact', icon:'ti-mail'},
+  {id:'demo', name:'3. Démo / Présentation', icon:'ti-presentation'},
+  {id:'relance1', name:'4. Relance 1', icon:'ti-bell'},
+  {id:'relance2', name:'5. Relance 2', icon:'ti-bell-ringing'},
+  {id:'closing', name:'6. Closing', icon:'ti-check'},
+  {id:'win', name:'7. Après signature', icon:'ti-trophy'},
+];
+
+// ============================================================
+// SCRIPT DATA
+// ============================================================
+const SCRIPTS = {
+  univ: {
+    contact: {
+      cold: {
+        title: 'Appel cold — DAF / VP Finance / Dir. Administratif',
+        channel: 'call',
+        body: `<span class="step-label">Avant d'appeler — état d'esprit</span>
+Ce responsable gère des centaines d'étudiants dont une partie ne paye pas à temps. Il fait face à des relances, des abandons, des rapports financiers difficiles à équilibrer. Il ne sait peut-être pas qu'une solution existe. <em>Tu arrives pour l'aider, pas pour lui vendre quelque chose.</em>
+
+<span class="step-label">Accroche — 20 secondes max</span>
+<strong>« Bonjour [Prénom], je m'appelle Thy Hamed, je travaille avec Payiskoul. On accompagne les universités privées à Abidjan pour réduire les impayés de frais universitaires. J'ai besoin de 3 minutes pour voir si on peut vous aider — vous avez un moment ? »</strong>
+
+<span class="step-label">Si oui — question d'ouverture</span>
+<strong>« Est-ce que vous avez des étudiants qui abandonnent leur formation en cours d'année parce qu'ils ne peuvent pas payer les frais en une seule fois ? »</strong>
+<span class="tip">→ Silence. Laisse-le parler. Ce qu'il dit maintenant = or.</span>
+
+<span class="step-label">Si il confirme le problème</span>
+<strong>« Vous n'êtes pas seul — c'est la réalité de 70% des universités privées en CI. Payiskoul permet à vos étudiants de payer en 2 ou 3 mensualités via Orange Money, et vous recevez votre argent automatiquement. Aucune gestion de votre côté. »</strong>
+
+<span class="step-label">Question de qualification</span>
+<strong>« Pour vous donner une idée concrète — sur 100 étudiants, combien commencent l'année sans avoir soldé leurs frais ? »</strong>
+<span class="tip">→ Ce chiffre devient ton argument de ROI pour la démo.</span>
+
+<span class="step-label">Proposition de RDV</span>
+<strong>« J'aimerais vous montrer concrètement en 20 minutes comment ça fonctionne pour un établissement comme le vôtre. Je peux me déplacer chez vous — vous êtes disponible mardi ou jeudi matin ? »</strong>
+
+<span class="step-label">Si refus ou hésitation</span>
+<strong>« Je comprends, vous avez peu de temps. Puis-je vous envoyer une présentation d'une page par WhatsApp ? Vous regardez quand vous voulez et on en parle ensuite. »</strong>`
+      },
+      warm: {
+        title: 'Contact warm — via réseau ou référence',
+        channel: 'call',
+        body: `<span class="step-label">Accroche warm — plus directe</span>
+<strong>« Bonjour [Prénom], c'est Thy Hamed de Payiskoul. [Nom du contact] m'a suggéré de vous appeler — il pensait que vous rencontrez les mêmes défis que d'autres universités qu'on accompagne en ce moment. »</strong>
+
+<span class="step-label">Transition vers le problème</span>
+<strong>« Il m'a dit que la question des impayés de frais universitaires était un sujet chez vous — c'est le cas ? »</strong>
+<span class="tip">→ La référence commune réduit la méfiance de 80%. Aller directement au problème.</span>
+
+<span class="step-label">Si oui</span>
+<strong>« On a développé quelque chose de spécifique pour ça. Je préfère vous montrer en 20 minutes plutôt que vous expliquer au téléphone — vous êtes libre cette semaine ? »</strong>`
+      }
+    },
+    suivi: {
+      email: {
+        title: 'Email de suivi post-appel — personnalisé',
+        channel: 'email',
+        body: `<span class="step-label">Objet — à personnaliser avec leurs mots</span>
+<strong>Objet : Suite à notre échange — [reprendre un mot ou chiffre qu'il a mentionné]</strong>
+<em>Ex: "Suite à notre échange — les 30% d'étudiants qui ne soldent pas à la rentrée"</em>
+
+<span class="step-label">Corps du message</span>
+Bonjour [Prénom],
+
+Merci pour les 3 minutes que vous m'avez accordées ce matin.
+
+Vous m'avez mentionné [<em>reprendre SA phrase exacte</em>]. C'est exactement le problème que Payiskoul résout pour des universités comme la vôtre.
+
+<strong>Ce que ça change concrètement :</strong>
+— Vos étudiants paient leurs frais en 2 ou 3 mensualités via Orange Money ou MTN
+— Vous recevez les fonds automatiquement selon le calendrier — sans relancer personne
+— Tableau de bord en temps réel : vous voyez qui a payé, qui reste à payer, à tout moment
+
+Je vous propose une démo de 20 minutes dans vos locaux, sans engagement.
+<strong>Mardi ou jeudi matin, ça vous irait ?</strong>
+
+Cordialement,
+Thy Hamed TRAORE — COO, Payiskoul
++225 XX XX XX XX XX`
+      },
+      whatsapp: {
+        title: 'WhatsApp de suivi J+1',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+C'est Thy Hamed de Payiskoul — on avait échangé hier.
+
+Je vous ai envoyé un email avec les détails. En 2 lignes : vos étudiants paient leurs frais en plusieurs fois via Mobile Money → vous recevez votre argent automatiquement.
+
+Je reste disponible pour une démo rapide de 20 min à votre convenance.
+
+Bonne journée 🙏`
+      }
+    },
+    demo: {
+      preparation: {
+        title: 'Préparation de la démo — ce qu\'il faut savoir avant',
+        channel: 'call',
+        body: `<span class="step-label">Avant d'arriver — questions à poser par téléphone ou email</span>
+<strong>« Pour personnaliser ma présentation, j'aurais besoin de 3 informations rapides : »</strong>
+1. Combien d'étudiants avez-vous environ ?
+2. Quels sont vos frais annuels approximatifs ?
+3. Quel est votre taux d'impayés actuel (ordre de grandeur) ?
+
+<span class="tip">→ Ces 3 chiffres te permettent de calculer un ROI réel pendant la démo. "Si on réduit vos impayés de 40%, ça représente X FCFA récupérés par an pour votre établissement."</span>
+
+<span class="step-label">Structure de la démo — 20 minutes</span>
+<strong>0-3 min :</strong> "Dites-moi en quelques mots — comment ça se passe aujourd'hui pour le recouvrement de vos frais ?" → les laisser parler
+<strong>3-8 min :</strong> Montrer le tableau de bord → "Voici ce que vos équipes voient chaque matin"
+<strong>8-13 min :</strong> Montrer le parcours étudiant → "Voici ce que vit votre étudiant depuis son téléphone"
+<strong>13-17 min :</strong> Présenter les chiffres avec leurs données → "Pour vos X étudiants, ça représente..."
+<strong>17-20 min :</strong> Proposition pilote → "On peut démarrer sur une promotion pour tester"
+
+<span class="step-label">Phrase de closing démo</span>
+<strong>« Sur la base de ce qu'on vient de voir — est-ce que vous voyez comment ça pourrait fonctionner pour votre université ? Qu'est-ce qui vous retient encore ? »</strong>`
+      }
+    },
+    relance1: {
+      wa: {
+        title: 'Relance WhatsApp J+4 — douce',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Thy Hamed de Payiskoul — je reviens sur notre échange de [jour].
+
+Vous m'aviez parlé de [reprendre leur douleur avec leurs mots]. Je voulais juste m'assurer que mon email vous était bien parvenu.
+
+Est-ce que vous avez eu le temps d'y jeter un œil ?
+
+Bonne journée 🙏`
+      }
+    },
+    relance2: {
+      wa: {
+        title: 'Relance WhatsApp J+10 — avec valeur ajoutée',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Thy Hamed de Payiskoul. Je ne veux pas vous importuner — je vous recontacte une dernière fois car on vient d'onboarder [un établissement similaire / un centre de formation] à Abidjan qui avait exactement le même défi que vous.
+
+Ils ont réduit leurs impayés de 35% dès le premier trimestre.
+
+Si le timing n'est pas bon maintenant, dites-le moi simplement — je reviendrai vers vous à la prochaine rentrée. Aucun problème 🙏
+
+Thy Hamed`
+      },
+      email: {
+        title: 'Email de dernière relance J+14',
+        channel: 'email',
+        body: `Objet : Dernière nouvelle de Payiskoul — et une info pour vous
+
+Bonjour [Prénom],
+
+Je vous contacte une dernière fois avant de classer notre conversation.
+
+Je voulais partager un chiffre qui m'a frappé : en Côte d'Ivoire, 1 étudiant sur 3 interrompt ses études pour des raisons financières. Payiskoul existe pour que ce chiffre baisse — en commençant par les établissements qui décident d'agir.
+
+Si ce n'est pas le bon moment, je respecte totalement votre décision. Un simple "pas maintenant" suffit — je reviendrai à la rentrée de septembre.
+
+Dans tous les cas, merci pour votre temps.
+
+Thy Hamed TRAORE — COO, Payiskoul`
+      }
+    },
+    closing: {
+      call: {
+        title: 'Appel de closing — après la démo',
+        channel: 'call',
+        body: `<span class="step-label">Ouverture</span>
+<strong>« Bonjour [Prénom], Thy Hamed. Suite à notre démo de [jour] — avez-vous eu le temps d'en discuter en interne ? »</strong>
+
+<span class="step-label">Si intéressé mais pas décidé</span>
+<strong>« Qu'est-ce qui manque encore pour que vous puissiez dire oui aujourd'hui ? »</strong>
+<span class="tip">→ Écouter. Ne pas remplir les silences. La réponse = la dernière objection à traiter.</span>
+
+<span class="step-label">Proposition pilote sans risque</span>
+<strong>« Voici ce que je vous propose : on commence sur une seule promotion pendant un trimestre. Zéro engagement, zéro frais d'intégration. Si ça ne vous convient pas après 3 mois, on s'arrête. Vous n'avez rien à perdre. »</strong>
+
+<span class="step-label">Closing assumé</span>
+<strong>« Est-ce que je peux vous envoyer le contrat pilote cette semaine pour qu'on démarre avant la prochaine rentrée ? »</strong>`
+      }
+    },
+    win: {
+      wa: {
+        title: 'Message post-signature — onboarding',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Félicitations et bienvenue dans la famille Payiskoul 🎉
+
+Voici les 3 prochaines étapes :
+1. Je vous envoie le lien de configuration de votre tableau de bord aujourd'hui
+2. On fait un appel de 30 min pour paramétrer ensemble
+3. Vous êtes opérationnel en 48h
+
+Je suis disponible sur ce numéro pour toute question.
+
+Merci de votre confiance — on va vraiment changer les choses pour vos étudiants 🙏
+
+Thy Hamed`
+      }
+    }
+  },
+
+  centre: {
+    contact: {
+      cold: {
+        title: 'Appel cold — Gérant / Responsable de centre',
+        channel: 'call',
+        body: `<span class="step-label">Mindset</span>
+Le gérant d'un centre de formation à Abidjan est souvent seul à tout gérer. Chaque stagiaire qui part = une perte sèche. Il est fatigué de courir après les paiements. <em>Tu arrives avec une solution directe à son problème le plus concret.</em>
+
+<span class="step-label">Accroche directe — 15 secondes</span>
+<strong>« Bonjour [Prénom], Thy Hamed de Payiskoul. On aide les centres de formation à Abidjan à garder leurs stagiaires jusqu'au bout — même ceux qui ont du mal à payer en une fois. J'ai 2 minutes ? »</strong>
+
+<span class="step-label">Question clef</span>
+<strong>« Vous avez des stagiaires qui abandonnent en cours de formation parce qu'ils ne peuvent pas payer la totalité d'un coup ? »</strong>
+
+<span class="branch">→ Si oui : « Combien en moyenne par session ? »</span>
+<span class="branch">→ Si non : « Comment vous gérez les demandes de délais ? »</span>
+
+<span class="step-label">Réponse à "oui, on en a"</span>
+<strong>« C'est exactement ce que Payiskoul résout. Vos stagiaires paient en 2 ou 3 fois depuis leur téléphone. Vous continuez à recevoir votre argent — sans courir après personne. »</strong>
+
+<span class="step-label">Proposition terrain</span>
+<strong>« Je peux passer vous voir directement au centre cette semaine. 20 minutes, je vous montre concrètement. Vous êtes là quel jour en matinée ? »</strong>`
+      }
+    },
+    suivi: {
+      whatsapp: {
+        title: 'WhatsApp post-appel — centres de formation',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Suite à notre échange, voici Payiskoul en 1 min 30 : https://youtube.com/shorts/X48FznNEJo
+
+Pour votre centre :
+✓ Vos stagiaires paient en 2-3 fois via Orange Money / MTN
+✓ Vous recevez les paiements automatiquement
+✓ Moins d'abandons — plus de trésorerie
+
+[<em>Si il a mentionné un chiffre :</em> "Pour les X abandons par session que vous m'avez mentionnés, nos centres partenaires ont réduit ça de moitié dès la première session."]
+
+Je passe vous voir [jour proposé] vers [heure] ? 🙏`
+      }
+    },
+    relance1: {
+      wa: {
+        title: 'Relance J+3 — centres',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Thy Hamed de Payiskoul — on avait échangé [jour].
+
+Je repassais dans votre secteur [jour prochain] — ça vous dérange si je fais un saut de 20 minutes pour vous montrer concrètement ?
+
+Pas de présentation commerciale — juste vous montrer comment ça marche sur un cas concret.
+
+Bonne journée 🙏`
+      }
+    },
+    closing: {
+      wa: {
+        title: 'Closing express — centres de formation',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Suite à notre rencontre — voici ce que je vous propose pour démarrer :
+
+On crée votre espace Payiskoul aujourd'hui. Ça prend 30 minutes. Dès votre prochaine session, vos stagiaires ont accès au paiement échelonné.
+
+Vous êtes disponible demain matin pour qu'on le fasse ensemble ?
+
+Thy Hamed`
+      }
+    }
+  },
+
+  sante: {
+    contact: {
+      cold: {
+        title: 'Appel cold — Directeur d\'institut de santé',
+        channel: 'call',
+        body: `<span class="step-label">Mindset spécifique santé</span>
+Les écoles de santé forment des futurs infirmiers, sages-femmes, techniciens. Ces étudiants ont une formation de 3 ans, sans revenus, souvent issus de familles modestes. Le taux d'abandon pour raisons financières est élevé dans ce secteur. <em>Tu aides des futurs soignants à finir leur formation.</em>
+
+<span class="step-label">Accroche — avec l'impact social</span>
+<strong>« Bonjour [Prénom], je m'appelle Thy Hamed de Payiskoul. On travaille avec des instituts de santé en CI pour réduire les abandons liés aux difficultés financières des étudiants. Est-ce que c'est un sujet que vous vivez dans votre école ? »</strong>
+
+<span class="step-label">Question d'approfondissement</span>
+<strong>« Sur une promotion de X étudiants, combien ont du mal à payer les frais en début d'année ? »</strong>
+
+<span class="step-label">Solution</span>
+<strong>« Payiskoul leur permet de payer en 3 mensualités via Mobile Money. Vous recevez les fonds automatiquement. L'étudiant reste en formation, vous gardez votre trésorerie. »</strong>
+
+<span class="step-label">Argument impact</span>
+<strong>« La CI manque de 30 000 professionnels de santé selon l'OMS. Chaque étudiant qui abandonne pour raisons financières, c'est un soignant de moins. Payiskoul aide à changer ça. »</strong>
+
+<span class="step-label">Proposition</span>
+<strong>« Je peux vous présenter ça en 20 minutes dans vos locaux. Vous êtes disponible cette semaine ? »</strong>`
+      }
+    },
+    suivi: {
+      email: {
+        title: 'Email de suivi — instituts de santé',
+        channel: 'email',
+        body: `Objet : Réduire les abandons financiers dans votre école de santé — Payiskoul
+
+Bonjour [Prénom],
+
+Suite à notre échange, voici l'essentiel.
+
+La formation d'un infirmier ou d'une sage-femme dure 3 ans. Pendant ces 3 ans, ces étudiants n'ont aucun revenu. Les frais de formation représentent souvent 400 000 à 900 000 FCFA par an — une somme difficile à réunir en une fois pour beaucoup de familles.
+
+<strong>Payiskoul résout ça :</strong>
+— Paiement en 3 mensualités via Mobile Money
+— Reversement automatique à votre école
+— Zéro gestion supplémentaire pour vos équipes
+
+<strong>L'impact :</strong> moins d'abandons = plus de diplômés = plus de professionnels de santé pour la Côte d'Ivoire.
+
+Je vous propose un pilote sur une promotion, sans frais d'intégration. On mesure l'impact ensemble.
+
+Seriez-vous disponible pour une démo de 20 minutes ?
+
+Thy Hamed TRAORE — COO, Payiskoul`
+      }
+    }
+  },
+
+  digital: {
+    contact: {
+      cold: {
+        title: 'Appel cold — Direction école digitale / tech',
+        channel: 'call',
+        body: `<span class="step-label">Mindset digital</span>
+Le directeur d'une école digitale comprend la technologie. Il apprécie les solutions simples, rapides, sans friction. Il est lui-même à la recherche de solutions modernes. <em>Parle le même langage : ROI, adoption, frictionless.</em>
+
+<span class="step-label">Accroche tech-friendly</span>
+<strong>« Bonjour [Prénom], Thy Hamed de Payiskoul. On développe l'infrastructure de paiement pour les formations tech à Abidjan. En gros : vos apprenants paient en plusieurs fois via Mobile Money, vous recevez automatiquement. Est-ce que vous avez 3 minutes ? »</strong>
+
+<span class="step-label">Question</span>
+<strong>« Est-ce que vous avez des candidats qui s'intéressent à vos formations mais abandonnent l'inscription parce qu'ils n'ont pas le budget complet disponible immédiatement ? »</strong>
+
+<span class="tip">→ Dans le secteur digital, la réponse est presque toujours oui. Le public est jeune, passionné mais souvent sans revenus.</span>
+
+<span class="step-label">Angle conversion</span>
+<strong>« Avec le paiement échelonné, vous pouvez potentiellement doubler votre taux de conversion à l'inscription. Les candidats qui hésitaient pour des raisons budgétaires peuvent maintenant s'inscrire. »</strong>
+
+<span class="step-label">Proposition démo rapide</span>
+<strong>« Je vous montre le tableau de bord en 20 minutes. Vous verrez comment vos apprenants vivent l'expérience de leur côté. Vous êtes dispo demain ou après-demain ? »</strong>`
+      }
+    }
+  },
+
+  auto: {
+    contact: {
+      cold: {
+        title: 'Appel cold — Directeur auto-école / formation conduite',
+        channel: 'call',
+        body: `<span class="step-label">Mindset auto-école</span>
+Certaines auto-écoles CI pratiquent déjà le paiement en tranches — de façon informelle et manuelle. C'est une gestion chronophage. <em>Tu n'arrives pas avec une idée nouvelle — tu arrives avec l'outil pour automatiser ce qu'ils font déjà.</em>
+
+<span class="step-label">Accroche — si déjà en tranches</span>
+<strong>« Bonjour [Prénom], Thy Hamed de Payiskoul. On automatise le paiement en plusieurs fois pour les auto-écoles en CI. Si vous proposez déjà les paiements en tranches, on peut vous faire économiser le temps que vous passez à gérer ça manuellement. J'ai 2 minutes ? »</strong>
+
+<span class="step-label">Accroche — si pas encore en tranches</span>
+<strong>« Bonjour [Prénom], Thy Hamed de Payiskoul. On aide les auto-écoles à Abidjan à accepter plus d'élèves en permettant le paiement du permis en plusieurs fois via Orange Money. J'ai 2 minutes ? »</strong>
+
+<span class="step-label">Question</span>
+<strong>« Combien de candidats renoncent au permis chaque mois parce qu'ils n'ont pas le budget complet disponible d'un coup ? »</strong>
+
+<span class="step-label">Argument ROI</span>
+<strong>« Un permis de conduire coûte entre 125 000 et 800 000 FCFA selon le type. Avec le paiement en 3 fois via Mobile Money, vous pouvez récupérer tous ces candidats qui renonçaient. »</strong>`
+      }
+    }
+  },
+
+  forma: {
+    contact: {
+      cold: {
+        title: 'DM Instagram / WhatsApp — formateur indépendant',
+        channel: 'wa',
+        body: `<span class="step-label">Premier message — court, humain, curieux</span>
+<strong>Bonjour [Prénom],</strong>
+
+J'ai vu votre formation sur [sujet] — vraiment utile ce que vous faites.
+
+Je vous écris parce que beaucoup de formateurs nous disent perdre des apprenants potentiels parce que ceux-ci ne peuvent pas payer en une seule fois.
+
+<strong>Est-ce que c'est quelque chose que vous rencontrez aussi ?</strong>
+
+<span class="tip">→ Attendre la réponse avant d'aller plus loin. Ne jamais pitcher avant d'avoir eu une réponse à cette question.</span>
+
+<span class="step-label">Si oui — réponse</span>
+<strong>« Je comprends exactement ce que vous vivez. Payiskoul permet à vos apprenants de payer en 2 ou 3 fois via leur mobile money — vous recevez votre argent normalement, sans rien gérer. »</strong>
+
+<strong>« Vous seriez dispo pour un appel de 15 minutes cette semaine pour que je vous montre comment ça marche ? »</strong>
+
+<span class="step-label">Message warm — formateur dans votre réseau</span>
+<strong>Salut [Prénom] !
+
+Tu sais que je bosse sur Payiskoul — on aide les formateurs à encaisser plus facilement et à accueillir plus d'apprenants grâce au paiement échelonné.
+
+Je pense à toi parce que [raison personnelle et spécifique]. T'aurais 15 min cette semaine ? Je pense vraiment que ça peut changer quelque chose pour toi.</strong>`
+      }
+    },
+    closing: {
+      wa: {
+        title: 'Closing formateur — onboarding express',
+        channel: 'wa',
+        body: `Bonjour [Prénom],
+
+Suite à notre échange, voilà ce que je te propose :
+
+On crée ton lien de paiement Payiskoul maintenant. Ça prend 10 minutes.
+
+Pour ta prochaine formation [sujet si mentionné], tes apprenants voient une option pour payer en 2 ou 3 fois. Ceux qui ne pouvaient pas payer en une fois peuvent maintenant s'inscrire.
+
+Tu préfères qu'on le fasse ensemble par appel là maintenant — ou je t'envoie le guide pas à pas par WhatsApp ?`
+      }
+    }
+  }
+};
+
+// ============================================================
+// EMOTIONS DATA
+// ============================================================
+const EMO_SCRIPTS = {
+  curious: {
+    detect: 'Il pose des questions générales. Son ton est neutre et légèrement intéressé. Il dit "ah intéressant" mais ne s\'engage pas. Il compare mentalement avec d\'autres solutions.',
+    approach: 'Ne pas forcer. Alimenter sa curiosité avec des chiffres concrets et des cas réels. Le laisser découvrir par lui-même plutôt que lui imposer.',
+    scripts: [
+      {label:'Réponse à "Qu\'est-ce que c\'est exactement ?"', text:'« Payiskoul, c\'est l\'infrastructure qui permet à vos apprenants de payer leurs frais en 2 ou 3 fois via Mobile Money, et à vous de recevoir l\'argent automatiquement. En gros, on élimine les impayés sans que vous ayez à gérer quoi que ce soit. »'},
+      {label:'Réponse à "Et ça marche vraiment ?"', text:'« Je comprends le scepticisme — et c\'est légitime. Ce que je vous propose : une démo de 20 minutes avec vos propres chiffres. Si vous ne voyez pas la valeur à la fin, vous m\'aurez juste donné 20 minutes de votre temps. »'},
+      {label:'Relance pour prospect curieux non-décidé', text:'« Bonjour [Prénom], Thy Hamed. Je vous recontacte car on vient d\'onboarder [un établissement similaire]. Je pense que voir leur cas concret répondrait à vos questions. On se voit 20 minutes cette semaine ? »'},
+    ]
+  },
+  skeptic: {
+    detect: 'Ton froid dès le début. Phrases courtes. "J\'ai déjà vu des solutions qui ne tiennent pas leurs promesses". Coupe ou devance tes arguments. Teste tes affirmations.',
+    approach: 'Ne pas défendre Payiskoul — comprendre ce qui l\'a déçu avant. Moins d\'affirmations, plus de questions. Laisser les faits parler plutôt que toi.',
+    scripts: [
+      {label:'Réponse au scepticisme initial', text:'« Je vous entends — et votre scepticisme est tout à fait légitime. Avant de vous parler de Payiskoul, j\'aimerais comprendre : qu\'est-ce qui n\'a pas fonctionné avec les solutions que vous avez essayées avant ? »'},
+      {label:'Si il dit "les promesses ne sont jamais tenues"', text:'« Je ne vais pas vous promettre quelque chose que je ne peux pas tenir. Ce que je vous propose : une démonstration sur vos propres données. Pas une présentation générique — votre cas réel. Vous jugez par vous-même. »'},
+      {label:'Si il dit "ce n\'est pas le bon moment"', text:'« Je comprends. Puis-je juste vous demander : si le timing était parfait, est-ce que le sujet vous intéresserait ? » <em>(Identifier si c\'est un "non" définitif ou juste du temps)</em>'},
+      {label:'Message WhatsApp pour sceptique', text:'Bonjour [Prénom],\n\nJe ne veux pas vous convaincre — ce n\'est pas mon rôle.\n\nJe vous propose juste de voir les chiffres d\'un établissement similaire au vôtre qui a testé Payiskoul. Aucune pression, aucun engagement.\n\nVous avez 20 minutes mardi ou jeudi ?\n\nThy Hamed'},
+    ]
+  },
+  busy: {
+    detect: 'Parle vite. "Je n\'ai pas le temps là". Interrompt. Regarde son téléphone. Répond de façon laconique.',
+    approach: 'Aller à l\'essentiel en 60 secondes. Ne pas s\'excuser d\'appeler. Proposer de rappeler à un moment précis plutôt que de continuer.',
+    scripts: [
+      {label:'Réponse à "J\'ai pas le temps"', text:'« Je comprends — 30 secondes seulement : on aide les établissements à réduire leurs impayés de frais en automatisant le paiement échelonné via Mobile Money. C\'est pertinent pour vous ? Si oui, quand puis-je vous rappeler — demain matin 8h ? »'},
+      {label:'Si il dit "envoyez-moi un email"', text:'« Absolument. Je vous l\'envoie dans l\'heure. Et pour être sûr qu\'il ne se perde pas — quel est le meilleur moment pour qu\'on en discute 15 minutes ? Mercredi après-midi ou vendredi matin ? »'},
+      {label:'Réponse à "On est déjà bien organisés"', text:'« Parfait — alors vous n\'avez pas les mêmes challenges que beaucoup d\'établissements. Juste pour curiosité : quel est votre taux d\'impayés sur les frais actuellement ? » <em>(Même "bien organisés" ont des impayés)</em>'},
+      {label:'Message WhatsApp court pour débordé', text:'Bonjour [Prénom],\n\nThy Hamed — Payiskoul.\n\n1 ligne : on réduit les impayés de frais scolaires en automatisant le paiement échelonné via MoMo.\n\nPertinent pour vous ?\n\n(Répondez juste "oui" ou "non" 🙏)'},
+    ]
+  },
+  enthusiast: {
+    detect: 'Parle du problème spontanément. Dit "justement on cherchait quelque chose comme ça". Pose des questions sur le fonctionnement. Ton chaleureux et ouvert.',
+    approach: 'Ne pas surpitcher — aller directement au RDV. L\'enthousiasme est fragile : trop parler au téléphone = brûler l\'énergie avant la démo.',
+    scripts: [
+      {label:'Réponse à un enthousiaste', text:'« Parfait — vous avez exactement le profil des établissements qu\'on accompagne le mieux. Plutôt que de vous expliquer au téléphone, laissez-moi vous montrer concrètement. Vous êtes disponible [jour proche] ? Je me déplace chez vous. »'},
+      {label:'Si il veut tout savoir au téléphone', text:'« Je comprends votre enthousiasme — et j\'aimerais vous montrer les détails correctement plutôt qu\'en raccourci au téléphone. 20 minutes dans vos locaux, avec votre équipe si vous voulez — vous y gagnerez beaucoup plus. Demain matin ? »'},
+      {label:'Confirmation de RDV enthousiaste', text:'Bonjour [Prénom] 🙏\n\nC\'est confirmé pour [jour] à [heure] dans vos locaux.\n\nPour que notre démo soit vraiment utile, j\'aurais besoin de 3 infos rapides :\n1. Nombre d\'apprenants environ ?\n2. Frais annuels approximatifs ?\n3. Taux d\'impayés actuel (ordre de grandeur) ?\n\nÀ très vite !\nThy Hamed'},
+    ]
+  },
+  defensive: {
+    detect: 'Justifie immédiatement son système actuel. "On gère ça en interne". "Nos parents/étudiants sont disciplinés". Perçoit tes questions comme des critiques.',
+    approach: 'Ne jamais critiquer ce qu\'ils font. Commencer par reconnaître ce qui fonctionne. Positionner Payiskoul comme un complément, jamais un remplacement.',
+    scripts: [
+      {label:'Réponse à "On gère très bien en interne"', text:'« Je vous crois — et ça dit quelque chose de votre organisation. Payiskoul n\'est pas là pour remplacer ce que vous faites bien. C\'est juste un outil pour offrir une option supplémentaire à vos apprenants qui voudraient payer différemment. Ça ne change rien à vos process actuels. »'},
+      {label:'Réponse à "Nos étudiants paient bien"', text:'« C\'est une excellente situation. Dans ce cas, Payiskoul vous permettrait d\'aller encore plus loin : attirer des apprenants qui ne viennent pas encore chez vous parce que le paiement en une fois les bloque. Ce n\'est pas résoudre un problème — c\'est ouvrir une nouvelle porte. »'},
+      {label:'Réponse à "On n\'a pas besoin de ça"', text:'« Aucun problème — vous connaissez mieux que moi votre établissement. Juste une question de curiosité : est-ce qu\'il vous arrive de voir des candidats intéressés qui renoncent à l\'inscription pour des raisons financières ? »'},
+      {label:'Message pour prospect défensif — doux', text:'Bonjour [Prénom],\n\nJe ne veux pas vous faire sentir que ce que vous faites ne marche pas — ça marche visiblement.\n\nJe vous contacte juste parce que des établissements similaires au vôtre ont trouvé une façon d\'attirer encore plus d\'apprenants.\n\nSi jamais vous êtes curieux — je suis là.\n\nThy Hamed'},
+    ]
+  },
+  polite: {
+    detect: 'Répond "oui oui", "très bien", "je vais voir". Ne rejette pas mais n\'avance pas. Accepte les emails sans engagement réel. C\'est souvent un "non" déguisé.',
+    approach: 'Forcer doucement une décision claire plutôt que de nurturer indéfiniment. Poser une question fermée qui oblige à une vraie réponse.',
+    scripts: [
+      {label:'Réponse au "je vais y réfléchir"', text:'« Je comprends — et je ne veux pas vous presser. Pour m\'aider à mieux gérer mon temps : est-ce que c\'est un "pas maintenant" ou un "pas du tout" ? Les deux sont des réponses valides, je vous le promets. »'},
+      {label:'Réponse au "envoyez-moi les infos"', text:'« Absolument — je vous les envoie. Et pour être sûr qu\'elles vous seront utiles : qu\'est-ce qui vous aiderait le plus à décider ? Le témoignage d\'un établissement similaire ? Les chiffres ? Le fonctionnement technique ? »'},
+      {label:'Relance prospect poli non-répondant', text:'Bonjour [Prénom],\n\nJe ne veux pas vous relancer indéfiniment — ce n\'est pas respectueux de votre temps.\n\nUne dernière question directe : est-ce que le sujet des impayés de frais est quelque chose qui vous préoccupe actuellement ?\n\nSi oui — on trouve 20 minutes.\nSi non — aucun problème, je classerai notre échange.\n\n🙏 Thy Hamed'},
+      {label:'Message de clôture prospect poli froid', text:'Bonjour [Prénom],\n\nJe vous écris une dernière fois.\n\nJe comprends que ce n\'est peut-être pas le bon moment ou le bon sujet pour vous.\n\nSi jamais ça change — vous avez mon contact. La porte Payiskoul reste ouverte.\n\nBonne continuation 🙏\nThy Hamed'},
+    ]
+  }
+};
+
+// ============================================================
+// QUESTIONS DATA
+// ============================================================
+const QUAL_QUESTIONS = [
+  {cat:'Découverte — douleur', color:'var(--a4)', questions:[
+    {q:'Combien d\'apprenants / étudiants commencent l\'année sans avoir soldé leurs frais ?', why:'Donne le % d\'impayés actuel = argument ROI'},
+    {q:'Comment gérez-vous aujourd\'hui les retards de paiement des parents / étudiants ?', why:'Révèle la charge de gestion actuelle'},
+    {q:'Est-ce qu\'il vous arrive de devoir renvoyer un étudiant pour raisons de non-paiement ?', why:'Question émotionnelle qui touche le cœur du problème'},
+    {q:'Quel est l\'impact sur votre trésorerie en début de trimestre ?', why:'Connecte le problème à la douleur financière concrète'},
+    {q:'Combien d\'apprenants abandonnent chaque année pour des raisons financières ?', why:'Donne le volume du problème à résoudre'},
+  ]},
+  {cat:'Qualification — fit', color:'var(--accent)', questions:[
+    {q:'Quels modes de paiement acceptez-vous actuellement ?', why:'Si déjà MoMo = facilité d\'onboarding. Si cash seulement = opportunité forte'},
+    {q:'Vous utilisez quoi comme outil pour suivre les paiements aujourd\'hui ?', why:'Révèle la maturité tech et les frictions existantes'},
+    {q:'Qui décide des solutions de paiement dans votre établissement ?', why:'Identifier le vrai décideur s\'il n\'est pas en face de toi'},
+    {q:'Vous avez un budget alloué pour la digitalisation de vos paiements ?', why:'Pré-qualification budget'},
+    {q:'C\'est quoi votre calendrier idéal pour mettre en place quelque chose de nouveau ?', why:'Identifie l\'urgence et le timing d\'achat'},
+  ]},
+  {cat:'Projection — vision', color:'var(--a2)', questions:[
+    {q:'Si vos impayés diminuaient de 40%, ça représenterait combien de FCFA supplémentaires par an ?', why:'Question ROI — fait calculer la valeur par eux-mêmes'},
+    {q:'Si vos apprenants pouvaient payer en plusieurs fois, pensez-vous que vos inscriptions augmenteraient ?', why:'Fait visualiser le bénéfice avant la démo'},
+    {q:'Qu\'est-ce qui vous aiderait à prendre une décision rapidement ?', why:'Révèle le dernier frein — objection cachée'},
+    {q:'Quel résultat concret attendriez-vous de Payiskoul après 3 mois ?', why:'Aligne les attentes et facilite la définition du succès'},
+  ]},
+];
+
+// ============================================================
+// OBJECTIONS DATA
+// ============================================================
+const OBJECTIONS = [
+  {obj:'On a déjà un système de paiement', color:'var(--a4)',
+   response:'Je comprends — et je ne remets pas en question ce que vous avez construit. Payiskoul ne remplace pas votre système. Il ajoute une couche que aucun système classique ne propose : le paiement échelonné pour vos apprenants. Vos parents / étudiants continuent comme avant — et ceux qui ne pouvaient pas payer en une fois ont maintenant une option.',
+   tip:'Ne jamais critiquer le système existant. Positionner Payiskoul comme un ajout, jamais un remplacement.'},
+  {obj:'C\'est trop cher', color:'var(--a4)',
+   response:'Bonne question — et je comprends l\'interrogation. Notre modèle est 100% à la commission sur les paiements. Zéro frais fixes pour vous. Si vous n\'encaissez pas, vous ne payez rien. Pour vous donner une idée concrète : si Payiskoul récupère X FCFA d\'impayés pour vous, vous payez une commission sur ces X FCFA — le reste est du bénéfice net.',
+   tip:'Ne jamais donner les pourcentages en cold call. Réserver ça pour la démo avec leurs chiffres réels.'},
+  {obj:'Je dois en parler à ma direction', color:'var(--a3)',
+   response:'Tout à fait normal. Je peux vous préparer un document d\'une page, clair et non-technique, que vous pouvez présenter en 5 minutes à votre direction. Ça vous évitera de devoir tout réexpliquer vous-même. Je vous l\'envoie aujourd\'hui par WhatsApp.',
+   tip:'Proposer d\'aider la présentation interne = geste de service. Transforme l\'objection en collaboration.'},
+  {obj:'On n\'a pas le temps', color:'var(--a3)',
+   response:'Je vous entends — c\'est précisément pour ça que j\'existe. La mise en place de Payiskoul prend 48h et ne demande aucune action de votre équipe après le démarrage. Le temps que vous investissez maintenant, c\'est 20 minutes. Après, c\'est notre solution qui travaille pour vous.',
+   tip:'Reformuler le manque de temps comme une raison de plus d\'adopter Payiskoul, pas un frein.'},
+  {obj:'Les parents/étudiants n\'utilisent pas le Mobile Money', color:'var(--a3)',
+   response:'C\'est ce que pensent beaucoup d\'établissements avant de le proposer. En réalité, plus de 70% des adultes en Côte d\'Ivoire utilisent Orange Money ou MTN. Nos établissements partenaires voient une adoption qui dépasse 60% dès la première rentrée — même dans les zones populaires.',
+   tip:'Utiliser des chiffres locaux CI. Proposer de vérifier ensemble avec les données de leur commune.'},
+  {obj:'Et si les étudiants ne paient pas les mensualités ?', color:'var(--a4)',
+   response:'C\'est une question légitime et importante. Payiskoul gère les relances automatiques en cas de retard. Et notre modèle garantit que vous recevez les fonds selon le calendrier convenu — même si un étudiant est en retard, nos systèmes de relance s\'en occupent.',
+   tip:'Expliquer le mécanisme de garantie sans entrer dans les détails techniques — réserver ça pour la démo.'},
+  {obj:'Vous êtes une jeune startup — pas encore de références', color:'var(--a4)',
+   response:'C\'est juste — et je vais être honnête avec vous. Nous sommes en phase pilote en CI, ce qui signifie que vous avez l\'opportunité de faire partie des établissements pionniers. Nous travaillons déjà avec [établissements partenaires]. Et notre certification IDU CI-2026-0053987M confirme notre conformité réglementaire.',
+   tip:'Ne pas sur-vendre. La transparence sur le stade de développement crée plus de confiance que des affirmations gonflées.'},
+  {obj:'Comment être sûr que mes données financières sont sécurisées ?', color:'var(--accent)',
+   response:'Question excellente. Payiskoul est certifié (Certificat IDU CI-2026-0053987M) et conforme aux régulations BCEAO. Toutes les transactions passent par des rails sécurisés Orange Money et MTN — les mêmes que vous utilisez déjà. Nous ne stockons pas les données financières de vos étudiants en dehors des systèmes des opérateurs.',
+   tip:'Ne pas noyer dans la technique. Renvoyer à la certification officielle = gage de crédibilité immédiat.'},
+  {obj:'Je préfère attendre la prochaine rentrée', color:'var(--a2)',
+   response:'Je comprends le timing. Ce que je vous propose : qu\'on démarre la configuration maintenant — ça prend 48h — pour que tout soit en place avant la prochaine rentrée. Vous évitez ainsi la précipitation de septembre. Et si vous changez d\'avis d\'ici là, il suffit de nous le dire.',
+   tip:'Transformer l\'attente en opportunité de préparation. "On peut tout préparer maintenant pour que ce soit prêt."'},
+];
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+let activeSegSeq = 'univ';
+let activeEmo = 'curious';
+let activeSegScript = 'univ';
+let activeStep = 'contact';
+
+function renderMindset(){
+  const rules = [
+    {icon:'ti-ear',color:'var(--accent)',title:'Écouter avant de pitcher',desc:'Les 60 premières secondes : poser une question, se taire, écouter. Ce que la personne dit = ton script pour le reste.'},
+    {icon:'ti-heart',color:'var(--a4)',title:'Valider la douleur avant la solution',desc:'"Je comprends exactement ce que vous vivez" — avant de parler de Payiskoul. La solution ne fait sens que si la douleur est reconnue.'},
+    {icon:'ti-notes',color:'var(--a3)',title:'Utiliser leurs mots exacts',desc:'Si quelqu\'un dit "les parents ne paient jamais à temps" — utilise exactement ces mots dans ton suivi. Preuve que tu as vraiment écouté.'},
+    {icon:'ti-clock',color:'var(--a2)',title:'Annoncer et tenir la durée',desc:'"J\'ai besoin de 3 minutes." Si tu dis 3 minutes, tu t\'arrêtes à 3 minutes — sauf si c\'est eux qui continuent.'},
+    {icon:'ti-target',color:'var(--a5)',title:'Un seul objectif par contact',desc:'L\'appel cold = obtenir 20 min. La démo = obtenir un accord de principe. Le suivi = obtenir une décision. Jamais tout en même temps.'},
+  ];
+  document.getElementById('golden-rules').innerHTML = rules.map(r=>`
+    <div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+      <div style="width:28px;height:28px;border-radius:6px;background:${r.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${r.icon}" style="font-size:14px;color:${r.color}"></i></div>
+      <div><div style="font-size:12px;font-weight:600;margin-bottom:2px">${r.title}</div><div style="font-size:11px;color:var(--text2);line-height:1.5">${r.desc}</div></div>
+    </div>`).join('');
+
+  const values = [
+    {icon:'ti-trending-down',color:'var(--a4)',title:'Moins d\'impayés',desc:'Tu résous un problème financier réel qui empêche les établissements de se développer.'},
+    {icon:'ti-users',color:'var(--accent)',title:'Plus d\'apprenants',desc:'Le paiement échelonné ouvre la formation à ceux qui ne pouvaient pas payer en une fois.'},
+    {icon:'ti-clock',color:'var(--a3)',title:'Moins de temps perdu',desc:'Zéro relance manuelle. Zéro suivi comptable fastidieux. Automatisé.'},
+    {icon:'ti-chart-line',color:'var(--a2)',title:'Trésorerie prévisible',desc:'Les reversements automatiques = cash flow régulier et prévisible.'},
+    {icon:'ti-school',color:'var(--a5)',title:'Impact éducatif',desc:'Chaque apprenant qui reste en formation = un professionnel qualifié de plus en CI.'},
+    {icon:'ti-shield-check',color:'var(--a6)',title:'Conformité & sécurité',desc:'Certifié IDU CI, conforme BCEAO, sur rails Orange Money et MTN.'},
+  ];
+  document.getElementById('value-props').innerHTML = values.map(v=>`
+    <div style="background:var(--bg3);border-radius:8px;padding:12px;border:0.5px solid var(--border)">
+      <div style="width:28px;height:28px;border-radius:6px;background:${v.color}18;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ${v.icon}" style="font-size:14px;color:${v.color}"></i></div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px">${v.title}</div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5">${v.desc}</div>
+    </div>`).join('');
+}
+
+function renderSeqSidebar(){
+  document.getElementById('seqSegNav').innerHTML = SEGMENTS.map(s=>`
+    <button class="seg-btn ${activeSegSeq===s.id?'active':''}" onclick="setSeqSeg('${s.id}')">
+      <div class="seg-dot" style="background:${s.color}"></div>${s.name}
+    </button>`).join('');
+}
+
+function setSeqSeg(id){ activeSegSeq=id; renderSeqSidebar(); renderSeqContent(); }
+
+function renderSeqContent(){
+  const seg = SEGMENTS.find(s=>s.id===activeSegSeq);
+  const steps = [
+    {day:'J0',label:'Premier contact',type:'Appel cold / DM',icon:'ti-phone',color:'var(--a5)',desc:'Identifier la douleur, qualifier le prospect, proposer un RDV ou un suivi.',active:true},
+    {day:'J1',label:'Suivi post-contact',type:'Email + WhatsApp',icon:'ti-mail',color:'var(--accent)',desc:'Envoyer la présentation personnalisée en reprenant leurs mots exacts.',active:false},
+    {day:'J3-5',label:'Confirmation RDV',type:'WhatsApp',icon:'ti-calendar',color:'var(--a3)',desc:'Confirmer la démo, recueillir 3 informations clés pour la personnaliser.',active:false},
+    {day:'J5-7',label:'Démo / Présentation',type:'Présentiel ou appel',icon:'ti-presentation',color:'var(--a6)',desc:'20 minutes avec leurs données réelles. Montrer le tableau de bord, le parcours apprenant, le ROI calculé.',active:false},
+    {day:'J8',label:'Récap post-démo',type:'Email',icon:'ti-file-text',color:'var(--accent)',desc:'Résumer ce qui a été vu, les questions posées, la proposition de pilote.',active:false},
+    {day:'J12',label:'Relance 1',type:'WhatsApp',icon:'ti-bell',color:'var(--a3)',desc:'Douce relance avec valeur ajoutée (chiffre concret, témoignage similaire).',active:false},
+    {day:'J18',label:'Relance 2',type:'WhatsApp + Email',icon:'ti-bell-ringing',color:'var(--a4)',desc:'Relance avec urgence légère (rentrée approche, places limitées...).',active:false},
+    {day:'J21',label:'Closing',type:'Appel',icon:'ti-check',color:'var(--a2)',desc:'Appel de décision. Proposition pilote sans risque. Question directe.',active:true},
+    {day:'J22',label:'Signature + Onboarding',type:'WhatsApp + Config',icon:'ti-trophy',color:'var(--a2)',desc:'Message de bienvenue chaleureux. Guide d\'onboarding. Config en 48h.',won:true},
+  ];
+  document.getElementById('seqContent').innerHTML = `
+    <div style="font-size:14px;font-weight:700;color:${seg.color};margin-bottom:16px;display:flex;align-items:center;gap:8px">
+      <i class="ti ${seg.icon}" style="font-size:18px"></i>${seg.name} — Séquence complète
+    </div>
+    <div class="seq-timeline">
+      ${steps.map((s,i)=>`
+        <div class="seq-item ${s.active?'active':''} ${s.won?'won':''}">
+          <div class="seq-dot"></div>
+          <div class="seq-card">
+            <div class="seq-day">${s.day}</div>
+            <div class="seq-action" style="color:${s.active||s.won?s.color:'var(--text)'}">${s.label}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin:4px 0">
+              <i class="ti ${s.icon}" style="font-size:12px;color:${s.color}"></i>
+              <span style="font-size:10px;color:${s.color};font-weight:500">${s.type}</span>
+            </div>
+            <div class="seq-desc">${s.desc}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="background:rgba(74,222,128,0.07);border:0.5px solid rgba(74,222,128,0.2);border-radius:10px;padding:14px;font-size:12px;color:var(--text2);line-height:1.7">
+      <strong style="color:var(--a2)">Règle d'or pour ${seg.name} :</strong><br>
+      ${activeSegSeq==='univ'?'Le décideur est souvent le DAF ou VP Finance. La démo en présentiel est 3x plus efficace qu\'un appel. Apporter des chiffres calculés avec leurs données réelles.':
+        activeSegSeq==='centre'?'Le gérant décide seul et vite. La visite terrain bat tout. Amener le one-pager imprimé et le téléphone pour faire une démo live.':
+        activeSegSeq==='sante'?'L\'argument impact social (former les soignants de demain) résonne très fort dans ce segment. Utiliser les chiffres OMS sur le manque de personnel de santé en CI.':
+        activeSegSeq==='digital'?'Le directeur est tech-friendly. Montrer l\'API et l\'intégration. Parler conversion, taux d\'inscription, LTV. Aller vite au demo — ils décident vite.':
+        activeSegSeq==='auto'?'Beaucoup pratiquent déjà les tranches informellement. Positionner Payiskoul comme l\'automatisation de ce qu\'ils font déjà — pas une nouveauté risquée.':
+        'Le formateur décide seul et instantanément. Si l\'intérêt est là, proposer l\'onboarding dans la foulée de la démo — ne jamais laisser refroidir.'}
+    </div>`;
+}
+
+function renderEmoNav(){
+  document.getElementById('emoNav').innerHTML = EMOTIONS.map(e=>`
+    <button class="emo-btn ${activeEmo===e.id?'active':''}" onclick="setEmo('${e.id}')">
+      <span style="font-size:14px">${e.emoji}</span>
+      <div>
+        <div style="font-size:11px;font-weight:500;color:${activeEmo===e.id?'var(--text)':'var(--text2)'}">${e.name}</div>
+      </div>
+    </button>`).join('');
+}
+
+function setEmo(id){ activeEmo=id; renderEmoNav(); renderEmoContent(); }
+
+function renderEmoContent(){
+  const emo = EMOTIONS.find(e=>e.id===activeEmo);
+  const data = EMO_SCRIPTS[emo.id];
+  document.getElementById('emoContent').innerHTML = `
+    <div style="background:${emo.color}0f;border:0.5px solid ${emo.color}30;border-radius:12px;padding:16px;margin-bottom:14px">
+      <div style="font-size:16px;margin-bottom:6px">${emo.emoji} <strong style="font-size:13px;color:${emo.color}">${emo.name}</strong></div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px">${emo.desc}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:var(--bg3);border-radius:8px;padding:10px 12px">
+          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px">Comment le détecter</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.6">${data.detect}</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px 12px">
+          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px">Ton approche</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.6">${data.approach}</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Scripts adaptés</div>
+    ${data.scripts.map(s=>`
+      <div class="script-block">
+        <div class="sb-header">
+          <div class="sb-meta">
+            <div style="font-size:12px;font-weight:500">${s.label}</div>
+          </div>
+          <button class="copy-btn" onclick="copyText(\`${s.text.replace(/`/g,"'")}\`, this)"><i class="ti ti-copy" style="font-size:11px"></i> Copier</button>
+        </div>
+        <div class="script-content" style="white-space:pre-wrap">${s.text}</div>
+      </div>`).join('')}`;
+}
+
+function renderScriptSegNav(){
+  document.getElementById('scriptSegNav').innerHTML = SEGMENTS.map(s=>`
+    <button class="seg-btn ${activeSegScript===s.id?'active':''}" onclick="setScriptSeg('${s.id}')">
+      <div class="seg-dot" style="background:${s.color}"></div>${s.name}
+    </button>`).join('');
+  document.getElementById('scriptStepNav').innerHTML = STEPS.map(s=>`
+    <button class="seg-btn ${activeStep===s.id?'active':''}" onclick="setStep('${s.id}')">
+      <i class="ti ${s.icon}" style="font-size:12px"></i>${s.name}
+    </button>`).join('');
+}
+
+function setScriptSeg(id){ activeSegScript=id; renderScriptSegNav(); renderScriptContent(); }
+function setStep(id){ activeStep=id; renderScriptSegNav(); renderScriptContent(); }
+
+function renderScriptContent(){
+  const seg = SEGMENTS.find(s=>s.id===activeSegScript);
+  const segScripts = SCRIPTS[activeSegScript];
+  if(!segScripts){ document.getElementById('scriptContent').innerHTML=`<div style="text-align:center;padding:40px;color:var(--text3)">Scripts pour ce segment bientôt disponibles.</div>`; return; }
+  const stepScripts = segScripts[activeStep];
+  if(!stepScripts){ document.getElementById('scriptContent').innerHTML=`<div style="text-align:center;padding:40px;color:var(--text3)">Scripts pour cette étape bientôt disponibles.</div>`; return; }
+
+  const chanIcons = {call:'ti-phone',wa:'ti-brand-whatsapp',email:'ti-mail',sms:'ti-message'};
+  const chanColors = {call:'var(--a5)',wa:'var(--a2)',email:'var(--accent)',sms:'var(--a3)'};
+  const chanLabels = {call:'Appel téléphonique',wa:'WhatsApp',email:'Email',sms:'SMS'};
+
+  document.getElementById('scriptContent').innerHTML = Object.entries(stepScripts).map(([key, s])=>`
+    <div class="script-block">
+      <div class="sb-header">
+        <div class="sb-meta">
+          <div class="sb-icon" style="background:${seg.color}18"><i class="ti ${chanIcons[s.channel]||'ti-message'}" style="font-size:15px;color:${chanColors[s.channel]||seg.color}"></i></div>
+          <div>
+            <div class="sb-title2">${s.title}</div>
+            <div class="sb-sub">${chanLabels[s.channel]||s.channel} · ${seg.name}</div>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyScript('${activeSegScript}-${activeStep}-${key}', this)"><i class="ti ti-copy" style="font-size:11px"></i> Copier</button>
+      </div>
+      <div class="script-content" id="sc-${activeSegScript}-${activeStep}-${key}">${s.body}</div>
+    </div>`).join('');
+}
+
+function renderQuestions(){
+  document.getElementById('questionsContent').innerHTML = `
+    <div style="background:rgba(56,189,248,0.07);border:0.5px solid rgba(56,189,248,0.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.7">
+      <strong style="color:var(--a5)">Philosophie :</strong> Une bonne question vaut mieux que 3 arguments. Chaque question ci-dessous a un objectif précis. Ne les posez pas toutes — choisissez celles qui correspondent au moment de la conversation.
+    </div>
+    ${QUAL_QUESTIONS.map(cat=>`
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:${cat.color};margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border)">${cat.cat}</div>
+        ${cat.questions.map(q=>`
+          <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:8px">
+            <div style="font-size:12px;font-weight:500;margin-bottom:5px;color:${cat.color}">"${q.q}"</div>
+            <div style="font-size:11px;color:var(--text3);display:flex;align-items:flex-start;gap:5px"><i class="ti ti-bulb" style="font-size:12px;flex-shrink:0;margin-top:1px;color:var(--a3)"></i>${q.why}</div>
+          </div>`).join('')}
+      </div>`).join('')}`;
+}
+
+function renderObjections(){
+  document.getElementById('objectionsContent').innerHTML = `
+    <div style="background:rgba(248,113,113,0.07);border:0.5px solid rgba(248,113,113,0.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.7">
+      <strong style="color:var(--a4)">Mindset objections :</strong> Une objection n'est pas un refus. C'est une information sur ce que la personne ressent ou craint. Accueille-la, valide-la, <strong style="color:var(--text)">puis réponds avec empathie d'abord, solution ensuite.</strong>
+    </div>
+    ${OBJECTIONS.map(o=>`
+      <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--a4);margin-bottom:10px;display:flex;align-items:flex-start;gap:7px">
+          <i class="ti ti-message-circle" style="font-size:14px;flex-shrink:0;margin-top:2px"></i>${o.obj}
+        </div>
+        <div style="background:var(--bg3);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px">${o.response}</div>
+        ${o.tip?`<div style="font-size:11px;color:var(--text3);display:flex;gap:6px;align-items:flex-start"><i class="ti ti-bulb" style="font-size:12px;flex-shrink:0;color:var(--a3)"></i>${o.tip}</div>`:''}
+      </div>`).join('')}`;
+}
+
+function copyText(txt, btn){
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='Copié !'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.innerHTML='<i class="ti ti-copy" style="font-size:11px"></i> Copier'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+function copyScript(id, btn){
+  const el = document.getElementById('sc-'+id);
+  if(!el) return;
+  const txt = el.innerText || el.textContent;
+  copyText(txt, btn);
+}
+
+function goTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='mindset') renderMindset();
+  if(name==='sequences'){ renderSeqSidebar(); renderSeqContent(); }
+  if(name==='emotions'){ renderEmoNav(); renderEmoContent(); }
+  if(name==='scripts'){ renderScriptSegNav(); renderScriptContent(); }
+  if(name==='questions') renderQuestions();
+  if(name==='objections') renderObjections();
+}
+
+document.getElementById('dateLbl').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderMindset();
+</script>
+</body>
+</html>
