@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Comparables v2 · Paiement Fractionné Afrique</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c0c0f;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222f;--bg5:#2a2a3a;--border:#252535;--border2:#32324a;--text:#eaeaf5;--text2:#8888aa;--text3:#4a4a6a;--accent:#7c6fff;--a2:#4ade80;--a3:#fbbf24;--a4:#f87171;--a5:#38bdf8;--a6:#e879f9;--font:'DM Sans',sans-serif}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase}
+.nav{display:flex;flex-wrap:wrap;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:24px}
+.nav-tab{padding:10px 16px;font-size:10px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none}.page.active{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.box{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.box-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.box-t{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
+.box-t i{font-size:14px;color:var(--accent)}
+.kpi{background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.kpi-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.kpi-v{font-size:22px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-s{font-size:10px;color:var(--text2);margin-top:5px}
+.badge{display:inline-block;font-size:9px;padding:3px 7px;border-radius:4px;font-weight:600}
+.seg-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.seg-btn{font-size:10px;padding:5px 12px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:transparent;font-family:var(--font);transition:all 0.15s;font-weight:500}
+.seg-btn.active,.seg-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.comp-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+.comp-card.featured{border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.04)}
+.comp-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.comp-logo{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.comp-name{font-size:14px;font-weight:700}
+.comp-tagline{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
+.comp-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.meta-tag{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500}
+.comp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cs{background:var(--bg4);border-radius:7px;padding:8px 10px;text-align:center}
+.cs-v{font-size:14px;font-weight:700}
+.cs-l{font-size:9px;color:var(--text3);margin-top:2px}
+.lesson{background:var(--bg4);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 12px;font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:6px}
+.lesson strong{color:var(--text);font-weight:500}
+.opp{background:rgba(74,222,128,0.07);border-left:2px solid var(--a2);border-radius:0 8px 8px 0;padding:9px 12px;font-size:11px;color:var(--text2);line-height:1.6;margin-top:8px}
+.opp strong{color:var(--a2)}
+.diff-table{width:100%;border-collapse:collapse;font-size:11px}
+.diff-table th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;padding:0 10px 10px;text-align:left;font-weight:500}
+.diff-table td{padding:8px 10px;border-top:0.5px solid var(--border);vertical-align:middle;text-align:center}
+.diff-table td:first-child{text-align:left;font-weight:500}
+.check{color:var(--a2)}.cross{color:var(--a4)}.partial{color:var(--a3)}
+.insight-item{display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.insight-item:last-child{border-bottom:none}
+.bnpl-card{background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;border-left:3px solid var(--a3)}
+.country-flag{font-size:16px;margin-right:6px}
+@media(max-width:700px){.g2,.g4,.comp-stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Payiskoul</div>
+        <div class="brand-sub">Comparables v2 · Paiement Fractionné · Afrique 2026</div>
+      </div>
+    </div>
+    <span style="font-size:11px;color:var(--text3)" id="dateLbl"></span>
+  </div>
+
+  <div class="nav">
+    <div class="nav-tab active" onclick="goTab('paysage')">Paysage CI</div>
+    <div class="nav-tab" onclick="goTab('comparables')">Comparables CI</div>
+    <div class="nav-tab" onclick="goTab('bnpl')">Paiement Fractionné Afrique</div>
+    <div class="nav-tab" onclick="goTab('positionnement')">Positionnement</div>
+    <div class="nav-tab" onclick="goTab('opportunites')">Opportunités</div>
+  </div>
+
+  <!-- PAYSAGE CI -->
+  <div class="page active" id="tab-paysage">
+    <div class="g4">
+      <div class="kpi"><div class="kpi-l">Fintechs CI recensées</div><div class="kpi-v" style="color:var(--a5)">61</div><div class="kpi-s">dont 13 financées (2025)</div></div>
+      <div class="kpi"><div class="kpi-l">Marché BNPL Afrique 2025</div><div class="kpi-v" style="color:var(--a3)">5.2Mds$</div><div class="kpi-s">→ 16.8Mds$ d'ici 2029</div></div>
+      <div class="kpi"><div class="kpi-l">Croissance BNPL Afrique</div><div class="kpi-v" style="color:var(--a2)">+30%</div><div class="kpi-s">par an depuis 2022</div></div>
+      <div class="kpi"><div class="kpi-l">Position Payiskoul</div><div class="kpi-v" style="color:var(--accent)">Unique</div><div class="kpi-s">seul BNPL EdTech CI</div></div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-layers"></i> Paysage fintech paiement CI 2026</div></div>
+      <div id="landscapeView" style="background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;overflow:hidden"></div>
+    </div>
+    <div class="g2">
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-target"></i> Où se positionne Payiskoul</div></div><div id="posView"></div></div>
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-trending-up"></i> Tendances 2025-2026</div></div><div id="trendsView"></div></div>
+    </div>
+  </div>
+
+  <!-- COMPARABLES CI -->
+  <div class="page" id="tab-comparables">
+    <div class="seg-nav" id="segNav">
+      <button class="seg-btn active" onclick="filterComp('all',this)">Tous</button>
+      <button class="seg-btn" onclick="filterComp('infrastructure',this)">Infrastructure</button>
+      <button class="seg-btn" onclick="filterComp('agregateur',this)">Agrégateurs</button>
+      <button class="seg-btn" onclick="filterComp('neobanque',this)">Néobanques</button>
+      <button class="seg-btn" onclick="filterComp('momo',this)">Mobile Money</button>
+      <button class="seg-btn" onclick="filterComp('edtech',this)">EdTech paiement</button>
+    </div>
+    <div id="compList"></div>
+  </div>
+
+  <!-- BNPL AFRIQUE -->
+  <div class="page" id="tab-bnpl">
+    <div style="background:rgba(251,191,36,0.07);border:0.5px solid rgba(251,191,36,0.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.7">
+      <strong style="color:var(--a3)">Contexte BNPL Afrique 2026</strong> — Le marché du paiement fractionné africain croît de +30%/an depuis 2022. <strong style="color:var(--text)">Payiskoul est le seul acteur à cibler spécifiquement l'éducation en Afrique de l'Ouest francophone.</strong> Les acteurs BNPL existants sont concentrés sur l'e-commerce et le retail — l'éducation reste un angle mort.
+    </div>
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi"><div class="kpi-l">Marché BNPL Afrique 2025</div><div class="kpi-v" style="color:var(--a3)">5.2Mds$</div><div class="kpi-s">source: ResearchAndMarkets 2025</div></div>
+      <div class="kpi"><div class="kpi-l">Projection 2029</div><div class="kpi-v" style="color:var(--a2)">16.8Mds$</div><div class="kpi-s">tripler en 4 ans</div></div>
+      <div class="kpi"><div class="kpi-l">Acteurs BNPL éducation</div><div class="kpi-v" style="color:var(--accent)">3</div><div class="kpi-s">Schoolable, Lipa Later, valU</div></div>
+      <div class="kpi"><div class="kpi-l">BNPL EdTech UEMOA</div><div class="kpi-v" style="color:var(--a4)">0</div><div class="kpi-s">sauf Payiskoul</div></div>
+    </div>
+    <div id="bnplList"></div>
+  </div>
+
+  <!-- POSITIONNEMENT -->
+  <div class="page" id="tab-positionnement">
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-table"></i> Comparatif fonctionnel — acteurs paiement éducation Afrique</div></div>
+      <div style="overflow-x:auto"><table class="diff-table">
+        <thead><tr><th>Fonctionnalité</th><th>Payiskoul</th><th>Schoolable (NG)</th><th>Lipa Later (KE)</th><th>CinetPay</th><th>IvoirEdu</th><th>Wave/MoMo</th></tr></thead>
+        <tbody id="diffTable"></tbody>
+      </table></div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-sword"></i> Avantages concurrentiels uniques</div></div>
+      <div id="avantagesList"></div>
+    </div>
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-message-2"></i> Arguments terrain vs chaque concurrent</div></div>
+      <div id="argsList"></div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITÉS -->
+  <div class="page" id="tab-opportunites">
+    <div class="box">
+      <div class="box-h"><div class="box-t"><i class="ti ti-trending-up"></i> Signaux de marché favorables</div></div>
+      <div id="signalList"></div>
+    </div>
+    <div class="g2">
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-alert-triangle"></i> Risques & vigilances</div></div><div id="riskList"></div></div>
+      <div class="box"><div class="box-h"><div class="box-t"><i class="ti ti-rocket"></i> Fenêtres 2026 à saisir</div></div><div id="oppList"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// LANDSCAPE
+const landscape=[
+  {layer:'Opérateurs Mobile Money',color:'#4ade80',items:[{name:'Orange Money CI',type:'Opérateur'},{name:'MTN MoMo CI',type:'Opérateur'},{name:'Wave CI',type:'Licorne UEMOA'},{name:'Moov Money',type:'Opérateur'}]},
+  {layer:'Infrastructure & agrégateurs',color:'#38bdf8',items:[{name:'CinetPay',type:'Fondé CI'},{name:'HUB2',type:'API paiement'},{name:'Bizao',type:'Hub paiement'},{name:'FedaPay',type:'UEMOA'},{name:'InTouch/TouchPay',type:'27 pays'}]},
+  {layer:'Néobanques & services financiers',color:'#7c6fff',items:[{name:'Djamo',type:'17M$ levés 2025'},{name:'Julaya',type:'Agrément EP BCEAO 2025'},{name:'APAYM',type:'Super-app locale'},{name:'SudPay',type:'Dématérialisation'}]},
+  {layer:'EdTech paiement & gestion scolaire',color:'#fbbf24',items:[{name:'IvoirEdu',type:'ERP scolaire CI'},{name:'Galactis.Education',type:'ERP universitaire CI'},{name:'Educ Go On',type:'SaaS scolaire CI'},{name:'Payiskoul ⭐',type:'BNPL éducation — infrastructure CI'}]},
+  {layer:'BNPL Afrique (hors UEMOA)',color:'#e879f9',items:[{name:'Schoolable',type:'Nigeria — frais scolaires'},{name:'Lipa Later',type:'Kenya/Rwanda/Ouganda'},{name:'CredPal',type:'Nigeria — BNPL général'},{name:'valU',type:'Égypte — BNPL général'}]},
+  {layer:'Banques partenaires potentielles',color:'#f87171',items:[{name:'Banque Atlantique CI',type:'Commerciale'},{name:'NSIA Banque',type:'Commerciale'},{name:'BGFIBank CI',type:'Partenaire Djamo'},{name:'SIB',type:'Commerciale'}]},
+];
+
+function renderLandscape(){
+  document.getElementById('landscapeView').innerHTML=landscape.map(l=>`
+    <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:${l.color};padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg4)">${l.layer}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-bottom:0.5px solid var(--border)">
+      ${l.items.map(i=>`<div style="display:flex;align-items:center;gap:7px;background:var(--bg4);border:0.5px solid ${i.name.includes('Payiskoul')?l.color:'var(--border)'};border-radius:8px;padding:7px 10px;${i.name.includes('Payiskoul')?'background:rgba(251,191,36,0.08)':''}">
+        <div style="width:8px;height:8px;border-radius:50%;background:${l.color}${i.name.includes('Payiskoul')?'':'66'};flex-shrink:0"></div>
+        <div><div style="font-size:11px;font-weight:${i.name.includes('Payiskoul')?'700':'500'};color:${i.name.includes('Payiskoul')?l.color:'var(--text)'}">${i.name}</div><div style="font-size:9px;color:var(--text3)">${i.type}</div></div>
+      </div>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('posView').innerHTML=[
+    {icon:'ti-puzzle',color:'#7c6fff',t:'Couche manquante — BNPL éducation',d:'Orange Money, Wave, CinetPay gèrent le paiement. Personne ne gère le financement éducatif échelonné en UEMOA. C\'est exactement Payiskoul.'},
+    {icon:'ti-link',color:'#4ade80',t:'S\'appuie sur les rails existants',d:'Payiskoul n\'est pas un opérateur MoMo. Il s\'y connecte et ajoute la couche de valeur que les opérateurs ne fournissent pas : l\'échelonnement, la gestion et le pilotage.'},
+    {icon:'ti-globe',color:'#fbbf24',t:'Seul BNPL éducation de l\'UEMOA',d:'Schoolable existe au Nigeria, Lipa Later au Kenya. L\'UEMOA francophone (8 pays, 130M habitants) n\'a aucun acteur équivalent. Payiskoul arrive en premier.'},
+  ].map(p=>`<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)"><div style="width:28px;height:28px;border-radius:6px;background:${p.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${p.icon}" style="font-size:14px;color:${p.color}"></i></div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">${p.t}</div><div style="font-size:11px;color:var(--text2);line-height:1.6">${p.d}</div></div></div>`).join('');
+
+  document.getElementById('trendsView').innerHTML=[
+    {t:'Marché BNPL Afrique x3 d\'ici 2029 (5.2Mds$ → 16.8Mds$)',d:'Source: ResearchAndMarkets / Ecofinagency janv. 2026. Croissance de +30%/an.',c:'var(--a3)'},
+    {t:'Lipa Later lance BNPL éducation au Kenya (2024)',d:'Preuve que la verticale éducation est une opportunité réelle pour le BNPL africain.',c:'var(--a5)'},
+    {t:'Djamo lève 17M$ en 2025 — plus grande levée CI',d:'Les investisseurs regardent la CI. Payiskoul est le prochain dossier naturel.',c:'var(--accent)'},
+    {t:'Gouvernement CI : MoMo obligatoire pour inscriptions scolaires',d:'Validation d\'État du marché EdTech payment. Timing parfait pour Payiskoul.',c:'var(--a2)'},
+    {t:'TechCabal mars 2026 : EdTech fintech = prochain grand marché africain',d:'La presse spécialisée valide l\'angle. C\'est le moment de lever.',c:'var(--a6)'},
+  ].map(t=>`<div style="display:flex;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--border)"><div style="width:3px;border-radius:2px;background:${t.c};flex-shrink:0;align-self:stretch"></div><div><div style="font-size:11px;font-weight:600;margin-bottom:2px">${t.t}</div><div style="font-size:10px;color:var(--text3);line-height:1.5">${t.d}</div></div></div>`).join('');
+}
+
+// COMPARABLES CI
+const comparables=[
+  {id:'djamo',cat:'neobanque',name:'Djamo',tagline:'Néobanque B2C ivoirienne — carte Visa + épargne + budget',logo:'DJ',color:'#7c6fff',bg:'rgba(124,111,255,0.15)',founded:'2020 · Abidjan',funding:'31M$ total (17M$ round 2025)',pays:'CI + Sénégal',stats:{f:'31M$',u:'100K+ utilisateurs',t:'4.5Mds$'},
+    lessons:['<strong>Leçon 1</strong> — Y Combinator + Partech ont investi : les VCs regardent la CI/UEMOA','<strong>Leçon 2</strong> — Agrément microfinance BCEAO obtenu sept 2025 : chemin réglementaire à tracer pour Payiskoul','<strong>Leçon 3</strong> — Focus sur un segment clair (particuliers → PME) avant d\'élargir — même logique pour Payiskoul (éducation CI → UEMOA)'],
+    opp:'<strong>Opportunité</strong> — Djamo cible les PME et particuliers. Payiskoul cible l\'éducation. Complémentaires — partenariat wallets étudiants Djamo × Payiskoul envisageable.',featured:false},
+  {id:'julaya',cat:'infrastructure',name:'Julaya',tagline:'Paiements B2B — compte pro en ligne pour entreprises CI',logo:'JL',color:'#38bdf8',bg:'rgba(56,189,248,0.15)',founded:'2019 · Paris/Abidjan',funding:'7M$ (Proparco, Orange Ventures, Saviu)',pays:'CI + Sénégal + Mali',stats:{f:'7M$',u:'PME',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Premier agrément EP BCEAO (EP.CI.004/2025) : Payiskoul doit tracer la même voie','<strong>Leçon 2</strong> — Orange Ventures + Proparco comme investisseurs : cibles pour Payiskoul seed','<strong>Leçon 3</strong> — Modèle B2B2C (entreprise → employé) = même modèle que Payiskoul (établissement → apprenant)'],
+    opp:'<strong>Opportunité</strong> — Partenariat API Julaya × Payiskoul pour les reversements automatisés aux établissements.',featured:false},
+  {id:'cinetpay',cat:'agregateur',name:'CinetPay',tagline:'Agrégateur de paiement multicanal — fondé en CI, 9 pays Afrique',logo:'CP',color:'#f87171',bg:'rgba(248,113,113,0.15)',founded:'2016 · Abidjan',funding:'Non divulguée',pays:'9 pays Afrique',stats:{f:'N/C',u:'10K+ marchands',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Partir de CI et s\'étendre dans 9 pays : roadmap possible pour Payiskoul après Abidjan','<strong>Leçon 2</strong> — School fees lancé mais SANS échelonnement : gap exact que Payiskoul comble','<strong>Leçon 3</strong> — API + plugins = modèle d\'intégration à adopter pour l\'onboarding établissements'],
+    opp:'<strong>Opportunité</strong> — CinetPay peut devenir partenaire API (Payiskoul utilise leurs rails) plutôt que concurrent. Leur réseau de 10K marchands = base de prospection.',featured:false},
+  {id:'wave',cat:'momo',name:'Wave CI',tagline:'Mobile Money licorne — 20M+ utilisateurs, frais les plus bas UEMOA',logo:'WV',color:'#4ade80',bg:'rgba(74,222,128,0.15)',founded:'2018 · San Francisco/Dakar',funding:'137M$ (2025)',pays:'8 pays Afrique de l\'Ouest',stats:{f:'137M$',u:'20M+ actifs',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Disruption par les prix (1% de frais) → Payiskoul doit disruper par la valeur (échelonnement gratuit pour l\'établissement)','<strong>Leçon 2</strong> — 137M$ levés en 2025 : le marché UEMOA est très attractif pour les investisseurs','<strong>Leçon 3</strong> — Partenaire naturel : Wave a l\'infrastructure MoMo, Payiskoul a la verticale éducation'],
+    opp:'<strong>Opportunité</strong> — Partenariat API Wave × Payiskoul pour intégrer le paiement échelonné des frais scolaires directement dans l\'app Wave.',featured:false},
+  {id:'bizao',cat:'infrastructure',name:'Bizao',tagline:'Hub de paiement panafricain — 350M requêtes/mois',logo:'BZ',color:'#fbbf24',bg:'rgba(251,191,36,0.15)',founded:'2019 · Paris/CI',funding:'8M€ série A (AfricInvest)',pays:'CI + Cameroun + Burkina + 15 pays',stats:{f:'8M€',u:'—',t:'350M/mois'},
+    lessons:['<strong>Leçon 1</strong> — AfricInvest (investisseur Bizao) est actif en CI : cible prioritaire pour seed Payiskoul','<strong>Leçon 2</strong> — 350M requêtes/mois = volumétrie atteignable avec la bonne infrastructure','<strong>Leçon 3</strong> — TPE Mobile Money déployés en CI : modèle de distribution physique à étudier'],
+    opp:'<strong>Opportunité</strong> — AfricInvest est actif en CI. À cibler prioritairement pour la levée seed Payiskoul.',featured:false},
+  {id:'ivoiredu',cat:'edtech',name:'IvoirEdu',tagline:'Logiciel de gestion scolaire ivoirien — notes + paiements',logo:'IE',color:'#38bdf8',bg:'rgba(56,189,248,0.15)',founded:'2022 · CI',funding:'N/C',pays:'Côte d\'Ivoire',stats:{f:'N/C',u:'Centaines d\'écoles',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Solution 100% locale CI : la connaissance du terrain est un avantage défendable','<strong>Leçon 2</strong> — Utilise CinetPay pour les paiements — pas de solution propre ni d\'échelonnement','<strong>Leçon 3</strong> — ERP scolaire avant tout : ils gèrent les notes, pas le financement'],
+    opp:'<strong>Opportunité</strong> — IvoirEdu peut devenir partenaire (intégration Payiskoul dans leur dashboard). Leur base clients = base de prospection Payiskoul.',featured:false},
+];
+
+function renderComparables(filter='all'){
+  const filtered=filter==='all'?comparables:comparables.filter(c=>c.cat===filter);
+  document.getElementById('compList').innerHTML=filtered.map(c=>`
+    <div class="comp-card ${c.featured?'featured':''}">
+      <div class="comp-top">
+        <div class="comp-logo" style="background:${c.bg};color:${c.color}">${c.logo}</div>
+        <div style="flex:1">
+          <div class="comp-name">${c.name}</div>
+          <div class="comp-tagline">${c.tagline}</div>
+          <div class="comp-meta">
+            <span class="meta-tag" style="background:rgba(255,255,255,0.06);color:var(--text3)">${c.founded}</span>
+            <span class="meta-tag" style="background:rgba(255,255,255,0.06);color:var(--text3)">${c.pays}</span>
+            <span class="meta-tag" style="background:${c.color}18;color:${c.color}">${c.funding}</span>
+          </div>
+        </div>
+      </div>
+      <div class="comp-stats">
+        <div class="cs"><div class="cs-v" style="color:${c.color}">${c.stats.f}</div><div class="cs-l">Levée fonds</div></div>
+        <div class="cs"><div class="cs-v" style="color:var(--a5)">${c.stats.u}</div><div class="cs-l">Utilisateurs</div></div>
+        <div class="cs"><div class="cs-v" style="color:var(--a3)">${c.stats.t}</div><div class="cs-l">Transactions</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Leçons pour Payiskoul</div>
+      ${c.lessons.map(l=>`<div class="lesson">${l}</div>`).join('')}
+      <div class="opp">${c.opp}</div>
+    </div>`).join('');
+}
+
+function filterComp(cat,btn){
+  document.querySelectorAll('#segNav .seg-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderComparables(cat);
+}
+
+// BNPL AFRIQUE
+const bnplActors=[
+  {
+    flag:'🇳🇬',country:'Nigeria',name:'Schoolable',tagline:'Infrastructure financière des frais scolaires — comparable direct Payiskoul',color:'#4ade80',
+    founded:'2019 · Lagos',funding:'Founders Factory Africa',model:'Paiement fractionné frais scolaires + épargne éducation + prêts aux écoles',
+    stats:{f:'Pré-seed',u:'Écoles privées K-12',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — C\'est le comparable le plus proche de Payiskoul — même problème, même solution, marché différent (Nigeria vs CI)','<strong>Leçon 2</strong> — Founders Factory Africa = investisseur à cibler pour Payiskoul','<strong>Leçon 3</strong> — Au Nigeria, 70% des parents ne peuvent pas payer les frais scolaires en une fois : même réalité en CI'],
+    opp:'<strong>Comparaison directe</strong> — Schoolable est le "Payiskoul du Nigeria". Leurs données de traction sont des arguments pour les investisseurs CI : si ça marche à Lagos, ça marchera à Abidjan.',
+    threat:'Comparable',threatColor:'var(--a2)',
+  },
+  {
+    flag:'🇰🇪',country:'Kenya',name:'Lipa Later',tagline:'BNPL East Africa — a lancé une verticale éducation et santé',color:'#38bdf8',
+    founded:'2018 · Nairobi',funding:'Partenariat Mastercard + expansion régionale',model:'BNPL multi-secteurs + secteur éducation lancé en 2024',
+    stats:{f:'Non divulguée',u:'Kenya, Rwanda, Ouganda',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Lipa Later a lancé une verticale éducation en 2024 avec Mastercard : validation que l\'éducation est un marché BNPL prioritaire en Afrique','<strong>Leçon 2</strong> — Modèle multi-pays East Africa = roadmap Payiskoul UEMOA (CI → Sénégal → Mali → Burkina)','<strong>Leçon 3</strong> — Partenariat avec Mastercard : Mastercard Foundation est une cible de financement pour Payiskoul'],
+    opp:'<strong>Signal fort</strong> — Si Lipa Later s\'est positionné sur l\'éducation en East Africa, c\'est que le marché est réel. Payiskoul doit consolider l\'UEMOA avant qu\'un acteur régional n\'arrive.',
+    threat:'À surveiller',threatColor:'var(--a3)',
+  },
+  {
+    flag:'🇳🇬',country:'Nigeria',name:'CredPal',tagline:'BNPL général Nigeria — e-commerce + retail + éducation',color:'#e879f9',
+    founded:'2018 · Lagos',funding:'Non divulguée — partenariat Jumia 2024',model:'BNPL checkout e-commerce + paiements différés',
+    stats:{f:'N/C',u:'Commerçants + consommateurs',t:'Partenariat Jumia 2024'},
+    lessons:['<strong>Leçon 1</strong> — CredPal a ciblé l\'éducation mais reste généraliste : les acteurs spécialisés (Schoolable) les surpassent sur ce segment','<strong>Leçon 2</strong> — Modèle "BNPL at checkout" = modèle que Payiskoul peut adapter pour l\'inscription scolaire en ligne'],
+    opp:'<strong>Leçon de différenciation</strong> — La spécialisation verticale (Payiskoul = 100% éducation) bat le généralisme sur les segments de niche.',
+    threat:'Indirect',threatColor:'var(--text3)',
+  },
+  {
+    flag:'🇿🇦',country:'Afrique du Sud',name:'Happy Pay',tagline:'BNPL zéro frais consommateur — modèle publicitaire innovant',color:'#fbbf24',
+    founded:'2022 · Cape Town',funding:'5M$ seed (Partech, mars 2026)',model:'BNPL financé par les commerçants via publicité — zéro intérêt pour l\'acheteur',
+    stats:{f:'5M$ seed',u:'Commerçants SA',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — Partech (investisseur Djamo) a investi en mars 2026 : Partech est actif sur le BNPL africain et connait bien la CI','<strong>Leçon 2</strong> — Modèle "coût supporté par le marchand" = inspirant pour Payiskoul : les établissements paient, pas les apprenants'],
+    opp:'<strong>Signal investisseur</strong> — Partech a co-investi dans Djamo (CI) et Happy Pay (SA) en 2025-2026. Cible prioritaire pour Payiskoul.',
+    threat:'Adjacent',threatColor:'var(--a5)',
+  },
+  {
+    flag:'🇪🇬',country:'Égypte',name:'valU',tagline:'BNPL leader Afrique du Nord — éducation, santé, retail',color:'#f87171',
+    founded:'2019 · Le Caire',funding:'Filiale de EFG Hermes (groupe financier coté)',model:'BNPL multi-vertical : éducation, santé, retail, voyages',
+    stats:{f:'Filiale EFG Hermes',u:'Égypte',t:'—'},
+    lessons:['<strong>Leçon 1</strong> — valU a intégré l\'éducation comme verticale prioritaire dès 2020 : confirmation que l\'éducation est un segment BNPL stratégique','<strong>Leçon 2</strong> — Adossé à une banque (EFG Hermes) : pour Payiskoul, un partenariat bancaire CI (NSIA, Banque Atlantique) renforce la crédibilité'],
+    opp:'<strong>Modèle à étudier</strong> — valU montre que le BNPL éducation peut être adossé à un groupe bancaire. Accélérateur pour Payiskoul si partenariat NSIA ou Banque Atlantique.',
+    threat:'Distant',threatColor:'var(--text3)',
+  },
+];
+
+function renderBNPL(){
+  document.getElementById('bnplList').innerHTML=bnplActors.map(a=>`
+    <div class="bnpl-card">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+        <div style="width:42px;height:42px;border-radius:10px;background:${a.color}18;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${a.flag}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+            <div style="font-size:14px;font-weight:700">${a.name}</div>
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;background:${a.threatColor}18;color:${a.threatColor}">${a.threat}</span>
+          </div>
+          <div style="font-size:11px;color:var(--text2)">${a.tagline}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--text3)">${a.country} · ${a.founded}</span>
+            <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:${a.color}18;color:${a.color}">${a.funding}</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--bg4);border-radius:7px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:var(--text2)"><strong style="color:var(--text)">Modèle :</strong> ${a.model}</div>
+      ${a.lessons.map(l=>`<div class="lesson">${l}</div>`).join('')}
+      <div class="opp">${a.opp}</div>
+    </div>`).join('');
+}
+
+// POSITIONNEMENT
+function renderPositionnement(){
+  const features=[
+    {name:'Mobile Money intégré',pk:'✓',sc:'✓',ll:'✓',cp:'✓',ie:'✓',wa:'✓'},
+    {name:'Paiement fractionné apprenants',pk:'✓',sc:'✓',ll:'✓',cp:'Partiel',ie:'✗',wa:'✗'},
+    {name:'Spécialisé 100% éducation',pk:'✓',sc:'✓',ll:'Partiel',cp:'Partiel',ie:'✓',wa:'✗'},
+    {name:'Présent en UEMOA / CI',pk:'✓',sc:'✗',ll:'✗',cp:'✓',ie:'✓',wa:'✓'},
+    {name:'Reversement automatique',pk:'✓',sc:'✓',ll:'✓',cp:'✓',ie:'Partiel',wa:'✗'},
+    {name:'Wallet étudiant',pk:'✓',sc:'Partiel',ll:'✗',cp:'✗',ie:'✗',wa:'Partiel'},
+    {name:'Micro-crédit éducatif',pk:'✓',sc:'✓',ll:'Partiel',cp:'✗',ie:'✗',wa:'✗'},
+    {name:'Onboarding 48h',pk:'✓',sc:'Non précisé',ll:'Non précisé',cp:'✗',ie:'Partiel',wa:'✓'},
+    {name:'Zéro frais fixes établissement',pk:'✓',sc:'Non précisé',ll:'Non précisé',cp:'✓',ie:'✗',wa:'✓'},
+    {name:'Tableau de bord admin',pk:'✓',sc:'✓',ll:'Partiel',cp:'✗',ie:'✓',wa:'✗'},
+  ];
+  const r=v=>v==='✓'?`<span class="check">✓</span>`:v==='✗'?`<span class="cross">✗</span>`:`<span class="partial">${v}</span>`;
+  document.getElementById('diffTable').innerHTML=features.map(f=>`<tr><td>${f.name}</td><td>${r(f.pk)}</td><td>${r(f.sc)}</td><td>${r(f.ll)}</td><td>${r(f.cp)}</td><td>${r(f.ie)}</td><td>${r(f.wa)}</td></tr>`).join('');
+
+  document.getElementById('avantagesList').innerHTML=[
+    {icon:'ti-calendar-repeat',color:'#7c6fff',title:'Seul BNPL éducation de l\'UEMOA francophone',desc:'Schoolable est au Nigeria, Lipa Later au Kenya, valU en Égypte. L\'UEMOA (8 pays, 130M habitants, 45M comptes MoMo) est un angle mort total pour le BNPL éducation. Payiskoul arrive en premier.'},
+    {icon:'ti-wallet',color:'#4ade80',title:'Infrastructure financière complète, pas juste un outil de paiement',desc:'Wallet étudiant + micro-crédit éducatif + échelonnement + gestion + reporting. Là où CinetPay fait du paiement et IvoirEdu fait du ERP, Payiskoul fait de l\'infrastructure financière.'},
+    {icon:'ti-rocket',color:'#fbbf24',title:'Onboarding 48h sans intégration technique',desc:'Galactis demande 6 mois, CinetPay une intégration API. Payiskoul est opérationnel en 2 jours. Argument décisif pour les directeurs d\'établissements qui n\'ont pas de DSI.'},
+    {icon:'ti-certificate',color:'#38bdf8',title:'Certifié et conforme BCEAO dès le départ',desc:'Certificat IDU CI-2026-0053987M. Conformité réglementaire intégrée — avantage compétitif fort face aux acteurs étrangers qui devraient s\'adapter.'},
+  ].map(a=>`<div class="insight-item"><div style="width:28px;height:28px;border-radius:6px;background:${a.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${a.icon}" style="font-size:16px;color:${a.color}"></i></div><div><div style="font-size:12px;font-weight:600;margin-bottom:3px">${a.title}</div><div style="font-size:11px;color:var(--text2);line-height:1.6">${a.desc}</div></div></div>`).join('');
+
+  document.getElementById('argsList').innerHTML=[
+    {vs:'CinetPay School',color:'#f87171',arg:'« CinetPay permet le paiement des frais. Payiskoul permet le financement des frais. Avec nous, un parent qui ne peut pas payer 300 000 FCFA d\'un coup peut payer 100 000 FCFA pendant 3 mois. CinetPay ne peut pas faire ça. »'},
+    {vs:'IvoirEdu',color:'#38bdf8',arg:'« IvoirEdu gère vos notes et votre administration. Payiskoul gère votre trésorerie. Les deux sont complémentaires — on peut même s\'intégrer dans votre tableau de bord IvoirEdu. »'},
+    {vs:'Schoolable (Nigeria)',color:'#4ade80',arg:'« Schoolable fait au Nigeria exactement ce que Payiskoul fait en Côte d\'Ivoire. Sauf qu\'eux ne sont pas là, et vous, vous avez besoin d\'une solution locale, en français, conforme à la BCEAO. »'},
+    {vs:'Wave / Orange Money',color:'#a78bfa',arg:'« Vous utilisez déjà Orange Money — parfait. Payiskoul est construit par-dessus. Il ajoute l\'échelonnement, le suivi, les relances automatiques et le tableau de bord. Ce que Orange Money seul ne fait pas. »'},
+  ].map(a=>`<div style="padding:12px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:10px;padding:2px 8px;border-radius:4px;background:${a.color}18;color:${a.color};font-weight:600;display:inline-block;margin-bottom:6px">vs ${a.vs}</span><div style="font-size:12px;color:var(--text2);line-height:1.7;font-style:italic">${a.arg}</div></div>`).join('');
+}
+
+// OPPORTUNITÉS
+function renderOpportunites(){
+  document.getElementById('signalList').innerHTML=[
+    {icon:'ti-chart-bar',color:'#fbbf24',text:'Marché BNPL Afrique x3 d\'ici 2029 (5.2Mds$ → 16.8Mds$) avec +30%/an — Payiskoul entre au meilleur moment',src:'ResearchAndMarkets / Yahoo Finance — janv. 2026'},
+    {icon:'ti-school',color:'#7c6fff',text:'1 828 dossiers d\'agrément établissements privés examinés en mai 2026 — marché en forte croissance',src:'Ministère MENAET CI — mai 2026'},
+    {icon:'ti-device-mobile',color:'#4ade80',text:'Gouvernement CI impose le Mobile Money pour inscriptions scolaires 2025-2026 — validation d\'État',src:'Ministère Éducation CI — août 2025'},
+    {icon:'ti-award',color:'#e879f9',text:'Mastercard Foundation EdTech Fellowship 2026 ouvert — 60 000$ sans dilution pour EdTech africaines',src:'AITN — fév. 2026'},
+    {icon:'ti-trending-up',color:'#38bdf8',text:'TechCabal mars 2026 : EdTech fintech identifié comme prochain grand marché africain — timing parfait',src:'TechCabal — mars 2026'},
+    {icon:'ti-building-bank',color:'#f87171',text:'Partech investit dans Happy Pay (BNPL SA, mars 2026) après Djamo (CI) — actif sur le BNPL africain, cible pour Payiskoul',src:'TheCondia — mars 2026'},
+  ].map(s=>`<div class="insight-item"><div style="width:28px;height:28px;border-radius:6px;background:${s.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${s.icon}" style="font-size:15px;color:${s.color}"></i></div><div style="flex:1"><div style="font-size:12px;line-height:1.6">${s.text}</div><div style="font-size:10px;color:var(--text3);margin-top:3px">${s.src}</div></div></div>`).join('');
+
+  document.getElementById('riskList').innerHTML=[
+    {risk:'Lipa Later ou un acteur East Africa entre en UEMOA',level:'high',mit:'Consolider CI dès 2026 — la relation établissements = switching cost'},
+    {risk:'CinetPay ajoute le paiement fractionné',level:'high',mit:'Accélérer les partenariats et l\'onboarding avant leur réaction'},
+    {risk:'Réglementation BCEAO plus stricte sur le crédit BNPL',level:'med',mit:'Conformité BCEAO dès le départ — le certificat IDU CI est un atout'},
+    {risk:'Edukoya syndrome — EdTech trop tôt sur le marché CI',level:'med',mit:'Payiskoul résout un problème de PAIEMENT, pas de contenu. Les parents payent DÉJÀ — on facilite juste le mode.'},
+  ].map(r=>`<div style="padding:10px 0;border-bottom:0.5px solid var(--border)"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;background:${r.level==='high'?'rgba(248,113,113,0.1)':r.level==='med'?'rgba(251,191,36,0.1)':'rgba(74,222,128,0.1)'};color:${r.level==='high'?'var(--a4)':r.level==='med'?'var(--a3)':'var(--a2)'}">${r.level==='high'?'Élevé':r.level==='med'?'Moyen':'Faible'}</span><span style="font-size:12px;font-weight:500">${r.risk}</span></div><div style="font-size:11px;color:var(--text2);padding-left:4px"><i class="ti ti-shield" style="font-size:11px;margin-right:4px;color:var(--a2)"></i>${r.mit}</div></div>`).join('');
+
+  document.getElementById('oppList').innerHTML=[
+    {icon:'ti-calendar',color:'#7c6fff',text:'Rentrée scolaire sept. 2026 — fenêtre d\'acquisition maximale. Directeurs cherchent des solutions MAINTENANT.'},
+    {icon:'ti-coin',color:'#fbbf24',text:'Mastercard Foundation EdTech Fellowship — candidater avant fin juillet 2026 pour les 60K$ sans dilution'},
+    {icon:'ti-users',color:'#4ade80',text:'Réseau CEFICI + 1 828 établissements en demande d\'agrément — base de prospection directe'},
+    {icon:'ti-globe',color:'#38bdf8',text:'UEMOA vierge de tout BNPL éducation — 8 pays, 130M habitants, fenêtre de 18-24 mois avant arrivée de concurrents'},
+    {icon:'ti-trending-up',color:'#e879f9',text:'Partech actif sur le BNPL africain (Djamo + Happy Pay) — dossier à soumettre maintenant'},
+  ].map(o=>`<div class="insight-item"><div style="width:28px;height:28px;border-radius:6px;background:${o.color}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ${o.icon}" style="font-size:15px;color:${o.color}"></i></div><div style="font-size:12px;line-height:1.6">${o.text}</div></div>`).join('');
+}
+
+function goTab(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='paysage')renderLandscape();
+  if(name==='comparables')renderComparables();
+  if(name==='bnpl')renderBNPL();
+  if(name==='positionnement')renderPositionnement();
+  if(name==='opportunites')renderOpportunites();
+}
+
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+renderLandscape();
+</script>
+</body>
+</html>
