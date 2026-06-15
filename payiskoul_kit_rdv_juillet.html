@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Kit RDV Juillet</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;
+  --s1:#161616;
+  --s2:#1e1e1e;
+  --s3:#262626;
+  --s4:#303030;
+  --line:#333;
+  --line2:#444;
+  --txt:#f0f0f0;
+  --txt2:#aaa;
+  --txt3:#666;
+  --g:#b5f53c;
+  --g2:#d4ff7a;
+  --g-bg:rgba(181,245,60,0.07);
+  --g-border:rgba(181,245,60,0.2);
+  --r:#ff5c5c;
+  --r-bg:rgba(255,92,92,0.07);
+  --o:#ffaa3c;
+  --o-bg:rgba(255,170,60,0.07);
+  --b:#5c9fff;
+  --b-bg:rgba(92,159,255,0.07);
+  --display:'Syne',sans-serif;
+  --body:'Inter',sans-serif;
+}
+html,body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* HEADER */
+.hdr{
+  background:var(--s1);
+  border-bottom:1px solid var(--line);
+  padding:16px 28px;
+  display:flex;align-items:center;gap:0;
+  position:sticky;top:0;z-index:50;
+}
+.hdr-logo{
+  font-family:var(--display);font-weight:800;font-size:18px;
+  letter-spacing:-0.5px;margin-right:32px;
+  background:linear-gradient(135deg,var(--g),#7fff5c);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hdr-tabs{display:flex;gap:0;flex:1;overflow-x:auto}
+.tab{
+  font-family:var(--body);font-size:11px;font-weight:600;
+  letter-spacing:0.8px;text-transform:uppercase;
+  color:var(--txt3);padding:10px 20px;cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.15s;white-space:nowrap;
+}
+.tab:hover{color:var(--txt2)}
+.tab.on{color:var(--g);border-bottom-color:var(--g)}
+.hdr-rdv{
+  font-family:var(--display);font-size:12px;font-weight:700;
+  color:var(--g);margin-left:auto;
+  background:var(--g-bg);border:1px solid var(--g-border);
+  padding:6px 14px;border-radius:6px;white-space:nowrap;
+}
+
+.page{display:none}.page.on{display:block}
+.wrap{max-width:900px;margin:0 auto;padding:32px 20px}
+
+/* TYPOGRAPHY */
+.eyebrow{
+  font-family:var(--body);font-size:10px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);
+  margin-bottom:8px;
+}
+.h1{font-family:var(--display);font-size:28px;font-weight:800;letter-spacing:-0.5px;line-height:1.15;margin-bottom:6px}
+.h2{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
+.sec-label{
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--txt3);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;margin-top:32px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* CARDS */
+.card{background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px}
+.card-sm{background:var(--s2);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:8px}
+
+/* TIMELINE PITCH */
+.pitch-steps{display:flex;flex-direction:column;gap:0}
+.ps{display:flex;gap:0;position:relative}
+.ps-left{width:52px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.ps-num{
+  width:32px;height:32px;border-radius:50%;
+  font-family:var(--display);font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;z-index:1;
+  border:1px solid var(--line2);
+}
+.ps-line{width:1px;flex:1;background:var(--line);margin:4px 0;min-height:12px}
+.ps:last-child .ps-line{display:none}
+.ps-body{flex:1;padding:0 0 28px 4px;padding-top:4px}
+.ps-title{font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:4px}
+.ps-time{
+  font-size:9px;font-weight:600;font-family:var(--body);
+  letter-spacing:1px;text-transform:uppercase;
+  padding:2px 8px;border-radius:4px;margin-left:8px;
+  vertical-align:middle;display:inline-block;
+}
+.ps-desc{font-size:12px;color:var(--txt2);line-height:1.7;margin-bottom:10px}
+
+/* SCRIPT BLOCKS */
+.say{
+  background:var(--g-bg);border:1px solid var(--g-border);
+  border-left:2px solid var(--g);
+  border-radius:0 8px 8px 0;
+  padding:12px 14px;font-size:12px;color:var(--txt2);
+  line-height:1.8;margin:8px 0;font-style:italic;
+}
+.say::before{
+  content:'Tu dis →';display:block;
+  font-style:normal;font-size:9px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--g);margin-bottom:6px;font-family:var(--body);
+}
+.do-box{
+  background:var(--s2);border:1px solid var(--line);
+  border-radius:8px;padding:10px 14px;
+  font-size:11px;color:var(--txt3);line-height:1.7;margin:6px 0;
+}
+.do-box::before{
+  content:'Tu fais →';display:block;
+  font-size:9px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--b);margin-bottom:4px;
+}
+.warn-box{
+  background:var(--o-bg);border:1px solid rgba(255,170,60,0.2);
+  border-left:2px solid var(--o);border-radius:0 8px 8px 0;
+  padding:10px 14px;font-size:11px;color:var(--txt2);line-height:1.7;margin:6px 0;
+}
+.warn-box::before{
+  content:'Attention →';display:block;
+  font-size:9px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--o);margin-bottom:4px;
+}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* STAT */
+.stat{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+.stat-v{font-family:var(--display);font-size:26px;font-weight:800;line-height:1;letter-spacing:-1px}
+.stat-l{font-size:10px;color:var(--txt3);margin-top:5px;letter-spacing:0.5px;text-transform:uppercase}
+
+/* DEMO FLOW */
+.demo-step{
+  display:flex;gap:14px;padding:14px 0;
+  border-bottom:1px solid var(--line);align-items:flex-start;
+}
+.demo-step:last-child{border-bottom:none}
+.demo-n{
+  font-family:var(--display);font-size:11px;font-weight:800;
+  width:24px;height:24px;border-radius:4px;
+  background:var(--s3);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--txt3);margin-top:1px;
+}
+.demo-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.demo-desc{font-size:11px;color:var(--txt2);line-height:1.65}
+.demo-tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;display:inline-block;margin-left:6px;vertical-align:middle;letter-spacing:0.5px}
+
+/* OBJECTIONS */
+.obj{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:10px}
+.obj-q{font-size:12px;font-weight:600;color:var(--r);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;gap:8px}
+.obj-q::before{content:'"';font-family:var(--display);font-size:22px;line-height:1;opacity:0.3;flex-shrink:0;margin-top:-2px}
+.obj-r{font-size:12px;color:var(--txt2);line-height:1.75}
+.obj-key{color:var(--g);font-weight:600}
+
+/* CLOSING */
+.close-opt{
+  background:var(--s2);border:1px solid var(--line);
+  border-radius:10px;padding:16px;margin-bottom:10px;
+  cursor:pointer;transition:border-color 0.15s;
+}
+.close-opt:hover{border-color:var(--g)}
+.close-opt.sel{border-color:var(--g);background:var(--g-bg)}
+.close-title{font-family:var(--display);font-size:13px;font-weight:700;margin-bottom:4px}
+.close-desc{font-size:11px;color:var(--txt2);line-height:1.65}
+.close-script{
+  background:var(--s3);border-radius:6px;padding:10px 12px;
+  font-size:12px;color:var(--txt2);line-height:1.75;
+  margin-top:10px;font-style:italic;display:none;
+}
+.close-opt.sel .close-script{display:block}
+
+/* CHECKLIST */
+.chk{display:flex;flex-direction:column;gap:8px}
+.chk-i{display:flex;gap:10px;font-size:12px;color:var(--txt2);line-height:1.55;align-items:flex-start}
+.chk-i input{width:15px;height:15px;accent-color:var(--g);flex-shrink:0;margin-top:1px;cursor:pointer}
+.chk-i.done{color:var(--txt3);text-decoration:line-through}
+.chk-i strong{color:var(--txt);font-weight:600}
+
+/* COPY */
+.copy-btn{
+  font-size:10px;font-family:var(--body);font-weight:500;
+  padding:4px 10px;border-radius:4px;
+  border:1px solid var(--line2);color:var(--txt3);
+  background:transparent;cursor:pointer;transition:all 0.15s;
+}
+.copy-btn:hover,.copy-btn.ok{color:var(--g);border-color:var(--g-border)}
+
+/* PROGRESS BAR */
+.rdv-timer{
+  background:var(--s2);border:1px solid var(--line);
+  border-radius:10px;padding:16px;margin-bottom:16px;
+}
+.timer-track{display:flex;gap:2px;margin-top:10px}
+.timer-seg{
+  height:6px;border-radius:3px;flex:1;
+  transition:opacity 0.2s;
+}
+
+/* BADGE */
+.badge{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:3px;letter-spacing:0.5px}
+
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}.hdr-rdv{display:none}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-logo">Payiskoul</div>
+  <div class="hdr-tabs">
+    <div class="tab on" onclick="go('brief')">Brief RDV</div>
+    <div class="tab" onclick="go('pitch')">Guide pitch</div>
+    <div class="tab" onclick="go('demo')">Flow démo</div>
+    <div class="tab" onclick="go('objections')">Objections</div>
+    <div class="tab" onclick="go('closing')">Closing</div>
+    <div class="tab" onclick="go('prep')">Checklist</div>
+  </div>
+  <div class="hdr-rdv">📅 Lun 7 Juillet 2025</div>
+</div>
+
+<!-- ══════════════ BRIEF ══════════════ -->
+<div class="page on" id="p-brief">
+<div class="wrap">
+  <div class="eyebrow">Kit RDV — Centre de formation professionnelle</div>
+  <div class="h1">Prêt pour le<br><span style="color:var(--g)">7 Juillet.</span></div>
+  <div style="font-size:13px;color:var(--txt2);margin-top:8px;margin-bottom:28px;max-width:520px">Un RDV pitch + démo : tu as 45 minutes pour convaincre. Ce kit te guide étape par étape, de l'ouverture au closing.</div>
+
+  <div class="g3" style="margin-bottom:28px">
+    <div class="stat"><div class="stat-v" style="color:var(--g)">45</div><div class="stat-l">Minutes au total</div></div>
+    <div class="stat"><div class="stat-v" style="color:var(--b)">5</div><div class="stat-l">Étapes du pitch</div></div>
+    <div class="stat"><div class="stat-v" style="color:var(--o)">1</div><div class="stat-l">Objectif : décision</div></div>
+  </div>
+
+  <div class="sec-label">Répartition du temps</div>
+  <div class="rdv-timer">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-family:var(--display);font-size:13px;font-weight:700">Timeline RDV — 45 minutes</div>
+    </div>
+    <div class="timer-track">
+      <div class="timer-seg" style="background:var(--b);opacity:0.7;flex:0.1" title="Brise-glace 5min"></div>
+      <div class="timer-seg" style="background:var(--g);opacity:0.7;flex:0.2" title="Diagnostic 10min"></div>
+      <div class="timer-seg" style="background:#a78bfa;opacity:0.7;flex:0.15" title="Pitch 8min"></div>
+      <div class="timer-seg" style="background:var(--o);opacity:0.7;flex:0.25" title="Démo 12min"></div>
+      <div class="timer-seg" style="background:var(--r);opacity:0.7;flex:0.15" title="Q&A 8min"></div>
+      <div class="timer-seg" style="background:#4ade80;opacity:0.9;flex:0.15" title="Closing 7min"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:var(--b)">■</span> Brise-glace 5'</span>
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:var(--g)">■</span> Diagnostic 10'</span>
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:#a78bfa">■</span> Pitch 8'</span>
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:var(--o)">■</span> Démo 12'</span>
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:var(--r)">■</span> Q&A 8'</span>
+      <span style="font-size:10px;color:var(--txt3)"><span style="color:#4ade80">■</span> Closing 7'</span>
+    </div>
+  </div>
+
+  <div class="sec-label">Objectifs du RDV</div>
+  <div class="g2">
+    <div class="card">
+      <div class="eyebrow" style="color:var(--g);margin-bottom:10px">Objectifs prioritaires</div>
+      <ul class="chk">
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Le prospect comprend <strong>exactement</strong> comment Payiskoul fonctionne</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Il visualise le bénéfice concret pour <strong>son centre</strong></span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>On repart avec une <strong>décision claire</strong> : oui, ou une date pour oui</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="color:var(--o);margin-bottom:10px">Ce qu'il ne faut PAS faire</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+        <li style="font-size:12px;color:var(--txt2);display:flex;gap:8px"><span style="color:var(--r);flex-shrink:0">✕</span><span>Parler trop de la tech — rester sur les bénéfices</span></li>
+        <li style="font-size:12px;color:var(--txt2);display:flex;gap:8px"><span style="color:var(--r);flex-shrink:0">✕</span><span>Monopoliser la parole — laisser le prospect s'exprimer</span></li>
+        <li style="font-size:12px;color:var(--txt2);display:flex;gap:8px"><span style="color:var(--r);flex-shrink:0">✕</span><span>Repartir sans une date ou un engagement précis</span></li>
+        <li style="font-size:12px;color:var(--txt2);display:flex;gap:8px"><span style="color:var(--r);flex-shrink:0">✕</span><span>Baisser la commission sans validation CEO</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-label">Différenciateur clé à marteler</div>
+  <div class="card" style="border-color:var(--g-border);background:var(--g-bg)">
+    <div style="font-family:var(--display);font-size:20px;font-weight:800;line-height:1.3;margin-bottom:8px">
+      "Pas 2 fois. Pas 3 fois.<br>
+      <span style="color:var(--g)">Autant de fois qu'ils veulent."</span>
+    </div>
+    <div style="font-size:12px;color:var(--txt2);line-height:1.7">C'est le seul argument qu'aucun concurrent ne peut répliquer. CinetPay encaisse. Orange Money transfère. Payiskoul <strong style="color:var(--txt)">orchestre le financement éducatif échelonné</strong> — et c'est la seule solution qui le fait en CI.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════ PITCH ══════════════ -->
+<div class="page" id="p-pitch">
+<div class="wrap">
+  <div class="eyebrow">Guide pitch — 5 étapes</div>
+  <div class="h1">Le script<br><span style="color:var(--g)">mot par mot.</span></div>
+  <div style="font-size:13px;color:var(--txt2);margin:8px 0 28px">Chaque étape a un objectif précis. Ne pas brûler les étapes.</div>
+
+  <div class="pitch-steps">
+
+    <!-- ÉTAPE 1 -->
+    <div class="ps">
+      <div class="ps-left">
+        <div class="ps-num" style="background:var(--b-bg);color:var(--b);border-color:rgba(92,159,255,0.3)">1</div>
+        <div class="ps-line"></div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Brise-glace & cadrage <span class="ps-time" style="background:var(--b-bg);color:var(--b)">5 minutes</span></div>
+        <div class="ps-desc">Créer le confort, poser le cadre du RDV, montrer qu'on respecte son temps.</div>
+        <div class="say">Merci de me recevoir [Nom]. Je vais être direct — je ne vais pas vous faire perdre votre temps.
+On a 45 minutes ensemble. Je vais vous présenter ce qu'on fait, vous montrer le produit en direct, et on verra ensemble si c'est pertinent pour votre centre. Si ce n'est pas le cas, je vous le dirai moi-même. Est-ce que ça vous convient ?</div>
+        <div class="do-box">Sortir carnet ou téléphone pour noter. Montrer qu'on est là pour écouter, pas seulement pour parler.</div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="ps">
+      <div class="ps-left">
+        <div class="ps-num" style="background:var(--g-bg);color:var(--g);border-color:var(--g-border)">2</div>
+        <div class="ps-line"></div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Diagnostic — faire parler le prospect <span class="ps-time" style="background:var(--g-bg);color:var(--g)">10 minutes</span></div>
+        <div class="ps-desc">C'est l'étape la plus importante. On écoute plus qu'on ne parle. Les réponses vont nourrir le pitch qui suit.</div>
+        <div class="say">Avant de vous présenter notre solution, j'aimerais comprendre comment vous fonctionnez aujourd'hui.
+
+Combien d'apprenants inscrivez-vous par session en moyenne ?
+
+Est-ce que vous avez des situations d'impayés ou de retards de paiement fréquents ?
+
+Comment les apprenants paient-ils leurs frais aujourd'hui — cash, Mobile Money, virement ?
+
+Est-ce qu'il y a des apprenants qui n'arrivent pas à s'inscrire parce qu'ils n'ont pas la totalité des frais au moment de l'inscription ?</div>
+        <div class="warn-box">Laisser le prospect répondre complètement. Ne pas couper. Prendre des notes visibles — ça montre qu'on écoute et qu'on va personnaliser la réponse.</div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="ps">
+      <div class="ps-left">
+        <div class="ps-num" style="background:rgba(167,139,250,0.1);color:#a78bfa;border-color:rgba(167,139,250,0.3)">3</div>
+        <div class="ps-line"></div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Pitch — la solution Payiskoul <span class="ps-time" style="background:rgba(167,139,250,0.1);color:#a78bfa">8 minutes</span></div>
+        <div class="ps-desc">Ancrer le pitch dans ce que le prospect vient de dire. Utiliser ses propres mots.</div>
+        <div class="say">Ce que vous venez de me décrire — [reprendre 1 ou 2 éléments concrets qu'il a cités] — c'est exactement le problème que Payiskoul résout.
+
+Voici comment ça fonctionne concrètement pour un centre comme le vôtre :
+
+Un apprenant veut s'inscrire chez vous. Il n'a pas les 150 000 FCFA en une seule fois. Avec Payiskoul, il peut payer 30 000 maintenant, puis 30 000 le mois prochain, et ainsi de suite — autant de fois qu'il en a besoin. Via Orange Money, MTN MoMo ou Wave, depuis son téléphone.
+
+Vous, de votre côté, vous recevez les versements automatiquement sur votre compte. Vous n'avez pas à courir après les paiements — notre système envoie les relances à votre place.
+
+Et la différence fondamentale avec ce qui existe : on ne vous impose pas 2 ou 3 mensualités fixes. L'apprenant paie selon son rythme. C'est ça qui fait que les gens paient vraiment.</div>
+        <div class="do-box">Pause de 3 secondes après "c'est ça qui fait que les gens paient vraiment." Laisser la phrase résonner. Ne pas enchaîner immédiatement.</div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 4 -->
+    <div class="ps">
+      <div class="ps-left">
+        <div class="ps-num" style="background:var(--o-bg);color:var(--o);border-color:rgba(255,170,60,0.3)">4</div>
+        <div class="ps-line"></div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Démo produit <span class="ps-time" style="background:var(--o-bg);color:var(--o)">12 minutes</span></div>
+        <div class="ps-desc">Montrer, pas raconter. Le produit doit parler. Voir l'onglet Démo pour le flow détaillé.</div>
+        <div class="say">Je vais vous montrer directement sur l'écran — c'est plus parlant que les mots.</div>
+        <div class="do-box">Ouvrir la démo. Voir l'onglet "Flow Démo" pour les 6 étapes de la démonstration.</div>
+        <div class="warn-box">Si le prospect pose une question pendant la démo : répondre brièvement et revenir à l'écran. Ne pas se laisser embarquer dans une discussion technique — garder le fil de la démo.</div>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 5 -->
+    <div class="ps">
+      <div class="ps-left">
+        <div class="ps-num" style="background:rgba(74,222,128,0.1);color:#4ade80;border-color:rgba(74,222,128,0.3)">5</div>
+        <div class="ps-line"></div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">Closing <span class="ps-time" style="background:rgba(74,222,128,0.1);color:#4ade80">7 minutes</span></div>
+        <div class="ps-desc">Ne pas partir sans une décision. Voir l'onglet Closing pour les scripts selon sa réaction.</div>
+        <div class="say">Maintenant que vous avez vu comment ça fonctionne — est-ce que vous voyez comment Payiskoul peut s'intégrer dans le fonctionnement de votre centre ?</div>
+        <div class="do-box">Attendre sa réponse. Ne pas parler. La première personne qui parle après cette question "perd" — laisser le silence s'installer.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ DÉMO ══════════════ -->
+<div class="page" id="p-demo">
+<div class="wrap">
+  <div class="eyebrow">Flow démonstration — 12 minutes</div>
+  <div class="h1">Montrer,<br><span style="color:var(--g)">pas raconter.</span></div>
+  <div style="font-size:13px;color:var(--txt2);margin:8px 0 28px">Suivre ce flow dans l'ordre. Chaque écran a un message clé à faire passer.</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex;gap:16px;align-items:center">
+      <div style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--g)">12'</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px">Durée maximale de la démo</div>
+        <div style="font-size:11px;color:var(--txt2)">Au-delà, le prospect décroche. Si une fonctionnalité prend du temps, l'annoncer : "Je vais aller à l'essentiel."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="demo-step" style="padding:14px 20px">
+      <div class="demo-n">1</div>
+      <div>
+        <div class="demo-title">Vue d'ensemble — le tableau de bord <span class="demo-tag" style="background:var(--b-bg);color:var(--b)">2 min</span></div>
+        <div class="demo-desc">Ouvrir le dashboard principal. Montrer les indicateurs clés : paiements reçus, en attente, apprenants actifs.<br><br><em style="color:var(--txt3)">"Voici ce que vous voyez chaque matin en ouvrant Payiskoul. En un coup d'œil, vous savez qui a payé, qui doit payer, et combien."</em></div>
+      </div>
+    </div>
+    <div class="demo-step" style="padding:14px 20px">
+      <div class="demo-n">2</div>
+      <div>
+        <div class="demo-title">Parcours apprenant — l'inscription et le 1er paiement <span class="demo-tag" style="background:var(--g-bg);color:var(--g)">2 min</span></div>
+        <div class="demo-desc">Simuler l'inscription d'un apprenant. Montrer comment il choisit son plan de paiement.<br><br><em style="color:var(--txt3)">"L'apprenant choisit lui-même combien il veut payer et à quelle fréquence. Vous n'avez rien à configurer — il le fait depuis son téléphone en 3 minutes."</em></div>
+      </div>
+    </div>
+    <div class="demo-step" style="padding:14px 20px">
+      <div class="demo-n">3</div>
+      <div>
+        <div class="demo-title">Le paiement Mobile Money en direct <span class="demo-tag" style="background:var(--o-bg);color:var(--o)">2 min</span></div>
+        <div class="demo-desc">Montrer le flux de paiement Orange Money / MTN / Wave. Insister sur la simplicité côté apprenant.<br><br><em style="color:var(--txt3)">"L'apprenant reçoit un prompt sur son téléphone, il entre son code, c'est fait. Vous recevez la notification immédiatement."</em></div>
+      </div>
+    </div>
+    <div class="demo-step" style="padding:14px 20px">
+      <div class="demo-n">4</div>
+      <div>
+        <div class="demo-title">Le suivi des paiements — votre côté <span class="demo-tag" style="background:var(--g-bg);color:var(--g)">2 min</span></div>
+        <div class="demo-desc">Montrer la liste des apprenants avec leur statut de paiement. Filtres par statut, par date.<br><br><em style="color:var(--txt3)">"Vous voyez en temps réel l'état de chaque apprenant. Plus besoin de courir après — le système vous dit exactement qui relancer."</em></div>
+      </div>
+    </div>
+    <div class="demo-step" style="padding:14px 20px">
+      <div class="demo-n">5</div>
+      <div>
+        <div class="demo-title">Les relances automatiques <span class="demo-tag" style="background:#a78bfa22;color:#a78bfa)">2 min</span></div>
+        <div class="demo-desc">Montrer le système de relances automatiques par SMS/WhatsApp aux apprenants en retard.<br><br><em style="color:var(--txt3)">"Quand un paiement arrive à échéance, le système envoie automatiquement un rappel à l'apprenant. Vous ne faites rien — ça se fait tout seul."</em></div>
+      </div>
+    </div>
+    <div class="demo-step" style="padding:14px 20px;border-bottom:none">
+      <div class="demo-n">6</div>
+      <div>
+        <div class="demo-title">Le reversement vers votre compte <span class="demo-tag" style="background:rgba(74,222,128,0.1);color:#4ade80">2 min</span></div>
+        <div class="demo-desc">Montrer comment les fonds sont reversés automatiquement sur le compte du centre.<br><br><em style="color:var(--txt3)">"À chaque paiement d'un apprenant, vous recevez votre part automatiquement. Vous n'attendez pas la fin du mois — les fonds arrivent au fur et à mesure."</em></div>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--g-bg);border:1px solid var(--g-border);border-radius:6px;font-size:11px;color:var(--txt2)">
+          ✦ <strong style="color:var(--g)">Phrase de clôture démo :</strong> "Voilà concrètement ce que Payiskoul fait pour un centre comme le vôtre. Qu'est-ce qui vous frappe le plus dans ce que vous venez de voir ?"
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════ OBJECTIONS ══════════════ -->
+<div class="page" id="p-objections">
+<div class="wrap">
+  <div class="eyebrow">Gestion des objections</div>
+  <div class="h1">Toutes les<br><span style="color:var(--g)">réponses prêtes.</span></div>
+  <div style="font-size:13px;color:var(--txt2);margin:8px 0 28px">Les objections les plus probables pour un centre de formation professionnelle.</div>
+
+  <div class="obj">
+    <div class="obj-q">Votre commission c'est combien ? C'est nous qui allons payer ça ?"</div>
+    <div class="obj-r">Notre commission est prise sur chaque transaction — <span class="obj-key">ni vous, ni nous ne payons quoi que ce soit si aucun apprenant n'utilise le service.</span> Dans la pratique, la commission peut être répercutée sur les frais ou absorbée par le centre selon ce que vous décidez. On en parle ensemble lors de la mise en place. Ce qui est sûr : vous ne déboursez rien aujourd'hui.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">Nos apprenants n'ont pas tous Orange Money ou Wave."</div>
+    <div class="obj-r">Payiskoul fonctionne avec <span class="obj-key">Orange Money, MTN MoMo et Wave</span> — les trois principaux opérateurs en CI. Ensemble, ils couvrent plus de 45 millions de comptes actifs. Si un apprenant n'a aucun compte Mobile Money, on peut aussi intégrer le paiement par carte. Dans la pratique, on n'a pas rencontré de cas où un apprenant ne pouvait pas payer via notre plateforme.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">On a peur de ne pas recevoir nos fonds si l'apprenant ne paie pas."</div>
+    <div class="obj-r">C'est une préoccupation légitime. Notre modèle est simple : <span class="obj-key">vous recevez chaque versement au moment où l'apprenant paie</span> — pas après. Si l'apprenant arrête de payer, vous avez déjà reçu ce qu'il a versé. Ce risque n'est pas différent de ce que vous avez aujourd'hui avec le cash — sauf qu'avec nous, le système relance automatiquement.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">On a déjà un système de paiement qui fonctionne."</div>
+    <div class="obj-r">Je comprends. La question n'est pas de remplacer ce que vous avez — <span class="obj-key">Payiskoul s'ajoute à ce qui existe</span>. Ce qu'on apporte en plus, c'est la dimension échelonnement. Si un apprenant ne peut pas payer en une fois, votre système actuel dit non. Payiskoul dit oui. Ce sont des inscriptions supplémentaires que vous ne capturez pas aujourd'hui.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">Je dois en parler à mon associé / à la direction."</div>
+    <div class="obj-r">Tout à fait normal pour une décision comme celle-là. <span class="obj-key">Qu'est-ce qui vous manque comme information pour que votre associé puisse statuer ?</span> Je peux préparer un document d'une page avec les chiffres clés et les modalités — que vous lui transmettez directement. Et si besoin, on peut organiser une démo courte avec lui, 20 minutes à distance.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">Vous êtes une nouvelle structure, vous n'avez pas de références."</div>
+    <div class="obj-r">C'est vrai qu'on est en phase pilote. Et c'est précisément pour ça que <span class="obj-key">les conditions que je vous propose aujourd'hui sont préférentielles</span> — les premiers partenaires bénéficient de tarifs réduits et d'un accompagnement personnalisé que nous ne pourrons plus offrir dans 6 mois. Vous n'avez aucun risque financier : aucun frais d'installation, aucun engagement long terme. C'est un pilote — si ça ne convient pas, vous arrêtez.</div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">Ce n'est pas le bon moment, revenez dans 3 mois."</div>
+    <div class="obj-r">Je comprends. Mais permettez-moi de vous poser une question : <span class="obj-key">est-ce qu'il y a une raison spécifique pour dans 3 mois, ou c'est surtout que le sujet n'est pas urgent maintenant ?</span> Parce que si c'est une question de timing, on peut prévoir une intégration en 48h — ça n'a pas besoin de se faire aujourd'hui. Je peux vous envoyer un récapitulatif et vous rappeler dans 3 semaines.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════ CLOSING ══════════════ -->
+<div class="page" id="p-closing">
+<div class="wrap">
+  <div class="eyebrow">Scripts de closing — selon sa réaction</div>
+  <div class="h1">Ne pas partir<br><span style="color:var(--g)">sans une décision.</span></div>
+  <div style="font-size:13px;color:var(--txt2);margin:8px 0 28px">Cliquer sur la situation qui correspond — le script s'affiche.</div>
+
+  <div class="close-opt" onclick="toggleClose(this)">
+    <div class="close-title">✅ Il est convaincu — prêt à avancer</div>
+    <div class="close-desc">Il pose des questions sur les modalités, il demande les prochaines étapes, son langage corporel est positif.</div>
+    <div class="close-script">"Je suis ravi que ça vous parle. Pour démarrer, voici ce qu'on fait : on signe notre accord de partenariat, et l'intégration est faite en 48h. Je peux vous envoyer les documents dès ce soir — est-ce que vous seriez disponible pour signer cette semaine ou la semaine prochaine ?"</div>
+  </div>
+
+  <div class="close-opt" onclick="toggleClose(this)">
+    <div class="close-title">🤔 Il hésite — intéressé mais pas décidé</div>
+    <div class="close-desc">Il dit "c'est intéressant", "je vais y réfléchir", "c'est à voir".</div>
+    <div class="close-script">"Je vous comprends. Qu'est-ce qui vous retient de dire oui maintenant ? Est-ce que c'est une question de budget, de timing, ou il y a un point sur lequel vous avez encore des doutes ?"
+
+→ Laisser répondre. Traiter l'objection spécifique qu'il cite.
+
+→ Puis : "Voici ce que je vous propose : on démarre avec un pilote sur une session — aucun frais, aucun engagement. Si à la fin de la session vous n'êtes pas satisfait, on arrête. Est-ce que ça vous permet d'avancer ?"</div>
+  </div>
+
+  <div class="close-opt" onclick="toggleClose(this)">
+    <div class="close-title">⏳ Il a besoin de valider en interne</div>
+    <div class="close-desc">Il doit en parler à un associé, un CA, une direction.</div>
+    <div class="close-script">"Bien sûr. Pour faciliter votre présentation en interne, je vous prépare un document d'une page avec les points clés et les chiffres. Je vous l'envoie ce soir.
+
+Et pour qu'on ne perde pas de temps — est-ce qu'on peut déjà prévoir une date pour la réunion avec votre associé ? Je suis disponible pour y participer si ça peut aider.
+
+Quelle est la date à laquelle vous pourriez avoir une réponse ?"</div>
+  </div>
+
+  <div class="close-opt" onclick="toggleClose(this)">
+    <div class="close-title">❌ Il n'est pas convaincu / ce n'est pas le bon moment</div>
+    <div class="close-desc">Il dit non clairement, ou demande de revenir plus tard.</div>
+    <div class="close-script">"Je vous remercie pour votre franchise. Avant de partir — est-ce que c'est un non définitif ou un non pour l'instant ?
+
+Si c'est pour l'instant : qu'est-ce qui devrait changer pour que ce soit pertinent pour vous ?
+
+Je vais vous laisser notre brochure. Et avec votre permission, je vous recontacte dans [x semaines] — juste pour voir si la situation a évolué. Est-ce que ça vous convient ?"</div>
+  </div>
+
+  <div class="sec-label">Avant de quitter le RDV — checklist closing</div>
+  <div class="card">
+    <ul class="chk">
+      <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Une <strong>prochaine étape concrète</strong> est définie (date, document à envoyer, rappel planifié)</span></li>
+      <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Le <strong>nom et contact direct</strong> du décideur final est obtenu si ce n'est pas lui</span></li>
+      <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>La <strong>brochure + document récap</strong> est laissée ou promise par email</span></li>
+      <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Le RDV est <strong>noté dans le CRM Notion</strong> avec le statut et l'action suivante</span></li>
+      <li class="chk-i"><input type="checkbox" onchange="done(this)"><span>Un <strong>email de suivi</strong> est envoyé dans les 2h après le RDV</span></li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════ PREP ══════════════ -->
+<div class="page" id="p-prep">
+<div class="wrap">
+  <div class="eyebrow">Checklist préparation</div>
+  <div class="h1">Rien n'est laissé<br><span style="color:var(--g)">au hasard.</span></div>
+
+  <div class="g2" style="margin-top:24px">
+    <div class="card">
+      <div class="eyebrow" style="color:var(--b);margin-bottom:14px">La veille (Dimanche 6 juillet)</div>
+      <ul class="chk">
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Rechercher le centre</strong> — site web, GoAfrica, réseaux sociaux. Nombre d'apprenants, formations proposées, frais estimés.</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Nom du décideur</strong> confirmé — directeur, DG, responsable pédagogique</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Brochure imprimée</strong> en 2 exemplaires minimum</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Démo testée</strong> — vérifier que tout fonctionne, connexion internet disponible</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Cartes de visite</strong> — minimum 3</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Téléphone et PC chargés</strong> à 100%</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Itinéraire confirmé</strong> — adresse exacte, temps de trajet, prévoir +20 min de marge</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Relire ce guide</strong> une fois — avoir les scripts en tête</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="color:var(--g);margin-bottom:14px">Le jour J (Lundi 7 juillet)</div>
+      <ul class="chk">
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Arriver 10 min en avance</strong> — observer l'établissement, le flux d'apprenants</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Confirmer par WhatsApp</strong> la veille au soir ou le matin — "Je confirme notre RDV de [heure] aujourd'hui"</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Tenue professionnelle</strong> — représenter Payiskoul</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Mode avion coupé</strong> pendant le RDV — pas d'interruption</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Cahier ou téléphone</strong> pour noter les réponses du prospect pendant le diagnostic</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>Email de suivi</strong> envoyé dans les 2h après le RDV avec récap + prochaine étape</span></li>
+        <li class="chk-i"><input type="checkbox" onchange="done(this)"><span><strong>CRM Notion mis à jour</strong> avant 20h le soir même</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-label">Email de suivi post-RDV</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="h2" style="font-size:14px">À envoyer dans les 2h après le RDV</div>
+      <button class="copy-btn" onclick="copyFollowUp(this)">Copier</button>
+    </div>
+    <div id="followup-text" style="background:var(--s2);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:12px;color:var(--txt2);line-height:1.8;white-space:pre-wrap;font-family:var(--body)">Objet : Suite à notre rencontre — Payiskoul × [Nom du centre]
+
+[Nom],
+
+Merci pour le temps que vous m'avez accordé ce matin.
+
+Comme convenu, je vous fais parvenir en pièce jointe notre brochure de présentation ainsi qu'un récapitulatif de ce que Payiskoul peut apporter concrètement à [Nom du centre].
+
+Pour rappel, les points clés de notre échange :
+— [Point 1 retenu de la conversation]
+— [Point 2 retenu de la conversation]
+
+Prochaine étape : [ce qui a été convenu — ex: "vous me revenez d'ici vendredi" / "on se retrouve le X avec votre associé" / "je vous envoie le contrat de partenariat"]
+
+Je reste disponible pour toute question.
+
+Cordialement,
+Thy Hamed TRAORE — COO, Payiskoul
++225 XX XX XX XX XX | contact@payiskoul.com</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function go(n){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelector(`[onclick="go('${n}')"]`).classList.add('on');
+  document.getElementById('p-'+n).classList.add('on');
+}
+function done(cb){cb.parentElement.classList.toggle('done',cb.checked)}
+function toggleClose(el){
+  const wasOn=el.classList.contains('sel');
+  document.querySelectorAll('.close-opt').forEach(o=>o.classList.remove('sel'));
+  if(!wasOn)el.classList.add('sel');
+}
+function copyFollowUp(btn){
+  const text=document.getElementById('followup-text').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copié ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copier';btn.classList.remove('ok')},2000);
+  });
+}
+</script>
+</body>
+</html>
