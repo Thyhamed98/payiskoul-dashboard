@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Kit Prospection Terrain</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d0d14;
+  --ink2:#1a1a28;
+  --ink3:#252538;
+  --ink4:#30304a;
+  --wire:#3a3a55;
+  --wire2:#484868;
+  --dust:#8888aa;
+  --fog:#c0c0d8;
+  --paper:#eeeef8;
+  --white:#f8f8ff;
+  --acid:#b8ff3c;
+  --acid2:#d4ff7a;
+  --flame:#ff6b35;
+  --sky:#38bdf8;
+  --mint:#4ade80;
+  --gold:#fbbf24;
+  --rose:#f87171;
+  --violet:#a78bfa;
+  --font:'Space Grotesk',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html,body{background:var(--ink);color:var(--white);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* TOP BAR */
+.topbar{
+  background:var(--ink2);
+  border-bottom:1px solid var(--wire);
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+  width:34px;height:34px;
+  background:linear-gradient(135deg,var(--acid),var(--mint));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;color:var(--ink);
+}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.brand-sub{font-size:10px;color:var(--dust);letter-spacing:0.5px;font-family:var(--mono)}
+.day-badge{
+  font-family:var(--mono);font-size:11px;
+  background:rgba(184,255,60,0.1);
+  border:1px solid rgba(184,255,60,0.25);
+  color:var(--acid);
+  padding:5px 12px;border-radius:6px;
+}
+
+/* NAV */
+.nav{
+  display:flex;gap:0;
+  border-bottom:1px solid var(--wire);
+  background:var(--ink2);
+  padding:0 24px;
+  overflow-x:auto;
+}
+.nav-tab{
+  font-size:11px;font-weight:600;font-family:var(--mono);
+  letter-spacing:0.5px;
+  color:var(--dust);
+  padding:12px 18px;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.nav-tab:hover{color:var(--fog)}
+.nav-tab.active{color:var(--acid);border-bottom-color:var(--acid)}
+.page{display:none}.page.active{display:block}
+
+/* WRAP */
+.wrap{max-width:1000px;margin:0 auto;padding:28px 20px}
+
+/* SECTION TITLE */
+.sec-title{
+  font-size:11px;font-weight:600;
+  font-family:var(--mono);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--dust);
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--wire)}
+
+/* CARDS */
+.card{background:var(--ink2);border:1px solid var(--wire);border-radius:14px;padding:20px;margin-bottom:16px}
+.card-h{font-size:13px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:11px;color:var(--dust);margin-bottom:16px}
+
+/* PROCESS STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{
+  display:flex;gap:0;
+  position:relative;
+}
+.step-left{
+  display:flex;flex-direction:column;align-items:center;
+  width:48px;flex-shrink:0;
+}
+.step-num{
+  width:32px;height:32px;
+  border-radius:50%;
+  background:var(--acid);
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:13px;
+  flex-shrink:0;
+  position:relative;z-index:1;
+}
+.step-line{width:2px;flex:1;background:var(--wire);margin-top:4px;margin-bottom:4px;min-height:20px}
+.step:last-child .step-line{display:none}
+.step-content{flex:1;padding:0 0 28px 16px;padding-top:4px}
+.step-title{font-size:14px;font-weight:700;margin-bottom:6px}
+.step-body{font-size:12px;color:var(--dust);line-height:1.75}
+.step-tag{
+  display:inline-block;font-family:var(--mono);font-size:9px;
+  padding:2px 8px;border-radius:4px;font-weight:600;
+  margin-left:8px;vertical-align:middle;
+}
+
+/* SCRIPT BOX */
+.script-box{
+  background:var(--ink3);
+  border:1px solid var(--wire);
+  border-left:3px solid var(--acid);
+  border-radius:0 10px 10px 0;
+  padding:14px 16px;
+  font-size:12px;
+  line-height:1.8;
+  color:var(--fog);
+  margin:10px 0;
+  white-space:pre-wrap;
+  font-family:var(--mono);
+}
+.script-label{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--acid);margin-bottom:8px;
+}
+.if-box{
+  background:rgba(255,107,53,0.07);
+  border:1px solid rgba(255,107,53,0.2);
+  border-left:3px solid var(--flame);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;
+  font-size:11px;color:var(--fog);
+  line-height:1.75;margin:8px 0;
+}
+.if-label{font-size:9px;font-weight:700;font-family:var(--mono);color:var(--flame);margin-bottom:6px;letter-spacing:1px}
+.ok-box{
+  background:rgba(74,222,128,0.07);
+  border:1px solid rgba(74,222,128,0.2);
+  border-left:3px solid var(--mint);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;
+  font-size:11px;color:var(--fog);
+  line-height:1.75;margin:8px 0;
+}
+.ok-label{font-size:9px;font-weight:700;font-family:var(--mono);color:var(--mint);margin-bottom:6px;letter-spacing:1px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* KPI MINI */
+.kpi-mini{
+  background:var(--ink3);border:1px solid var(--wire);
+  border-radius:10px;padding:14px;text-align:center;
+}
+.kpi-mini-v{font-size:22px;font-weight:700;letter-spacing:-1px;line-height:1}
+.kpi-mini-l{font-size:9px;font-family:var(--mono);color:var(--dust);margin-top:5px;letter-spacing:0.5px}
+
+/* TRACKER */
+.tracker-header{
+  display:grid;
+  grid-template-columns:2fr 1.2fr 1fr 1.2fr 1fr 0.8fr;
+  gap:8px;
+  padding:8px 14px;
+  background:var(--ink3);
+  border-radius:8px 8px 0 0;
+  border:1px solid var(--wire);
+  border-bottom:none;
+  font-family:var(--mono);font-size:9px;
+  font-weight:600;letter-spacing:0.8px;
+  text-transform:uppercase;color:var(--dust);
+}
+.tracker-row{
+  display:grid;
+  grid-template-columns:2fr 1.2fr 1fr 1.2fr 1fr 0.8fr;
+  gap:8px;
+  padding:10px 14px;
+  border:1px solid var(--wire);
+  border-top:none;
+  font-size:12px;
+  align-items:center;
+  transition:background 0.15s;
+}
+.tracker-row:hover{background:var(--ink3)}
+.tracker-row:last-child{border-radius:0 0 8px 8px}
+.status-dot{
+  width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0;
+}
+.sel{
+  font-family:var(--font);font-size:11px;
+  background:var(--ink3);border:1px solid var(--wire);
+  color:var(--fog);padding:4px 8px;border-radius:5px;
+  width:100%;cursor:pointer;
+}
+
+/* COPY BTN */
+.copy-btn{
+  font-size:10px;font-family:var(--mono);
+  padding:4px 10px;border-radius:5px;
+  border:1px solid var(--wire2);
+  color:var(--dust);background:transparent;
+  cursor:pointer;transition:all 0.15s;
+  float:right;
+}
+.copy-btn:hover,.copy-btn.ok{color:var(--acid);border-color:rgba(184,255,60,0.4)}
+
+/* CHECKLIST */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:8px}
+.checklist li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:12px;line-height:1.6;color:var(--fog);
+}
+.checklist li input[type=checkbox]{
+  width:16px;height:16px;accent-color:var(--acid);
+  flex-shrink:0;margin-top:2px;cursor:pointer;
+}
+.checklist li.done{color:var(--dust);text-decoration:line-through}
+
+/* INFO ROW */
+.info-row{
+  display:flex;gap:6px;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--wire);
+  font-size:12px;
+}
+.info-row:last-child{border-bottom:none}
+.info-label{font-family:var(--mono);font-size:9px;color:var(--dust);width:130px;flex-shrink:0;letter-spacing:0.5px}
+.info-val{color:var(--fog);flex:1}
+.info-input{
+  background:var(--ink3);border:1px solid var(--wire);
+  color:var(--fog);font-size:12px;
+  padding:4px 8px;border-radius:5px;
+  font-family:var(--font);flex:1;
+}
+.info-input:focus{outline:none;border-color:var(--acid)}
+
+/* ZONE PILLS */
+.zone-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.zone-pill{
+  font-size:10px;font-weight:600;font-family:var(--mono);
+  padding:4px 12px;border-radius:20px;
+  border:1px solid var(--wire);color:var(--dust);
+  cursor:pointer;transition:all 0.15s;
+}
+.zone-pill.active,.zone-pill:hover{background:var(--acid);color:var(--ink);border-color:var(--acid)}
+
+/* PROSPECTUS PREVIEW */
+.prosp-preview{
+  background:var(--white);color:var(--ink);
+  border-radius:12px;padding:24px;
+  font-family:var(--font);
+  position:relative;overflow:hidden;
+}
+.prosp-preview::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--acid),var(--mint));
+}
+.prosp-title{font-size:18px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:6px}
+.prosp-sub{font-size:11px;color:#666;margin-bottom:16px}
+.prosp-points{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.prosp-points li{display:flex;gap:8px;font-size:12px;color:var(--ink);align-items:flex-start}
+.prosp-points li::before{content:'→';color:#7c6fff;font-weight:700;flex-shrink:0}
+.prosp-cta{
+  background:var(--ink);color:var(--white);
+  border-radius:8px;padding:12px 16px;
+  font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.prosp-qr{
+  width:40px;height:40px;background:#eee;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;color:#999;text-align:center;
+}
+
+/* OBJECTIONS */
+.obj-item{
+  background:var(--ink3);border:1px solid var(--wire);
+  border-radius:10px;padding:14px;margin-bottom:10px;
+}
+.obj-q{
+  font-size:12px;font-weight:600;color:var(--rose);
+  margin-bottom:10px;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.obj-q::before{content:'"';font-size:18px;line-height:1;flex-shrink:0;opacity:0.5}
+.obj-r{font-size:12px;color:var(--fog);line-height:1.75}
+
+/* REPORTING */
+.report-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border:1px solid var(--wire);
+  border-top:none;font-size:12px;
+}
+.report-row:first-child{border-top:1px solid var(--wire);border-radius:8px 8px 0 0}
+.report-row:last-child{border-radius:0 0 8px 8px}
+.report-metric{font-family:var(--mono);font-size:10px;color:var(--dust);width:180px;flex-shrink:0}
+.progress-bar{flex:1;height:6px;background:var(--wire);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.report-val{font-family:var(--mono);font-size:11px;font-weight:600;width:40px;text-align:right}
+
+/* BADGE */
+.badge{
+  display:inline-block;font-size:9px;padding:2px 7px;
+  border-radius:4px;font-weight:600;font-family:var(--mono);
+}
+
+@media(max-width:700px){
+  .g2,.g3{grid-template-columns:1fr}
+  .tracker-header,.tracker-row{grid-template-columns:1fr 1fr}
+  .tracker-header span:nth-child(n+3),.tracker-row span:nth-child(n+3){display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">PK</div>
+    <div>
+      <div class="brand-name">Kit Prospection Terrain</div>
+      <div class="brand-sub">PAYISKOUL · MÉTHODE QUALITATIVE · v1.0</div>
+    </div>
+  </div>
+  <div class="day-badge" id="dateLbl">—</div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active" onclick="goTab('process')">01 · Process</div>
+  <div class="nav-tab" onclick="goTab('scripts')">02 · Scripts appel</div>
+  <div class="nav-tab" onclick="goTab('tracker')">03 · Tracker zone</div>
+  <div class="nav-tab" onclick="goTab('prospectus')">04 · Prospectus</div>
+  <div class="nav-tab" onclick="goTab('objections')">05 · Objections</div>
+  <div class="nav-tab" onclick="goTab('reporting')">06 · Reporting</div>
+</div>
+
+<!-- ═══════════════════════ 01 PROCESS ═══════════════════════ -->
+<div class="page active" id="tab-process">
+<div class="wrap">
+  <div class="sec-title">Méthode 3 étapes — vue d'ensemble</div>
+
+  <div class="g3" style="margin-bottom:24px">
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--acid)">8–12</div><div class="kpi-mini-l">Appels/jour ciblés</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--mint)">1 zone</div><div class="kpi-mini-l">Par sortie terrain</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--gold)">48h</div><div class="kpi-mini-l">Délai relance post-dépôt</div></div>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 0 : PRÉPARATION -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num" style="background:var(--violet);color:#fff;font-size:11px">PRÉ</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Préparation de la liste <span class="step-tag" style="background:rgba(167,139,250,0.15);color:var(--violet)">VEILLE</span></div>
+        <div class="step-body">Avant toute action, construire la liste cible de la zone choisie pour la semaine.</div>
+        <div class="card" style="margin-top:12px">
+          <div class="card-sub" style="margin-bottom:10px">Sources à utiliser (dans l'ordre)</div>
+          <ul class="checklist" id="prep-list">
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Google Maps</strong> — recherche "centre de formation [zone]", "lycée privé [zone]", "école [zone]". Copier nom + numéro dans le tracker.</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">GoAfrica Online</strong> — recherche par catégorie "Éducation & Formation" → filtrer par ville/commune.</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Liste interne Payiskoul</strong> — vérifier que les prospects trouvés ne sont pas déjà dans notre CRM Notion.</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Objectif minimum</strong> — 15 à 20 établissements identifiés par zone avant de commencer les appels.</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Regrouper par zone géographique</strong> — pour que la sortie terrain soit efficace (ex : tout Cocody lundi, tout Yopougon mercredi).</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : APPELS -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num">1</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Appels de qualification <span class="step-tag" style="background:rgba(184,255,60,0.12);color:var(--acid)">MATIN · 8h–11h</span></div>
+        <div class="step-body">Objectif unique de l'appel : obtenir le nom du décideur + son canal de contact + un créneau ou une ouverture. <strong style="color:var(--white)">Pas de pitch produit à cette étape.</strong></div>
+        <div class="card" style="margin-top:12px">
+          <ul class="checklist">
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Préparer la liste des appels du jour (8 à 12 max) — tirés du tracker zone</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Avoir le script d'appel sous les yeux (onglet Scripts)</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Remplir le tracker immédiatement après chaque appel (résultat, nom obtenu, statut)</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Appels terminés → identifier lesquels ont donné un RDV ou une ouverture pour la visite</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Les prospects sans réponse : rappeler le lendemain matin (1 seule relance appel)</span></li>
+          </ul>
+        </div>
+        <div style="margin-top:10px;padding:10px 14px;background:rgba(184,255,60,0.06);border:1px solid rgba(184,255,60,0.15);border-radius:8px;font-size:11px;color:var(--dust)">
+          💡 <strong style="color:var(--acid)">Règle d'or :</strong> Si la secrétaire répond, l'objectif est <em>uniquement</em> d'obtenir le nom et le bon numéro du responsable. Pas de pitch. Merci, on raccroche, on rappelle directement.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : TERRAIN -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num">2</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Sortie terrain zonée <span class="step-tag" style="background:rgba(56,189,248,0.12);color:var(--sky)">APRÈS-MIDI · 14h–17h30</span></div>
+        <div class="step-body">Un seul déplacement = plusieurs opportunités activées. On visite les RDV obtenus ET on dépose des prospectus dans les établissements non contactés de la même zone.</div>
+        <div class="card" style="margin-top:12px">
+          <ul class="checklist">
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Matériel à emmener :</strong> prospectus (min 20), lettre personnalisée si nom du DG connu, cartes de visite</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Pour chaque RDV : aller en premier, avoir le pitch de 5 min prêt (voir Scripts)</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Pour les dépôts sans RDV : demander le nom du responsable à la réception, laisser le prospectus + lettre nominative si possible</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Photographier chaque établissement visité (façade) pour le CRM Notion</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Mettre à jour le tracker en temps réel depuis le téléphone</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Rentré : consigner dans Notion (prospect, résultat, action suivante)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : RELANCE -->
+    <div class="step">
+      <div class="step-left">
+        <div class="step-num">3</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-content">
+        <div class="step-title">Relance post-dépôt <span class="step-tag" style="background:rgba(251,191,36,0.12);color:var(--gold)">J+2 · 9h–10h</span></div>
+        <div class="step-body">Le dépôt de prospectus seul ne convertit jamais. La relance transforme le dépôt en rendez-vous qualifié.</div>
+        <div class="card" style="margin-top:12px">
+          <ul class="checklist">
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Identifier dans le tracker tous les dépôts faits il y a 48h exactement</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Appeler avec le script de relance post-dépôt (voir Scripts)</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Objectif de la relance : confirmer réception + proposer démo de 20 min</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Si toujours pas de réponse : 1 message WhatsApp (voir Scripts), puis archiver si aucune réponse à J+5</span></li>
+            <li><input type="checkbox" onchange="toggleDone(this)"> <span>Tout résultat (RDV, report, refus) → mis à jour dans Notion CRM</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PLANNING HEBDO -->
+  <div class="sec-title" style="margin-top:8px">Planning type — 1 semaine</div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="background:var(--ink3);font-family:var(--mono);font-size:10px;color:var(--dust)">
+          <th style="padding:10px 14px;text-align:left;font-weight:600">JOUR</th>
+          <th style="padding:10px 14px;text-align:left;font-weight:600">MATIN (8h–12h)</th>
+          <th style="padding:10px 14px;text-align:left;font-weight:600">APRÈS-MIDI (14h–18h)</th>
+          <th style="padding:10px 14px;text-align:left;font-weight:600">ZONE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:10px 14px;font-weight:700;color:var(--acid)">LUN</td>
+          <td style="padding:10px 14px;color:var(--fog)">Préparation liste Zone A (Maps + GoAfrica)</td>
+          <td style="padding:10px 14px;color:var(--fog)">8–12 appels qualification Zone A</td>
+          <td style="padding:10px 14px;color:var(--dust);font-family:var(--mono)">Zone A</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:10px 14px;font-weight:700;color:var(--acid)">MAR</td>
+          <td style="padding:10px 14px;color:var(--fog)">Relances J+2 Zone A · Prépa liste Zone B</td>
+          <td style="padding:10px 14px;color:var(--fog)">Sortie terrain Zone A (RDV + dépôts)</td>
+          <td style="padding:10px 14px;color:var(--dust);font-family:var(--mono)">Zone A</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:10px 14px;font-weight:700;color:var(--sky)">MER</td>
+          <td style="padding:10px 14px;color:var(--fog)">8–12 appels qualification Zone B</td>
+          <td style="padding:10px 14px;color:var(--fog)">Sortie terrain Zone B (RDV + dépôts)</td>
+          <td style="padding:10px 14px;color:var(--dust);font-family:var(--mono)">Zone B</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:10px 14px;font-weight:700;color:var(--sky)">JEU</td>
+          <td style="padding:10px 14px;color:var(--fog)">Relances J+2 Zone B · Demos confirmées</td>
+          <td style="padding:10px 14px;color:var(--fog)">Démonstrations produit (RDV confirmés)</td>
+          <td style="padding:10px 14px;color:var(--dust);font-family:var(--mono)">Mixte</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:10px 14px;font-weight:700;color:var(--gold)">VEN</td>
+          <td style="padding:10px 14px;color:var(--fog)">Bilan semaine · Mise à jour Notion CRM</td>
+          <td style="padding:10px 14px;color:var(--fog)">Préparation liste semaine suivante</td>
+          <td style="padding:10px 14px;color:var(--dust);font-family:var(--mono)">Reporting</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════ 02 SCRIPTS ═══════════════════════ -->
+<div class="page" id="tab-scripts">
+<div class="wrap">
+  <div class="sec-title">Scripts d'appel — prêts à l'emploi</div>
+
+  <!-- SCRIPT 1 -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-h">Script 1 — Appel de qualification (secrétaire répond)</div>
+        <div class="card-sub">Objectif : contourner le filtre, obtenir le nom et numéro du décideur</div>
+      </div>
+      <button class="copy-btn" onclick="copyScript('s1',this)">Copier</button>
+    </div>
+    <div class="script-label">Ouverture</div>
+    <div class="script-box" id="s1">Bonjour, je suis [Ton prénom], de la société Payiskoul.
+Je souhaiterais parler au directeur ou à la personne responsable des inscriptions et des frais de scolarité.
+Est-ce que vous pouvez me passer cette personne ?</div>
+    <div class="if-label">SI : "Il/elle n'est pas disponible"</div>
+    <div class="if-box">D'accord, pas de souci. Quel est le meilleur moment pour le/la joindre directement ?
+Et pour que je puisse l'appeler personnellement — c'est bien [Nom de la personne] ?
+Est-ce que vous avez un numéro direct pour lui/elle ?
+
+Merci beaucoup. Je rappellerai [heure donnée]. Bonne journée !</div>
+    <div class="if-label">SI : "C'est pour quoi exactement ?"</div>
+    <div class="if-box">Nous travaillons avec des établissements scolaires et de formation en Côte d'Ivoire
+pour digitaliser le paiement des frais via Mobile Money.
+Je voulais juste prendre 2 minutes avec le directeur pour lui présenter brièvement.
+Ce n'est pas un démarchage — juste un premier échange pour voir si c'est pertinent pour vous.
+Je peux parler à [Nom] ?</div>
+  </div>
+
+  <!-- SCRIPT 2 -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-h">Script 2 — Appel de qualification (décideur répond directement)</div>
+        <div class="card-sub">Objectif : capter l'attention en 30 secondes, obtenir un RDV ou une ouverture</div>
+      </div>
+      <button class="copy-btn" onclick="copyScript('s2',this)">Copier</button>
+    </div>
+    <div class="script-label">Pitch 30 secondes</div>
+    <div class="script-box" id="s2">Bonjour [Nom], je suis [Ton prénom], COO de Payiskoul.
+
+Nous développons une solution qui permet aux parents d'élèves de payer les frais de scolarité
+en plusieurs fois via Orange Money ou Wave — sans avance de fonds pour vous.
+
+Vous recevez la totalité des frais, c'est nous qui gérons l'échelonnement.
+
+Je voulais juste vérifier si c'est une problématique que vous rencontrez — les impayés ou les retards de paiement ?</div>
+    <div class="ok-label">SI : "Oui, c'est effectivement un problème"</div>
+    <div class="ok-box">Parfait. Est-ce que vous auriez 20 minutes cette semaine ou la semaine prochaine
+pour que je vous montre concrètement comment ça fonctionne ?
+Je peux me déplacer directement chez vous.</div>
+    <div class="if-label">SI : "Je ne suis pas sûr / on gère bien"</div>
+    <div class="if-box">Je comprends tout à fait. Est-ce que je peux au moins vous faire parvenir notre document de présentation ?
+Juste pour que vous ayez l'info — si un jour c'est utile, vous aurez le contact.
+Je passe dans votre zone [jour] — je peux déposer ça à votre secrétariat ?</div>
+  </div>
+
+  <!-- SCRIPT 3 -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-h">Script 3 — Relance post-dépôt (J+2)</div>
+        <div class="card-sub">Objectif : transformer le dépôt en rendez-vous de démonstration</div>
+      </div>
+      <button class="copy-btn" onclick="copyScript('s3',this)">Copier</button>
+    </div>
+    <div class="script-label">Appel J+2</div>
+    <div class="script-box" id="s3">Bonjour [Nom], c'est [Ton prénom] de Payiskoul.
+
+Nous sommes passés [mardi/mercredi] déposer notre dossier de présentation à votre secrétariat.
+Avez-vous eu l'occasion d'en prendre connaissance ?</div>
+    <div class="ok-label">SI : "Oui, j'ai vu"</div>
+    <div class="ok-box">Très bien. Est-ce que vous avez des questions sur ce qu'on propose ?
+Je pourrais vous faire une démo de 20 minutes — c'est très visuel, vous voyez exactement
+ce que verrait un parent et ce que vous recevez de votre côté.
+Quand est-ce que vous seriez disponible cette semaine ?</div>
+    <div class="if-label">SI : "Pas encore eu le temps"</div>
+    <div class="if-box">Pas de problème du tout. En 2 phrases : on permet à vos parents de payer en plusieurs fois via Mobile Money,
+et vous, vous recevez le paiement complet sans attendre.
+
+Est-ce que je peux prévoir un passage de 20 minutes en fin de semaine pour vous montrer ça en direct ?</div>
+  </div>
+
+  <!-- SCRIPT 4 : WhatsApp -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-h">Script 4 — Message WhatsApp (si pas de réponse au téléphone)</div>
+        <div class="card-sub">Objectif : obtenir une réponse sans être intrusif</div>
+      </div>
+      <button class="copy-btn" onclick="copyScript('s4',this)">Copier</button>
+    </div>
+    <div class="script-label">Message WhatsApp · J+2 ou J+3</div>
+    <div class="script-box" id="s4">Bonjour [Nom] 👋
+
+Je suis [Prénom], COO de *Payiskoul*.
+Nous sommes passés déposer notre dossier à [Nom établissement].
+
+En résumé : on aide les établissements à digitaliser le paiement des frais et à permettre aux parents de payer en plusieurs fois via Mobile Money 📱
+
+Seriez-vous disponible 20 min cette semaine pour une démo rapide ?
+
+Merci et bonne journée 🙏</div>
+  </div>
+
+  <!-- SCRIPT 5 : Pitch terrain -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-h">Script 5 — Pitch terrain (vous êtes devant le décideur)</div>
+        <div class="card-sub">Objectif : obtenir un OUI pour une démo ou une signature en 5 min</div>
+      </div>
+      <button class="copy-btn" onclick="copyScript('s5',this)">Copier</button>
+    </div>
+    <div class="script-label">Structure en 3 temps</div>
+    <div class="script-box" id="s5">[TEMPS 1 — Le problème · 60 secondes]
+"Aujourd'hui, combien de parents payent les frais de scolarité en retard ou pas du tout ?
+C'est la réalité de presque tous les établissements que je rencontre ici à Abidjan.
+La raison principale : les parents n'ont pas la totalité de la somme au moment de l'inscription."
+
+[TEMPS 2 — La solution · 90 secondes]
+"Payiskoul résout exactement ça.
+On intègre un système de paiement Mobile Money sur votre établissement.
+Les parents paient en 2, 3 ou 5 fois — à leur rythme — via Orange Money, MTN ou Wave.
+Vous, vous recevez un versement automatique, même si le parent paie par tranches.
+Zéro impayé. Zéro gestion administrative supplémentaire pour vous."
+
+[TEMPS 3 — L'invitation · 30 secondes]
+"Je voudrais vous montrer le tableau de bord en direct — 20 minutes, sur votre écran.
+Vous verrez exactement ce que voit un parent et ce que vous pilotez côté établissement.
+Est-ce qu'on peut prévoir ça cette semaine ?"</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════ 03 TRACKER ═══════════════════════ -->
+<div class="page" id="tab-tracker">
+<div class="wrap">
+  <div class="sec-title">Tracker zone — gestion des prospects</div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Zone active</div>
+      <div class="zone-pills" id="zonePills">
+        <span class="zone-pill active" onclick="setZone('Cocody',this)">Cocody</span>
+        <span class="zone-pill" onclick="setZone('Yopougon',this)">Yopougon</span>
+        <span class="zone-pill" onclick="setZone('Plateau',this)">Plateau</span>
+        <span class="zone-pill" onclick="setZone('Marcory',this)">Marcory</span>
+        <span class="zone-pill" onclick="setZone('Abobo',this)">Abobo</span>
+        <span class="zone-pill" onclick="setZone('Adjamé',this)">Adjamé</span>
+        <span class="zone-pill" onclick="setZone('Treichville',this)">Treichville</span>
+        <span class="zone-pill" onclick="setZone('Autre',this)">+ Autre</span>
+      </div>
+    </div>
+    <button onclick="addRow()" style="font-size:11px;font-family:var(--mono);padding:8px 16px;border-radius:7px;background:rgba(184,255,60,0.12);border:1px solid rgba(184,255,60,0.3);color:var(--acid);cursor:pointer;font-weight:600">+ Ajouter prospect</button>
+  </div>
+
+  <div class="g3" style="margin-bottom:16px" id="trackerKpis">
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--acid)" id="kpiTotal">0</div><div class="kpi-mini-l">Prospects zone</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--mint)" id="kpiRdv">0</div><div class="kpi-mini-l">RDV obtenus</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--gold)" id="kpiDepot">0</div><div class="kpi-mini-l">Dépôts effectués</div></div>
+  </div>
+
+  <div id="trackerTable">
+    <div class="tracker-header">
+      <span>Établissement</span>
+      <span>Contact / Tél</span>
+      <span>Type</span>
+      <span>Statut</span>
+      <span>Prochaine action</span>
+      <span>Actions</span>
+    </div>
+    <div id="trackerBody"></div>
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+    <button onclick="exportTracker()" style="font-size:10px;font-family:var(--mono);padding:6px 14px;border-radius:6px;background:var(--ink3);border:1px solid var(--wire);color:var(--dust);cursor:pointer">↓ Exporter CSV</button>
+    <button onclick="clearDone()" style="font-size:10px;font-family:var(--mono);padding:6px 14px;border-radius:6px;background:var(--ink3);border:1px solid var(--wire);color:var(--dust);cursor:pointer">Archiver traités</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════ 04 PROSPECTUS ═══════════════════════ -->
+<div class="page" id="tab-prospectus">
+<div class="wrap">
+  <div class="sec-title">Prospectus & lettre de dépôt</div>
+
+  <div class="g2">
+    <div>
+      <div class="card-h" style="margin-bottom:4px;font-size:13px">Prospectus A5 — aperçu</div>
+      <div class="card-sub" style="margin-bottom:14px">Design à imprimer recto. Format A5, impression couleur.</div>
+      <div class="prosp-preview" id="prospView">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#7c6fff,#4ade80);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff">PK</div>
+          <div><div style="font-size:15px;font-weight:800;color:var(--ink)">Payiskoul</div><div style="font-size:9px;color:#888;letter-spacing:0.5px">LA FINTECH DE L'ÉDUCATION EN CI</div></div>
+        </div>
+        <div class="prosp-title">Fini les impayés de frais scolaires.</div>
+        <div class="prosp-sub">Payiskoul permet à vos parents de payer en plusieurs fois via Mobile Money — vous recevez tout.</div>
+        <ul class="prosp-points">
+          <li>Paiement échelonné à volonté — Orange Money, MTN MoMo, Wave</li>
+          <li>Tableau de bord en temps réel pour suivre chaque paiement</li>
+          <li>Relances automatiques aux parents en retard</li>
+          <li>Opérationnel en 48h — zéro intégration technique</li>
+          <li>Aucun frais d'installation — commission uniquement sur transactions</li>
+        </ul>
+        <div class="prosp-cta">
+          <div>
+            <div style="font-size:11px;font-weight:700;margin-bottom:2px">Demandez une démo gratuite</div>
+            <div style="font-size:10px;color:#aaa" id="prospContact">+225 XX XX XX XX XX · contact@payiskoul.com</div>
+          </div>
+          <div class="prosp-qr">QR<br>code</div>
+        </div>
+        <div style="margin-top:10px;font-size:9px;color:#bbb;text-align:center">Certification IDU CI-2026-0053987M</div>
+      </div>
+      <button onclick="copyProspectus()" style="margin-top:10px;font-size:10px;font-family:var(--mono);padding:6px 14px;border-radius:6px;background:var(--ink3);border:1px solid var(--wire);color:var(--dust);cursor:pointer;width:100%">↓ Copier texte prospectus</button>
+    </div>
+    <div>
+      <div class="card-h" style="margin-bottom:4px;font-size:13px">Lettre de dépôt nominative</div>
+      <div class="card-sub" style="margin-bottom:14px">À personnaliser avec le nom obtenu lors de l'appel. Imprimer + agrafer au prospectus.</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:10px;font-family:var(--mono);color:var(--dust);margin-bottom:6px;letter-spacing:0.5px">PERSONNALISER</div>
+        <div class="info-row"><span class="info-label">NOM DÉCIDEUR</span><input class="info-input" id="lettreName" placeholder="M. Konan / Mme Diallo" oninput="updateLettre()"></div>
+        <div class="info-row"><span class="info-label">NOM ÉTABLISSEMENT</span><input class="info-input" id="lettreEtab" placeholder="Centre de Formation X" oninput="updateLettre()"></div>
+        <div class="info-row"><span class="info-label">ZONE / COMMUNE</span><input class="info-input" id="lettreZone" placeholder="Cocody" oninput="updateLettre()"></div>
+      </div>
+      <div id="lettreView" style="background:var(--white);color:var(--ink);border-radius:12px;padding:20px;font-size:12px;line-height:1.85;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c6fff,#4ade80)"></div>
+        <div id="lettreContent"></div>
+      </div>
+      <button onclick="copyLettre()" style="margin-top:10px;font-size:10px;font-family:var(--mono);padding:6px 14px;border-radius:6px;background:var(--ink3);border:1px solid var(--wire);color:var(--dust);cursor:pointer;width:100%">↓ Copier lettre</button>
+    </div>
+  </div>
+
+  <div class="sec-title" style="margin-top:24px">Checklist matériel avant sortie terrain</div>
+  <div class="card">
+    <ul class="checklist">
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Prospectus imprimés</strong> — minimum 20 par sortie, A5 recto couleur</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Lettres personnalisées</strong> — pour chaque établissement dont on a le nom du responsable</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Cartes de visite</strong> — 1 ou 2 par établissement visité</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Téléphone chargé</strong> — pour tracker en temps réel et photographier</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Liste des RDV confirmés</strong> — avec adresse exacte, heure, nom du contact</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Liste des dépôts à faire</strong> — établissements non contactés de la zone</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Tenue correcte</strong> — représenter Payiskoul avec professionnalisme</span></li>
+      <li><input type="checkbox" onchange="toggleDone(this)"> <span><strong style="color:var(--fog)">Tablette/PC si démo</strong> — pour les RDV confirmés qui veulent voir le produit</span></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════ 05 OBJECTIONS ═══════════════════════ -->
+<div class="page" id="tab-objections">
+<div class="wrap">
+  <div class="sec-title">Réponses aux objections terrain</div>
+
+  <div id="objList"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════ 06 REPORTING ═══════════════════════ -->
+<div class="page" id="tab-reporting">
+<div class="wrap">
+  <div class="sec-title">Reporting hebdomadaire</div>
+
+  <div class="g3" style="margin-bottom:20px">
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--acid)" id="rTotal">0</div><div class="kpi-mini-l">Contacts totaux</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--mint)" id="rRdv">0</div><div class="kpi-mini-l">RDV obtenus</div></div>
+    <div class="kpi-mini"><div class="kpi-mini-v" style="color:var(--gold)" id="rConv">0%</div><div class="kpi-mini-l">Taux conversion</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-h" style="margin-bottom:14px">Saisie manuelle — résultats de la semaine</div>
+    <div class="g2" style="gap:10px;margin-bottom:14px">
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">APPELS PASSÉS</div>
+        <input class="info-input" type="number" id="inAppels" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">CONTACTS DÉCIDEURS</div>
+        <input class="info-input" type="number" id="inDecideurs" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">DÉPÔTS EFFECTUÉS</div>
+        <input class="info-input" type="number" id="inDepots" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">RDV CONFIRMÉS</div>
+        <input class="info-input" type="number" id="inRdv" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">DÉMOS RÉALISÉES</div>
+        <input class="info-input" type="number" id="inDemos" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+      <div class="info-row" style="flex-direction:column;align-items:flex-start;border:none;padding:0">
+        <div class="info-label" style="margin-bottom:5px">CONTRATS SIGNÉS</div>
+        <input class="info-input" type="number" id="inSignes" placeholder="0" min="0" oninput="calcReport()">
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">Entonnoir de conversion</div>
+  <div style="background:var(--ink2);border:1px solid var(--wire);border-radius:12px;overflow:hidden;margin-bottom:20px">
+    <div class="report-row"><span class="report-metric">Appels passés</span><div class="progress-bar"><div class="progress-fill" id="bar1" style="background:var(--acid);width:0%"></div></div><span class="report-val" id="v1">0</span></div>
+    <div class="report-row"><span class="report-metric">Contacts décideurs</span><div class="progress-bar"><div class="progress-fill" id="bar2" style="background:var(--sky);width:0%"></div></div><span class="report-val" id="v2">0</span></div>
+    <div class="report-row"><span class="report-metric">Dépôts effectués</span><div class="progress-bar"><div class="progress-fill" id="bar3" style="background:var(--violet);width:0%"></div></div><span class="report-val" id="v3">0</span></div>
+    <div class="report-row"><span class="report-metric">RDV confirmés</span><div class="progress-bar"><div class="progress-fill" id="bar4" style="background:var(--gold);width:0%"></div></div><span class="report-val" id="v4">0</span></div>
+    <div class="report-row"><span class="report-metric">Démos réalisées</span><div class="progress-bar"><div class="progress-fill" id="bar5" style="background:var(--flame);width:0%"></div></div><span class="report-val" id="v5">0</span></div>
+    <div class="report-row"><span class="report-metric">Contrats signés</span><div class="progress-bar"><div class="progress-fill" id="bar6" style="background:var(--mint);width:0%"></div></div><span class="report-val" id="v6">0</span></div>
+  </div>
+
+  <div class="sec-title">Objectifs hebdo — benchmarks cibles</div>
+  <div class="card">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="font-family:var(--mono);font-size:9px;color:var(--dust)">
+          <th style="padding:8px 0;text-align:left;font-weight:600">MÉTRIQUE</th>
+          <th style="padding:8px;text-align:center;font-weight:600;color:var(--gold)">SEMAINE 1</th>
+          <th style="padding:8px;text-align:center;font-weight:600;color:var(--acid)">SEMAINE 2+</th>
+          <th style="padding:8px;text-align:left;font-weight:600">NOTE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:9px 0;color:var(--fog)">Appels passés</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--gold);font-weight:700;font-family:var(--mono)">40–60</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--acid);font-weight:700;font-family:var(--mono)">60–80</td>
+          <td style="padding:9px 0;color:var(--dust);font-size:11px">8–12/jour, 5 jours</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:9px 0;color:var(--fog)">Contacts décideurs</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--gold);font-weight:700;font-family:var(--mono)">15–20</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--acid);font-weight:700;font-family:var(--mono)">25–35</td>
+          <td style="padding:9px 0;color:var(--dust);font-size:11px">~30–40% des appels</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:9px 0;color:var(--fog)">Dépôts terrain</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--gold);font-weight:700;font-family:var(--mono)">20–30</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--acid);font-weight:700;font-family:var(--mono)">30–40</td>
+          <td style="padding:9px 0;color:var(--dust);font-size:11px">2 sorties/semaine</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:9px 0;color:var(--fog)">RDV confirmés</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--gold);font-weight:700;font-family:var(--mono)">3–5</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--acid);font-weight:700;font-family:var(--mono)">8–12</td>
+          <td style="padding:9px 0;color:var(--dust);font-size:11px">Objectif critique</td>
+        </tr>
+        <tr style="border-top:1px solid var(--wire)">
+          <td style="padding:9px 0;color:var(--fog)">Démos réalisées</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--gold);font-weight:700;font-family:var(--mono)">2–3</td>
+          <td style="padding:9px 8px;text-align:center;color:var(--acid);font-weight:700;font-family:var(--mono)">5–8</td>
+          <td style="padding:9px 0;color:var(--dust);font-size:11px">Objectif pipeline</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<script>
+// DATE
+document.getElementById('dateLbl').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+
+// TABS
+function goTab(n){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="goTab('${n}')"]`).classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
+}
+
+// CHECKLIST
+function toggleDone(cb){cb.parentElement.classList.toggle('done',cb.checked)}
+
+// COPY SCRIPT
+const scriptIds=['s1','s2','s3','s4','s5'];
+function copyScript(id,btn){
+  const el=document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{
+    const orig=btn.textContent;btn.textContent='Copié ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('ok')},2000);
+  });
+}
+
+// TRACKER
+let prospects=[];
+let currentZone='Cocody';
+function setZone(z,el){
+  currentZone=z;
+  document.querySelectorAll('.zone-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderTracker();
+}
+function addRow(){
+  prospects.push({id:Date.now(),zone:currentZone,nom:'',contact:'',type:'Formation',statut:'À appeler',action:'Appel qualification'});
+  renderTracker();
+}
+function renderTracker(){
+  const filtered=prospects.filter(p=>p.zone===currentZone);
+  const rdv=filtered.filter(p=>p.statut==='RDV confirmé').length;
+  const depot=filtered.filter(p=>p.statut==='Dépôt fait').length;
+  document.getElementById('kpiTotal').textContent=filtered.length;
+  document.getElementById('kpiRdv').textContent=rdv;
+  document.getElementById('kpiDepot').textContent=depot;
+  document.getElementById('rTotal').textContent=prospects.length;
+  document.getElementById('rRdv').textContent=prospects.filter(p=>p.statut==='RDV confirmé').length;
+  const tot=prospects.length||1;
+  const rv=prospects.filter(p=>p.statut==='RDV confirmé').length;
+  document.getElementById('rConv').textContent=Math.round(rv/tot*100)+'%';
+
+  const types=['Formation','Université','Lycée/École','Langues','Conduite','BTP/Hôtellerie'];
+  const statuts=['À appeler','Rappeler','Contact établi','Dépôt fait','RDV confirmé','Démo faite','Converti','Sans suite'];
+  const statusColor={'À appeler':'var(--dust)','Rappeler':'var(--gold)','Contact établi':'var(--sky)','Dépôt fait':'var(--violet)','RDV confirmé':'var(--acid)','Démo faite':'var(--flame)','Converti':'var(--mint)','Sans suite':'var(--rose)'};
+
+  document.getElementById('trackerBody').innerHTML=filtered.length===0
+    ?`<div style="text-align:center;padding:32px;color:var(--dust);font-size:12px">Aucun prospect pour cette zone.<br>Cliquez "+ Ajouter prospect" pour commencer.</div>`
+    :filtered.map(p=>`
+    <div class="tracker-row" id="row-${p.id}">
+      <span><input class="info-input" style="width:100%" value="${p.nom}" placeholder="Nom établissement" oninput="updateProp(${p.id},'nom',this.value)"></span>
+      <span><input class="info-input" style="width:100%" value="${p.contact}" placeholder="+225 ..." oninput="updateProp(${p.id},'contact',this.value)"></span>
+      <span><select class="sel" onchange="updateProp(${p.id},'type',this.value)">${types.map(t=>`<option${t===p.type?' selected':''}>${t}</option>`).join('')}</select></span>
+      <span><select class="sel" onchange="updateProp(${p.id},'statut',this.value);renderTracker()" style="color:${statusColor[p.statut]}">${statuts.map(s=>`<option${s===p.statut?' selected':''}>${s}</option>`).join('')}</select></span>
+      <span><input class="info-input" style="width:100%;font-size:10px" value="${p.action}" placeholder="Prochaine action" oninput="updateProp(${p.id},'action',this.value)"></span>
+      <span><button onclick="deleteRow(${p.id})" style="font-size:10px;font-family:var(--mono);padding:4px 8px;border-radius:4px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);color:var(--rose);cursor:pointer">✕</button></span>
+    </div>`).join('');
+}
+function updateProp(id,key,val){const p=prospects.find(x=>x.id===id);if(p)p[key]=val;}
+function deleteRow(id){prospects=prospects.filter(p=>p.id!==id);renderTracker();}
+function clearDone(){prospects=prospects.filter(p=>!['Converti','Sans suite'].includes(p.statut));renderTracker();}
+function exportTracker(){
+  const headers=['Zone','Nom','Contact','Type','Statut','Action suivante'];
+  const rows=prospects.map(p=>[p.zone,p.nom,p.contact,p.type,p.statut,p.action]);
+  const csv=[headers,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='payiskoul_tracker.csv';a.click();
+}
+renderTracker();
+
+// LETTRE
+function updateLettre(){
+  const name=document.getElementById('lettreName').value||'Monsieur le Directeur';
+  const etab=document.getElementById('lettreEtab').value||'votre établissement';
+  const zone=document.getElementById('lettreZone').value||'Abidjan';
+  const date=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('lettreContent').innerHTML=`
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+      <div style="font-weight:800;font-size:14px;color:var(--ink)">Payiskoul</div>
+      <div style="font-size:11px;color:#888;text-align:right">Abidjan, le ${date}<br>contact@payiskoul.com</div>
+    </div>
+    <div style="margin-bottom:12px;font-size:11px;color:#444">
+      À l'attention de <strong>${name}</strong><br>
+      ${etab} — ${zone}
+    </div>
+    <div style="font-weight:700;margin-bottom:10px;font-size:13px">Objet : Présentation de Payiskoul — solution de paiement échelonné pour établissements éducatifs</div>
+    <p style="margin-bottom:10px;font-size:12px;color:#333;line-height:1.75">${name},</p>
+    <p style="margin-bottom:10px;font-size:12px;color:#333;line-height:1.75">Nous vous adressons ce courrier pour vous présenter <strong>Payiskoul</strong>, la solution qui permet à vos parents et apprenants de payer les frais de scolarité <strong>en plusieurs fois via Mobile Money</strong> — Orange Money, MTN MoMo ou Wave.</p>
+    <p style="margin-bottom:10px;font-size:12px;color:#333;line-height:1.75">Notre modèle est simple : <strong>vous recevez la totalité des frais</strong>, c'est Payiskoul qui gère l'échelonnement et les relances. Aucun frais d'installation — nous prenons uniquement une commission sur les transactions.</p>
+    <p style="margin-bottom:14px;font-size:12px;color:#333;line-height:1.75">Nous serions heureux de vous présenter notre solution lors d'un rendez-vous de 20 minutes à votre convenance.</p>
+    <p style="font-size:12px;color:#333">Cordialement,<br><strong>Thy Hamed TRAORE</strong><br>COO — Payiskoul<br><span style="color:#888">+225 XX XX XX XX XX · contact@payiskoul.com</span></p>
+    <div style="margin-top:14px;padding-top:10px;border-top:1px solid #eee;font-size:9px;color:#bbb">Certification IDU CI-2026-0053987M · payiskoul.com</div>
+  `;
+}
+updateLettre();
+
+function copyLettre(){
+  const el=document.getElementById('lettreContent');
+  navigator.clipboard.writeText(el.innerText).then(()=>alert('Lettre copiée !'));
+}
+function copyProspectus(){
+  const text=`PAYISKOUL — LA FINTECH DE L'ÉDUCATION EN CI
+
+Fini les impayés de frais scolaires.
+
+Payiskoul permet à vos parents de payer en plusieurs fois via Mobile Money — vous recevez tout.
+
+→ Paiement échelonné à volonté — Orange Money, MTN MoMo, Wave
+→ Tableau de bord en temps réel pour suivre chaque paiement
+→ Relances automatiques aux parents en retard
+→ Opérationnel en 48h — zéro intégration technique
+→ Aucun frais d'installation — commission uniquement sur transactions
+
+Demandez une démo gratuite :
++225 XX XX XX XX XX · contact@payiskoul.com
+
+Certification IDU CI-2026-0053987M`;
+  navigator.clipboard.writeText(text).then(()=>alert('Texte prospectus copié !'));
+}
+
+// OBJECTIONS
+const objections=[
+  {q:"On gère bien les paiements, on n'a pas de problème d'impayés.",r:"Je vous crois. Et c'est justement pour ça que Payiskoul vous convient : vous avez déjà la rigueur de gestion, on vous ajoute juste un canal supplémentaire. Les parents qui n'ont pas la totalité peuvent quand même payer — et ça, ça augmente vos inscriptions, pas juste les paiements."},
+  {q:"On n'a pas le temps de former notre équipe à un nouveau système.",r:"Compréhensible. Notre intégration ne demande aucune formation technique. Votre équipe accède à un tableau de bord simple — comme regarder un relevé. La démo prend 20 minutes. Vous verrez vous-même si c'est complexe ou pas."},
+  {q:"Les parents ici préfèrent payer cash.",r:"C'est ce que beaucoup de directeurs pensaient avant de travailler avec nous. En réalité, ce n'est pas qu'ils préfèrent le cash — c'est qu'ils n'avaient pas d'autre option. Avec Mobile Money, on donne une option de plus, on n'enlève rien."},
+  {q:"C'est quoi votre commission ? C'est trop cher.",r:"Notre commission est prélevée uniquement sur les transactions réalisées — aucun frais fixe. Si vous ne l'utilisez pas, vous ne payez rien. Et la commission, c'est nous qui la définissons ensemble selon votre volume. Je peux vous donner une simulation précise lors de notre démo."},
+  {q:"On a déjà CinetPay / un système de paiement.",r:"Très bien — on est complémentaires. CinetPay gère l'encaissement ponctuel. Payiskoul gère l'échelonnement et le suivi. La différence, c'est qu'un parent peut payer en 5 fois avec nous, ce que CinetPay ne propose pas. On peut s'intégrer à côté de ce que vous avez déjà."},
+  {q:"Je dois en parler à mon associé / conseil d'administration.",r:"Parfaitement normal pour une décision comme celle-là. Je peux préparer un document synthétique pour votre associé — une page, chiffres et fonctionnement — que vous lui transmettez directement. Et si vous voulez, on peut organiser une démo courte avec lui aussi."},
+  {q:"Je ne connais pas Payiskoul, vous êtes une nouvelle structure.",r:"Oui, et c'est notre force. Nous avons été conçus spécifiquement pour l'éducation en Côte d'Ivoire — pas une solution générique importée. Nous sommes certifiés (IDU CI-2026-0053987M) et en phase pilote active à Abidjan. Vous seriez parmi les premiers établissements à bénéficier de conditions préférentielles."},
+  {q:"Repassez dans 3 mois, là ce n'est pas le bon moment.",r:"Je comprends. Mais permettez-moi juste de laisser notre dossier — vous l'avez quand c'est le bon moment. Et si vous me donnez votre numéro direct, je vous rappelle dans 3 semaines, pas 3 mois — juste pour savoir si vous avez eu le temps d'y jeter un œil."},
+];
+document.getElementById('objList').innerHTML=objections.map(o=>`
+  <div class="obj-item">
+    <div class="obj-q">${o.q}"</div>
+    <div style="font-size:9px;font-family:var(--mono);color:var(--mint);margin-bottom:6px;letter-spacing:1px">RÉPONSE →</div>
+    <div class="obj-r">${o.r}</div>
+  </div>`).join('');
+
+// REPORTING
+function calcReport(){
+  const a=+document.getElementById('inAppels').value||0;
+  const d=+document.getElementById('inDecideurs').value||0;
+  const dep=+document.getElementById('inDepots').value||0;
+  const r=+document.getElementById('inRdv').value||0;
+  const dm=+document.getElementById('inDemos').value||0;
+  const s=+document.getElementById('inSignes').value||0;
+  const max=Math.max(a,1);
+  [['bar1','v1',a,max],['bar2','v2',d,max],['bar3','v3',dep,max],['bar4','v4',r,max],['bar5','v5',dm,max],['bar6','v6',s,max]].forEach(([b,v,val,m])=>{
+    document.getElementById(b).style.width=Math.round(val/m*100)+'%';
+    document.getElementById(v).textContent=val;
+  });
+  document.getElementById('rTotal').textContent=a;
+  document.getElementById('rRdv').textContent=r;
+  document.getElementById('rConv').textContent=a>0?Math.round(r/a*100)+'%':'0%';
+}
+</script>
+</body>
+</html>
