@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Tracker Prospection (connecté)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--surface:#ffffff;--surface2:#f0efe9;
+  --border:#e2e0d8;--border2:#ccc9bc;
+  --ink:#1a1916;--ink2:#3d3b35;--ink3:#6b6860;--ink4:#999690;
+  --green:#1a6b45;--green-bg:#e8f5ee;--green-border:#b8dfc9;
+  --orange:#c45c00;--orange-bg:#fdf0e6;
+  --red:#b83232;--red-bg:#fdeaea;
+  --blue:#1a4d8f;--blue-bg:#e8eef8;
+  --purple:#5a3d8a;
+  --font:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;flex-wrap:wrap;gap:10px;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:32px;height:32px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;font-family:var(--mono)}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.3px}
+.brand-sub{font-size:10px;color:var(--ink3);font-family:var(--mono);letter-spacing:0.5px}
+.sync-badge{
+  font-size:11px;font-family:var(--mono);padding:5px 12px;border-radius:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.sync-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.sync-saving{background:var(--orange-bg);color:var(--orange)}
+.sync-error{background:var(--red-bg);color:var(--red)}
+.date-nav{
+  display:flex;align-items:center;gap:8px;margin-bottom:6px;
+}
+.date-btn{
+  width:32px;height:32px;border-radius:6px;border:1px solid var(--border2);
+  background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--ink2);
+}
+.date-btn:hover{background:var(--surface2)}
+.date-input-wrap{
+  display:flex;align-items:center;gap:8px;background:var(--surface);
+  border:1px solid var(--border2);border-radius:6px;padding:6px 12px;
+}
+.date-input{border:none;background:transparent;font-size:13px;font-weight:600;color:var(--ink);font-family:var(--font)}
+.today-btn{font-size:11px;font-family:var(--mono);padding:5px 10px;border-radius:5px;background:var(--surface);border:1px solid var(--border2);color:var(--ink3);cursor:pointer}
+.date-label{font-size:12px;color:var(--ink3);text-transform:capitalize;margin-bottom:18px}
+.history-btn{font-size:11px;font-family:var(--mono);padding:5px 12px;border-radius:5px;background:var(--surface);border:1px solid var(--border2);color:var(--ink3);cursor:pointer;display:flex;align-items:center;gap:5px}
+.zone-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.zone-pill{font-size:11px;font-weight:500;font-family:var(--mono);padding:5px 12px;border-radius:5px;border:1px solid var(--border2);color:var(--ink3);cursor:pointer;background:var(--surface);transition:all 0.12s}
+.zone-pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.stat-val{font-size:22px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
+.stat-label{font-size:10px;color:var(--ink3);margin-top:4px;font-family:var(--mono);letter-spacing:0.5px;text-transform:uppercase}
+.actions-row{display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px}
+.btn-sm{font-size:11px;font-family:var(--mono);padding:6px 14px;border-radius:5px;background:var(--surface);border:1px solid var(--border2);color:var(--ink3);cursor:pointer}
+.btn-add{background:var(--ink);color:#fff;border:none;font-family:var(--font);font-weight:600;font-size:12px;padding:8px 16px;border-radius:6px;cursor:pointer}
+.tracker-table{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.t-head{display:grid;grid-template-columns:2fr 1.2fr 1fr 1.4fr 1.2fr 0.5fr;background:var(--surface2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;color:var(--ink3)}
+.t-head span,.t-row span{padding:9px 10px;display:flex;align-items:center}
+.t-row{display:grid;grid-template-columns:2fr 1.2fr 1fr 1.4fr 1.2fr 0.5fr;border-top:1px solid var(--border);font-size:12px;background:var(--surface)}
+.t-row:hover{background:var(--surface2)}
+.t-input{border:none;background:transparent;font-size:12px;color:var(--ink);font-family:var(--font);width:100%;outline:none}
+.t-select{border:none;background:transparent;font-size:11px;color:var(--ink2);font-family:var(--font);width:100%;cursor:pointer;outline:none}
+.empty-state{text-align:center;padding:28px;color:var(--ink4);font-size:12px;font-family:var(--mono);background:var(--surface)}
+.loading-state{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
+.history-panel{margin-top:16px;background:var(--surface2);border-radius:8px;padding:18px;display:none}
+.history-panel.show{display:block}
+.history-row{display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:6px;cursor:pointer;text-align:left;width:100%;font-family:var(--font)}
+.history-row.current{background:var(--blue-bg);border-color:var(--blue)}
+@media(max-width:700px){.g3{grid-template-columns:1fr}.t-head,.t-row{grid-template-columns:1fr 1fr}.t-head span:nth-child(n+3),.t-row span:nth-child(n+3){display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">PK</div>
+      <div>
+        <div class="brand-name">Tracker Prospection</div>
+        <div class="brand-sub">Synchronisé · Données partagées</div>
+      </div>
+    </div>
+    <div class="sync-badge sync-ok" id="syncBadge">● Synchronisé</div>
+  </div>
+
+  <div class="date-nav">
+    <button class="date-btn" onclick="shiftDate(-1)">‹</button>
+    <div class="date-input-wrap">
+      <input type="date" class="date-input" id="dateInput" onchange="onDateChange(this.value)">
+    </div>
+    <button class="date-btn" onclick="shiftDate(1)">›</button>
+    <button class="today-btn" id="todayBtn" onclick="goToday()" style="display:none">Aujourd'hui</button>
+    <button class="history-btn" onclick="toggleHistory()" style="margin-left:auto"><span>↗</span> Évolution</button>
+  </div>
+  <div class="date-label" id="dateLabel"></div>
+
+  <div class="zone-pills" id="zonePills"></div>
+
+  <div class="g3">
+    <div class="stat"><div class="stat-val" id="kTotal">0</div><div class="stat-label">Prospects zone</div></div>
+    <div class="stat"><div class="stat-val" id="kRdv" style="color:var(--green)">0</div><div class="stat-label">RDV confirmés</div></div>
+    <div class="stat"><div class="stat-val" id="kDepot" style="color:var(--blue)">0</div><div class="stat-label">Dépôts faits</div></div>
+  </div>
+
+  <div class="actions-row">
+    <button class="btn-sm" onclick="exportCSV()">↓ Export CSV</button>
+    <button class="btn-add" onclick="addProspect()">+ Ajouter prospect</button>
+  </div>
+
+  <div class="tracker-table">
+    <div class="t-head">
+      <span>Établissement</span><span>Contact</span><span>Type</span><span>Statut</span><span>Action</span><span></span>
+    </div>
+    <div id="trackerBody"><div class="loading-state">Chargement des données...</div></div>
+  </div>
+
+  <div class="history-panel" id="historyPanel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700">Évolution jour par jour</div>
+      <button onclick="toggleHistory()" style="border:none;background:transparent;cursor:pointer;font-size:14px;color:var(--ink3)">✕</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNpXASSeHDvL9FqosrnHrWs2qJjbhmYYBhwsgOBh6GduBlaRYn-Ua24mttpPd5aXgnPg/exec';
+const ZONES = ['Cocody','Yopougon','Plateau','Marcory','Abobo','Adjamé','Treichville','Autre'];
+const TYPES = ['Formation','Université','Lycée/École','Langues','Conduite','BTP/Hôtellerie'];
+const STATUTS = ['À appeler','Rappeler','Contact établi','Dépôt fait','RDV confirmé','Démo faite','Converti','Sans suite'];
+const STATUT_COLOR = {'À appeler':'#6b6860','Rappeler':'#c45c00','Contact établi':'#1a4d8f','Dépôt fait':'#5a3d8a','RDV confirmé':'#1a6b45','Démo faite':'#c45c00','Converti':'#1a6b45','Sans suite':'#b83232'};
+
+let allData = {};
+let currentDate = todayStr();
+let currentZone = 'Cocody';
+let saveTimer = null;
+
+function todayStr(){const d=new Date();return d.toISOString().slice(0,10);}
+function shiftDateStr(dateStr,days){const d=new Date(dateStr+'T00:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
+function formatDateLabel(dateStr){const d=new Date(dateStr+'T00:00:00');return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+
+function setSyncStatus(status){
+  const b=document.getElementById('syncBadge');
+  if(status==='saving'){b.className='sync-badge sync-saving';b.textContent='● Sauvegarde...';}
+  else if(status==='ok'){b.className='sync-badge sync-ok';b.textContent='● Synchronisé';}
+  else if(status==='error'){b.className='sync-badge sync-error';b.textContent='● Erreur réseau';}
+}
+
+async function loadAllData(){
+  try{
+    const res=await fetch(SCRIPT_URL+'?action=getAll');
+    const json=await res.json();
+    allData=json||{};
+    setSyncStatus('ok');
+  }catch(e){
+    allData={};
+    setSyncStatus('error');
+  }
+  renderDateLabel();
+  renderTracker();
+  renderToday();
+}
+
+async function saveCurrentDay(){
+  setSyncStatus('saving');
+  const dayData=allData[currentDate]||{prospects:[]};
+  try{
+    const form=new URLSearchParams();
+    form.append('action','save');
+    form.append('date',currentDate);
+    form.append('data',JSON.stringify(dayData));
+    await fetch(SCRIPT_URL,{method:'POST',body:form});
+    setSyncStatus('ok');
+  }catch(e){
+    setSyncStatus('error');
+  }
+}
+
+function debouncedSave(){
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveCurrentDay,600);
+}
+
+function renderToday(){
+  document.getElementById('todayBtn').style.display = currentDate===todayStr() ? 'none' : 'inline-block';
+}
+
+function renderDateLabel(){
+  document.getElementById('dateInput').value=currentDate;
+  document.getElementById('dateLabel').textContent=formatDateLabel(currentDate);
+}
+
+function shiftDate(days){
+  currentDate=shiftDateStr(currentDate,days);
+  renderDateLabel();renderTracker();renderToday();
+}
+function onDateChange(val){
+  currentDate=val;
+  renderDateLabel();renderTracker();renderToday();
+}
+function goToday(){
+  currentDate=todayStr();
+  renderDateLabel();renderTracker();renderToday();
+}
+
+function renderZonePills(){
+  document.getElementById('zonePills').innerHTML=ZONES.map(z=>
+    `<button class="zone-pill ${z===currentZone?'active':''}" onclick="setZone('${z}')">${z}</button>`
+  ).join('');
+}
+function setZone(z){currentZone=z;renderZonePills();renderTracker();}
+
+function getProspects(){
+  const day=allData[currentDate];
+  return day&&day.prospects?day.prospects:[];
+}
+
+function updateProspects(newList){
+  allData[currentDate]={prospects:newList};
+  renderTracker();
+  debouncedSave();
+}
+
+function addProspect(){
+  const list=getProspects();
+  list.push({id:Date.now(),zone:currentZone,nom:'',contact:'',type:'Formation',statut:'À appeler',action:''});
+  updateProspects(list);
+}
+function updateProp(id,key,val){
+  const list=getProspects().map(p=>p.id===id?{...p,[key]:val}:p);
+  updateProspects(list);
+}
+function deleteProspect(id){
+  const list=getProspects().filter(p=>p.id!==id);
+  updateProspects(list);
+}
+
+function renderTracker(){
+  renderZonePills();
+  const all=getProspects();
+  const filtered=all.filter(p=>p.zone===currentZone);
+  document.getElementById('kTotal').textContent=filtered.length;
+  document.getElementById('kRdv').textContent=filtered.filter(p=>p.statut==='RDV confirmé').length;
+  document.getElementById('kDepot').textContent=filtered.filter(p=>p.statut==='Dépôt fait').length;
+
+  document.getElementById('trackerBody').innerHTML = filtered.length===0
+    ? `<div class="empty-state">Aucun prospect pour cette zone ce jour-là.</div>`
+    : filtered.map(p=>`<div class="t-row">
+        <span><input class="t-input" value="${p.nom||''}" placeholder="Nom établissement" oninput="updateProp(${p.id},'nom',this.value)"></span>
+        <span><input class="t-input" value="${p.contact||''}" placeholder="+225..." oninput="updateProp(${p.id},'contact',this.value)"></span>
+        <span><select class="t-select" onchange="updateProp(${p.id},'type',this.value)">${TYPES.map(t=>`<option ${t===p.type?'selected':''}>${t}</option>`).join('')}</select></span>
+        <span><select class="t-select" style="color:${STATUT_COLOR[p.statut]||'inherit'};font-weight:500" onchange="updateProp(${p.id},'statut',this.value)">${STATUTS.map(s=>`<option ${s===p.statut?'selected':''}>${s}</option>`).join('')}</select></span>
+        <span><input class="t-input" value="${p.action||''}" placeholder="Prochaine action..." oninput="updateProp(${p.id},'action',this.value)"></span>
+        <span><button onclick="deleteProspect(${p.id})" style="font-size:10px;padding:3px 7px;border-radius:4px;background:var(--red-bg);border:1px solid #f0b8b8;color:var(--red);cursor:pointer">✕</button></span>
+      </div>`).join('');
+}
+
+function exportCSV(){
+  const rows=[['Date','Zone','Nom','Contact','Type','Statut','Action']];
+  Object.entries(allData).forEach(([date,d])=>{
+    (d.prospects||[]).forEach(p=>{
+      rows.push([date,p.zone,p.nom,p.contact,p.type,p.statut,p.action]);
+    });
+  });
+  const csv=rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='payiskoul_prospects.csv';a.click();
+  URL.revokeObjectURL(url);
+}
+
+function toggleHistory(){
+  const panel=document.getElementById('historyPanel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show'))renderHistory();
+}
+function renderHistory(){
+  const dates=Object.keys(allData).sort().reverse();
+  document.getElementById('historyList').innerHTML = dates.length===0
+    ? `<div style="font-size:12px;color:var(--ink4)">Aucune donnée enregistrée encore.</div>`
+    : dates.map(d=>{
+        const dd=allData[d];
+        const total=(dd.prospects||[]).length;
+        const rdv=(dd.prospects||[]).filter(p=>p.statut==='RDV confirmé').length;
+        return `<button class="history-row ${d===currentDate?'current':''}" onclick="onDateChange('${d}');toggleHistory()">
+          <span style="font-size:12px;text-transform:capitalize">${formatDateLabel(d)}</span>
+          <span style="font-size:11px;color:var(--ink3)">${total} prospects · ${rdv} RDV</span>
+        </button>`;
+      }).join('');
+}
+
+loadAllData();
+setInterval(loadAllData, 30000);
+</script>
+</body>
+</html>
