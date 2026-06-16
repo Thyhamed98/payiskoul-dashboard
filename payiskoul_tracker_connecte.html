@@ -238,7 +238,17 @@ function addProspect(){
 }
 function updateProp(id,key,val){
   const list=getProspects().map(p=>p.id===id?{...p,[key]:val}:p);
-  updateProspects(list);
+  allData[currentDate]={prospects:list};
+  // Ne pas re-render le tableau pendant la frappe (perte de focus) — juste mettre à jour les compteurs
+  updateCountsOnly(list);
+  debouncedSave();
+}
+
+function updateCountsOnly(all){
+  const filtered=all.filter(p=>p.zone===currentZone);
+  document.getElementById('kTotal').textContent=filtered.length;
+  document.getElementById('kRdv').textContent=filtered.filter(p=>p.statut==='RDV confirmé').length;
+  document.getElementById('kDepot').textContent=filtered.filter(p=>p.statut==='Dépôt fait').length;
 }
 function deleteProspect(id){
   const list=getProspects().filter(p=>p.id!==id);
@@ -255,14 +265,22 @@ function renderTracker(){
 
   document.getElementById('trackerBody').innerHTML = filtered.length===0
     ? `<div class="empty-state">Aucun prospect pour cette zone ce jour-là.</div>`
-    : filtered.map(p=>`<div class="t-row">
+    : filtered.map(p=>`<div class="t-row" data-id="${p.id}">
         <span><input class="t-input" value="${p.nom||''}" placeholder="Nom établissement" oninput="updateProp(${p.id},'nom',this.value)"></span>
         <span><input class="t-input" value="${p.contact||''}" placeholder="+225..." oninput="updateProp(${p.id},'contact',this.value)"></span>
         <span><select class="t-select" onchange="updateProp(${p.id},'type',this.value)">${TYPES.map(t=>`<option ${t===p.type?'selected':''}>${t}</option>`).join('')}</select></span>
-        <span><select class="t-select" style="color:${STATUT_COLOR[p.statut]||'inherit'};font-weight:500" onchange="updateProp(${p.id},'statut',this.value)">${STATUTS.map(s=>`<option ${s===p.statut?'selected':''}>${s}</option>`).join('')}</select></span>
+        <span><select class="t-select" data-statut-select style="color:${STATUT_COLOR[p.statut]||'inherit'};font-weight:500" onchange="updateStatut(${p.id},this)">${STATUTS.map(s=>`<option ${s===p.statut?'selected':''}>${s}</option>`).join('')}</select></span>
         <span><input class="t-input" value="${p.action||''}" placeholder="Prochaine action..." oninput="updateProp(${p.id},'action',this.value)"></span>
         <span><button onclick="deleteProspect(${p.id})" style="font-size:10px;padding:3px 7px;border-radius:4px;background:var(--red-bg);border:1px solid #f0b8b8;color:var(--red);cursor:pointer">✕</button></span>
       </div>`).join('');
+}
+
+function updateStatut(id,selectEl){
+  const val=selectEl.value;
+  selectEl.style.color=STATUT_COLOR[val]||'inherit';
+  updateProp(id,'statut',val);
+  // Le statut affecte les compteurs RDV/Dépôt — on rafraîchit juste les stats, pas tout le tableau
+  updateCountsOnly(getProspects());
 }
 
 function exportCSV(){
@@ -300,8 +318,18 @@ function renderHistory(){
       }).join('');
 }
 
+let isTyping=false;
+let typingTimer=null;
+document.addEventListener('input',(e)=>{
+  if(e.target.classList.contains('t-input')){
+    isTyping=true;
+    if(typingTimer)clearTimeout(typingTimer);
+    typingTimer=setTimeout(()=>{isTyping=false;},2000);
+  }
+});
+
 loadAllData();
-setInterval(loadAllData, 30000);
+setInterval(()=>{ if(!isTyping) loadAllData(); }, 30000);
 </script>
 </body>
 </html>
