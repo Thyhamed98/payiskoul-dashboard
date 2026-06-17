@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Script Démo Visio Duo</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#faf8f3;--paper2:#f2efe6;--paper3:#e8e3d6;
+  --ink:#1f1c16;--ink2:#3f3a30;--ink3:#73695a;--ink4:#a39a89;
+  --line:#d8d2c2;--line2:#c4bda8;
+  --hamed:#2d5a4a;--hamed-bg:#e6efe9;--hamed-border:#b8d4c5;
+  --ceo:#7a3b2e;--ceo-bg:#f5e8e3;--ceo-border:#e0bfb0;
+  --both:#5c4a78;--both-bg:#ece6f5;--both-border:#d0c0e8;
+  --warn:#9a6a1f;--warn-bg:#faf0dc;
+  --serif:'Source Serif 4',serif;--sans:'Inter',sans-serif;
+}
+html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:32px 24px 60px}
+
+.masthead{border-bottom:3px double var(--ink);padding-bottom:16px;margin-bottom:28px}
+.masthead-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.masthead-title{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:-0.3px}
+.masthead-meta{font-size:10px;color:var(--ink3);font-family:var(--sans);letter-spacing:0.5px;text-transform:uppercase}
+.masthead-sub{font-size:13px;color:var(--ink3);font-style:italic;font-family:var(--serif)}
+
+.legend{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--ink3)}
+.legend-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+
+.timing-strip{
+  background:var(--paper2);border:1px solid var(--line);border-radius:6px;
+  padding:14px 18px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;
+}
+.timing-num{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink)}
+.timing-label{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+
+.section{margin-bottom:36px}
+.section-head{
+  display:flex;align-items:baseline;gap:12px;margin-bottom:14px;
+  border-bottom:1.5px solid var(--ink);padding-bottom:8px;
+}
+.section-num{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink4)}
+.section-title{font-family:var(--serif);font-size:19px;font-weight:700}
+.section-time{
+  margin-left:auto;font-size:10px;font-family:var(--sans);font-weight:600;
+  color:var(--ink3);background:var(--paper2);padding:3px 10px;border-radius:4px;
+  letter-spacing:0.5px;text-transform:uppercase;
+}
+
+.role-block{
+  border-left:4px solid var(--line);padding:12px 0 12px 18px;margin-bottom:14px;position:relative;
+}
+.role-block.hamed{border-left-color:var(--hamed)}
+.role-block.ceo{border-left-color:var(--ceo)}
+.role-block.both{border-left-color:var(--both)}
+.role-tag{
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;
+  letter-spacing:0.8px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:8px;
+}
+.role-tag.hamed{background:var(--hamed-bg);color:var(--hamed)}
+.role-tag.ceo{background:var(--ceo-bg);color:var(--ceo)}
+.role-tag.both{background:var(--both-bg);color:var(--both)}
+
+.script-text{
+  font-family:var(--serif);font-size:14.5px;line-height:1.85;color:var(--ink2);
+  font-style:italic;margin-bottom:6px;
+}
+.script-text::before{content:'"';margin-right:1px}
+.script-text::after{content:'"';margin-left:1px}
+.stage-note{
+  font-family:var(--sans);font-size:11px;color:var(--ink4);
+  font-style:normal;margin-top:6px;display:flex;gap:6px;align-items:flex-start;
+}
+.stage-note::before{content:'▸';flex-shrink:0;margin-top:1px}
+
+.handoff{
+  background:var(--warn-bg);border:1px solid #e8d4a8;border-radius:6px;
+  padding:10px 14px;margin:10px 0;font-size:12px;color:var(--ink2);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.handoff-icon{flex-shrink:0;font-size:14px}
+
+.obj-mini{
+  background:var(--paper2);border-radius:6px;padding:12px 14px;margin-bottom:8px;
+}
+.obj-mini-q{font-size:12px;font-weight:600;color:var(--ceo);margin-bottom:6px;font-family:var(--serif);font-style:italic}
+.obj-mini-r{font-size:12px;color:var(--ink2);line-height:1.7}
+.obj-mini-who{font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:4px}
+
+.checklist{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.checklist li{display:flex;gap:8px;font-size:12px;color:var(--ink2);line-height:1.5}
+.checklist li input{width:14px;height:14px;flex-shrink:0;margin-top:2px;accent-color:var(--ink)}
+
+.print-tip{
+  text-align:center;font-size:10px;color:var(--ink4);margin-top:40px;
+  padding-top:16px;border-top:1px solid var(--line);font-family:var(--sans);
+}
+
+@media(max-width:600px){.timing-strip{flex-direction:column;align-items:flex-start;gap:8px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <div class="masthead-title">Script Démo Visio — Duo</div>
+      <div class="masthead-meta">Payiskoul · Confidentiel</div>
+    </div>
+    <div class="masthead-sub">Thy Hamed module · le CEO présente — format 30 minutes</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--hamed-border);border:1.5px solid var(--hamed)"></span>Thy Hamed (modérateur)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--ceo-border);border:1.5px solid var(--ceo)"></span>CEO (pitch + démo)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--both-border);border:1.5px solid var(--both)"></span>Les deux</div>
+  </div>
+
+  <div class="timing-strip">
+    <div><div class="timing-num">30</div><div class="timing-label">Minutes au total</div></div>
+    <div><div class="timing-num">2</div><div class="timing-label">Intervenants</div></div>
+    <div><div class="timing-num">5</div><div class="timing-label">Passages de relais</div></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">Ouverture & présentation</span>
+      <span class="section-time">3 min</span>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed</div>
+      <div class="script-text">Bonjour [Nom], merci d'avoir pris le temps pour cet échange. Je suis Thy Hamed, COO de Payiskoul — c'est moi avec qui vous avez échangé au téléphone. Je suis accompagné aujourd'hui de [Nom du CEO], notre CEO, qui va vous présenter notre solution plus en détail et vous faire une démonstration.</div>
+      <div class="stage-note">Laisser le CEO se présenter brièvement à son tour (10-15 secondes).</div>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed</div>
+      <div class="script-text">Pour cadrer notre échange : nous avons 30 minutes ensemble. [Nom du CEO] va vous présenter Payiskoul et vous montrer la plateforme en direct. N'hésitez pas à poser vos questions à tout moment — on est là pour ça. Ça vous convient ?</div>
+    </div>
+
+    <div class="handoff">
+      <span class="handoff-icon">→</span>
+      <span><strong>Passage de relais 1 :</strong> Thy Hamed cède la parole au CEO pour le diagnostic et le pitch.</span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Diagnostic rapide</span>
+      <span class="section-time">5 min</span>
+    </div>
+
+    <div class="role-block ceo">
+      <div class="role-tag ceo">● CEO</div>
+      <div class="script-text">Avant de vous présenter notre solution, j'aimerais comprendre rapidement votre fonctionnement actuel. Combien d'apprenants inscrivez-vous par session ? Rencontrez-vous des retards ou impayés ? Comment vos apprenants paient-ils aujourd'hui ?</div>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed — rôle pendant cette étape</div>
+      <div class="script-text" style="font-style:normal">Prendre des notes visibles sur les réponses. Ne pas intervenir sauf si le CEO te sollicite directement ou s'il y a un silence gênant à combler.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">Pitch — la solution</span>
+      <span class="section-time">5 min</span>
+    </div>
+
+    <div class="role-block ceo">
+      <div class="role-tag ceo">● CEO</div>
+      <div class="script-text">Ce que vous venez de décrire, c'est exactement ce que Payiskoul résout. Concrètement : un apprenant qui n'a pas la totalité de ses frais peut payer en plusieurs fois — autant de fois qu'il en a besoin — via Orange Money, MTN MoMo ou Wave. Vous, vous recevez les versements automatiquement, sans avoir à relancer personne.</div>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed — rôle pendant cette étape</div>
+      <div class="script-text" style="font-style:normal">Observer les réactions du prospect (visage, questions dans le chat Meet). Si tu vois une hésitation ou confusion, tu peux relancer doucement : "Est-ce que c'est clair pour vous jusqu'ici ?"</div>
+    </div>
+
+    <div class="handoff">
+      <span class="handoff-icon">→</span>
+      <span><strong>Passage de relais 2 :</strong> Le CEO annonce le partage d'écran et démarre la démo.</span>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Démonstration produit</span>
+      <span class="section-time">12 min</span>
+    </div>
+
+    <div class="role-block ceo">
+      <div class="role-tag ceo">● CEO</div>
+      <div class="script-text">Je vais partager mon écran pour vous montrer concrètement comment ça fonctionne.</div>
+      <div class="stage-note">Le CEO partage l'écran et déroule : tableau de bord → inscription apprenant → paiement Mobile Money → suivi des paiements → relances automatiques → reversement.</div>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed — rôle pendant cette étape</div>
+      <div class="script-text" style="font-style:normal">C'est ton moment le plus actif en tant que modérateur :</div>
+      <ul class="checklist">
+        <li><input type="checkbox"><span>Surveiller le chat Meet — si le prospect tape une question écrite, la lire à voix haute pour le CEO</span></li>
+        <li><input type="checkbox"><span>Si la démo prend du retard, glisser discrètement : "On a encore [X] minutes, peut-être accélérer sur cette partie"</span></li>
+        <li><input type="checkbox"><span>Reformuler un point technique en bénéfice concret si le prospect semble perdu</span></li>
+        <li><input type="checkbox"><span>Garder un œil sur l'heure pour respecter les 30 minutes</span></li>
+      </ul>
+    </div>
+
+    <div class="role-block both">
+      <div class="role-tag both">● Les deux</div>
+      <div class="script-text">Voilà concrètement ce que Payiskoul fait pour un centre comme le vôtre. Qu'est-ce qui vous frappe le plus dans ce que vous venez de voir ?</div>
+      <div class="stage-note">Cette question de clôture de démo peut être posée par l'un ou l'autre — celui qui sent le bon moment.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">Questions & objections</span>
+      <span class="section-time">3 min</span>
+    </div>
+
+    <div class="obj-mini">
+      <div class="obj-mini-who">Si question sur la commission</div>
+      <div class="obj-mini-q">"C'est combien votre commission ?"</div>
+      <div class="obj-mini-r">Prélevée uniquement sur les transactions — aucun frais fixe. <strong>CEO valide le taux exact</strong> si le prospect insiste pour un chiffre précis.</div>
+    </div>
+
+    <div class="obj-mini">
+      <div class="obj-mini-who">Si question sur la fiabilité / nouvelle structure</div>
+      <div class="obj-mini-q">"Vous êtes une nouvelle structure, quelles garanties ?"</div>
+      <div class="obj-mini-r">Certification IDU CI-2026-0053987M. Phase pilote active à Abidjan. Conditions préférentielles pour les premiers partenaires.</div>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed — rôle pendant cette étape</div>
+      <div class="script-text" style="font-style:normal">Tu peux répondre directement aux objections que tu maîtrises — pas besoin d'attendre le CEO. Si une question technique précise arrive (API, sécurité des données), laisse le CEO répondre.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">Closing</span>
+      <span class="section-time">2 min</span>
+    </div>
+
+    <div class="handoff">
+      <span class="handoff-icon">→</span>
+      <span><strong>Passage de relais 3 :</strong> Thy Hamed reprend la main pour conclure et fixer la prochaine étape.</span>
+    </div>
+
+    <div class="role-block hamed">
+      <div class="role-tag hamed">● Thy Hamed</div>
+      <div class="script-text">Merci beaucoup pour votre temps et vos questions. Pour avancer, qu'est-ce qui vous semble être la meilleure prochaine étape ? Est-ce qu'on peut envisager de démarrer un pilote, ou avez-vous besoin d'en discuter en interne d'abord ?</div>
+      <div class="stage-note">Laisser un vrai silence après cette question — ne pas combler l'espace.</div>
+    </div>
+
+    <div class="obj-mini">
+      <div class="obj-mini-who">Si "je dois en parler en interne"</div>
+      <div class="obj-mini-r">Bien sûr. Je vous envoie un récapitulatif d'une page par email dans la journée. Quelle date vous semble réaliste pour avoir un retour ?</div>
+    </div>
+
+    <div class="obj-mini">
+      <div class="obj-mini-who">Si "c'est convaincant, on avance"</div>
+      <div class="obj-mini-r">Parfait ! Je vous envoie les documents de partenariat dès aujourd'hui. L'intégration se fait en 48h une fois signé.</div>
+    </div>
+
+    <div class="role-block both">
+      <div class="role-tag both">● Les deux</div>
+      <div class="script-text">Merci encore pour votre temps, [Nom]. À très bientôt.</div>
+    </div>
+  </div>
+
+  <div class="print-tip">Document conçu pour être ouvert sur un second écran ou imprimé pendant l'appel</div>
+
+</div>
+</body>
+</html>
