@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payiskoul — Scripts Vidéo Réseaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0d10;--s1:#13161a;--s2:#1a1e24;--s3:#22272e;
+  --line:#2a3038;--line2:#3a424c;
+  --txt:#eef1f4;--txt2:#9aa4af;--txt3:#5a6470;
+  --insta:#ff4d8d;--insta-bg:rgba(255,77,141,0.08);--insta-border:rgba(255,77,141,0.25);
+  --linkedin:#4d9fff;--linkedin-bg:rgba(77,159,255,0.08);--linkedin-border:rgba(77,159,255,0.25);
+  --acid:#c4f53c;--acid-bg:rgba(196,245,60,0.08);
+  --warn:#ffb84d;--warn-bg:rgba(255,184,77,0.08);
+  --display:'Bricolage Grotesque',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html,body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:14px;line-height:1.5}
+
+.hdr{position:sticky;top:0;z-index:50;background:rgba(11,13,16,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;gap:0}
+.hdr-logo{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-0.5px;margin-right:28px;background:linear-gradient(135deg,var(--acid),#8fe83c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-tabs{display:flex;gap:0;flex:1;overflow-x:auto}
+.tab{font-size:11px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:var(--txt3);padding:9px 16px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.tab:hover{color:var(--txt2)}
+.tab.on{color:var(--acid);border-bottom-color:var(--acid)}
+
+.page{display:none}.page.on{display:block}
+.wrap{max-width:880px;margin:0 auto;padding:32px 22px 60px}
+
+.hero{margin-bottom:32px}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px}
+.h1{font-family:var(--display);font-size:30px;font-weight:800;letter-spacing:-0.8px;line-height:1.1}
+.h1 .accent{color:var(--acid)}
+.lede{font-size:13px;color:var(--txt2);margin-top:10px;max-width:520px;line-height:1.65}
+
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:32px}
+.card-mini{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:16px;cursor:pointer;transition:border-color 0.15s}
+.card-mini:hover{border-color:var(--line2)}
+.card-mini.insta{border-left:3px solid var(--insta)}
+.card-mini.linkedin{border-left:3px solid var(--linkedin)}
+.cm-platform{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
+.cm-title{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:6px}
+.cm-meta{font-size:10px;color:var(--txt3);font-family:var(--mono)}
+
+.sec-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);display:flex;align-items:center;gap:10px;margin:36px 0 18px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* SCRIPT CARD */
+.script-card{background:var(--s1);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.sc-head{padding:20px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.sc-head.insta{background:var(--insta-bg)}
+.sc-head.linkedin{background:var(--linkedin-bg)}
+.sc-platform-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:4px 10px;border-radius:6px;margin-bottom:8px}
+.sc-platform-badge.insta{background:var(--insta);color:#fff}
+.sc-platform-badge.linkedin{background:var(--linkedin);color:#fff}
+.sc-title{font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
+.sc-target{font-size:12px;color:var(--txt2)}
+.sc-meta-box{text-align:right;flex-shrink:0}
+.sc-duration{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--acid)}
+.sc-duration-label{font-size:9px;color:var(--txt3);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.5px}
+
+.sc-body{padding:22px 24px}
+
+.beat{display:flex;gap:0;margin-bottom:0}
+.beat-left{width:64px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.beat-time{font-family:var(--mono);font-size:10px;color:var(--txt3);margin-bottom:6px;text-align:center}
+.beat-dot{width:10px;height:10px;border-radius:50%;background:var(--acid);flex-shrink:0}
+.beat-line{width:1.5px;flex:1;background:var(--line);margin:4px 0;min-height:24px}
+.beat:last-child .beat-line{display:none}
+.beat-content{flex:1;padding:0 0 26px 8px}
+.beat-label{font-size:9px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:6px}
+.beat-visual{font-size:11px;color:var(--txt3);font-style:italic;margin-bottom:8px;padding:8px 12px;background:var(--s2);border-radius:6px}
+.beat-visual::before{content:'🎬 ';font-style:normal}
+.voiceover{
+  font-family:var(--display);font-size:16px;font-weight:600;color:var(--txt);
+  line-height:1.4;margin-bottom:4px;
+}
+.text-overlay{
+  display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;
+  background:var(--acid);color:#0b0d10;padding:3px 9px;border-radius:4px;margin-top:6px;
+}
+
+.cta-box{background:var(--acid-bg);border:1px solid rgba(196,245,60,0.25);border-radius:10px;padding:14px 16px;margin-top:18px}
+.cta-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--acid);margin-bottom:6px}
+.cta-text{font-size:13px;color:var(--txt);font-weight:500}
+
+.caption-box{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:14px}
+.caption-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.caption-text{font-size:12px;color:var(--txt2);line-height:1.75;white-space:pre-wrap}
+.copy-btn{font-size:10px;font-family:var(--mono);padding:4px 10px;border-radius:5px;border:1px solid var(--line2);color:var(--txt3);background:transparent;cursor:pointer;transition:all 0.15s}
+.copy-btn:hover,.copy-btn.ok{color:var(--acid);border-color:rgba(196,245,60,0.3)}
+
+.tip-box{display:flex;gap:10px;background:var(--warn-bg);border:1px solid rgba(255,184,77,0.2);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:12px;color:var(--txt2);line-height:1.65}
+.tip-icon{flex-shrink:0}
+
+@media(max-width:700px){.grid4{grid-template-columns:1fr 1fr}.sc-head{flex-direction:column}.sc-meta-box{text-align:left}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-logo">Payiskoul</div>
+  <div class="hdr-tabs">
+    <div class="tab on" onclick="go('overview')">Vue d'ensemble</div>
+    <div class="tab" onclick="go('s1')">Script 1</div>
+    <div class="tab" onclick="go('s2')">Script 2</div>
+    <div class="tab" onclick="go('s3')">Script 3</div>
+    <div class="tab" onclick="go('s4')">Script 4</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="page on" id="p-overview">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Scripts vidéo · Contenus réseaux sociaux</div>
+    <div class="h1">4 angles,<br><span class="accent">2 publics, 2 tons.</span></div>
+    <div class="lede">Chaque script est calibré pour sa plateforme et son audience — le grand public veut une histoire simple et émotionnelle, les décideurs veulent des chiffres et un raisonnement. Clique sur un script ci-dessous ou utilise les onglets en haut.</div>
+  </div>
+
+  <div class="grid4">
+    <div class="card-mini insta" onclick="go('s1')">
+      <div class="cm-platform" style="color:var(--insta)">Instagram/TikTok</div>
+      <div class="cm-title">"3 fois, 5 fois, autant que vous voulez"</div>
+      <div class="cm-meta">30s · Grand public</div>
+    </div>
+    <div class="card-mini insta" onclick="go('s2')">
+      <div class="cm-platform" style="color:var(--insta)">Instagram/TikTok</div>
+      <div class="cm-title">Le parent qui ne pouvait pas inscrire son enfant</div>
+      <div class="cm-meta">45s · Parents</div>
+    </div>
+    <div class="card-mini linkedin" onclick="go('s3')">
+      <div class="cm-platform" style="color:var(--linkedin)">LinkedIn</div>
+      <div class="cm-title">Le coût réel des impayés pour votre centre</div>
+      <div class="cm-meta">60s · Décideurs B2B</div>
+    </div>
+    <div class="card-mini linkedin" onclick="go('s4')">
+      <div class="cm-platform" style="color:var(--linkedin)">LinkedIn</div>
+      <div class="cm-title">Pourquoi l'EdTech payment est le prochain grand marché</div>
+      <div class="cm-meta">75s · Investisseurs/Partenaires</div>
+    </div>
+  </div>
+
+  <div class="sec-label">Comment utiliser ces scripts</div>
+  <div style="background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:20px">
+    <div style="display:flex;gap:14px;margin-bottom:16px">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--acid);flex-shrink:0;width:20px">①</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.7">Chaque script est découpé en <strong style="color:var(--txt)">temps forts (beats)</strong> avec minutage, indication visuelle, texte à dire (voix off) et overlay texte suggéré pour l'écran.</div>
+    </div>
+    <div style="display:flex;gap:14px;margin-bottom:16px">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--acid);flex-shrink:0;width:20px">②</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.7">La <strong style="color:var(--txt)">légende complète</strong> (caption) est fournie pour chaque script — copiable directement pour la publication.</div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--acid);flex-shrink:0;width:20px">③</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.7">Niveau de langage adapté : <strong style="color:var(--insta)">Instagram/TikTok = simple, émotionnel, zéro jargon</strong> · <strong style="color:var(--linkedin)">LinkedIn = structuré, chiffré, vocabulaire business</strong>.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- SCRIPT 1 -->
+<div class="page" id="p-s1">
+<div class="wrap">
+  <div class="script-card">
+    <div class="sc-head insta">
+      <div>
+        <div class="sc-platform-badge insta">📱 Instagram / TikTok</div>
+        <div class="sc-title">"3 fois, 5 fois, autant que vous voulez"</div>
+        <div class="sc-target">Cible : grand public — parents, apprenants adultes</div>
+      </div>
+      <div class="sc-meta-box">
+        <div class="sc-duration">30s</div>
+        <div class="sc-duration-label">Durée</div>
+      </div>
+    </div>
+    <div class="sc-body">
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">0-5s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Accroche</div>
+          <div class="beat-visual">Plan serré sur un téléphone, une notification Orange Money qui arrive</div>
+          <div class="voiceover">"Vous voulez inscrire votre enfant mais vous n'avez pas toute la somme aujourd'hui ?"</div>
+          <span class="text-overlay">😰 PAS LA TOTALITÉ MAINTENANT ?</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">5-15s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le problème, simplifié</div>
+          <div class="beat-visual">Personne face caméra, ton chaleureux, geste qui compte sur les doigts</div>
+          <div class="voiceover">"Avant, c'était 2 fois. Ou 3 fois. Et si ça ne collait pas avec votre salaire, tant pis."</div>
+          <span class="text-overlay">2 OU 3 FOIS SEULEMENT 🙅</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">15-25s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">La solution</div>
+          <div class="beat-visual">Démonstration téléphone — paiement Orange Money en direct, visage souriant</div>
+          <div class="voiceover">"Avec Payiskoul, vous payez quand vous pouvez. 3 fois, 5 fois, 10 fois — autant de fois que vous voulez. À votre rythme."</div>
+          <span class="text-overlay">✅ AUTANT DE FOIS QUE VOUS VOULEZ</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">25-30s</div><div class="beat-dot"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Appel à l'action</div>
+          <div class="beat-visual">Logo Payiskoul, fond uni, texte qui apparaît</div>
+          <div class="voiceover">"Payiskoul. Payez à votre rythme."</div>
+          <span class="text-overlay">📲 PAYISKOUL.COM</span>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <div class="cta-label">Appel à l'action final</div>
+        <div class="cta-text">Inviter à suivre le compte + lien en bio vers payiskoul.com</div>
+      </div>
+
+      <div class="caption-box">
+        <div class="caption-label">
+          Légende suggérée
+          <button class="copy-btn" onclick="copyText('cap1',this)">Copier</button>
+        </div>
+        <div class="caption-text" id="cap1">Fini de payer en une seule fois. 💸
+
+Avec Payiskoul, vous réglez les frais de scolarité ou de formation à VOTRE rythme — 3 fois, 5 fois, autant que vous voulez. Via Orange Money, MTN MoMo ou Wave.
+
+Plus besoin d'attendre d'avoir toute la somme. Inscrivez-vous maintenant, payez petit à petit. 🙌
+
+👉 payiskoul.com
+
+#Payiskoul #MobileMoney #Education #CoteDIvoire #Abidjan #PaiementEchelonne</div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span>Tourner ce script avec une vraie personne (pas un acteur trop "pub") — le ton doit rester naturel, comme un conseil entre amis, pas une publicité institutionnelle.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SCRIPT 2 -->
+<div class="page" id="p-s2">
+<div class="wrap">
+  <div class="script-card">
+    <div class="sc-head insta">
+      <div>
+        <div class="sc-platform-badge insta">📱 Instagram / TikTok</div>
+        <div class="sc-title">Le parent qui ne pouvait pas inscrire son enfant</div>
+        <div class="sc-target">Cible : parents d'élèves, format storytelling</div>
+      </div>
+      <div class="sc-meta-box">
+        <div class="sc-duration">45s</div>
+        <div class="sc-duration-label">Durée</div>
+      </div>
+    </div>
+    <div class="sc-body">
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">0-8s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Mise en situation</div>
+          <div class="beat-visual">Une mère regarde son carnet de comptes, soupir, regard inquiet vers son enfant qui fait ses devoirs</div>
+          <div class="voiceover">"La rentrée approche. Les frais de formation aussi. Et je n'ai pas tout l'argent maintenant."</div>
+          <span class="text-overlay">😟 RENTRÉE = STRESS FINANCIER</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">8-18s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le dilemme</div>
+          <div class="beat-visual">Plan sur le téléphone, recherche "comment payer frais scolarité"</div>
+          <div class="voiceover">"Soit je trouve toute la somme d'un coup. Soit mon enfant rate la rentrée. C'est tout ce qu'on me propose."</div>
+          <span class="text-overlay">😔 PAS D'AUTRE OPTION ?</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">18-32s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">La découverte</div>
+          <div class="beat-visual">Visage qui s'éclaire, elle montre son téléphone à la caméra avec l'app/le paiement Mobile Money</div>
+          <div class="voiceover">"Jusqu'au jour où le centre de formation me parle de Payiskoul. Je paie en plusieurs fois, avec Orange Money. À mon rythme, pas celui qu'on m'impose."</div>
+          <span class="text-overlay">💡 PAYER À MON RYTHME</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">32-42s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le résultat émotionnel</div>
+          <div class="beat-visual">Son enfant souriant, en classe ou en formation, plan large heureux</div>
+          <div class="voiceover">"Aujourd'hui mon enfant est inscrit. Et moi, je paie sans me ruiner d'un coup."</div>
+          <span class="text-overlay">✅ INSCRIT. SEREIN.</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">42-45s</div><div class="beat-dot"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Signature</div>
+          <div class="beat-visual">Logo Payiskoul</div>
+          <div class="voiceover">"Payiskoul. L'éducation, sans le stress du paiement."</div>
+        </div>
+      </div>
+
+      <div class="caption-box">
+        <div class="caption-label">
+          Légende suggérée
+          <button class="copy-btn" onclick="copyText('cap2',this)">Copier</button>
+        </div>
+        <div class="caption-text" id="cap2">"Soit je trouve toute la somme. Soit mon enfant rate la rentrée."
+
+Combien de parents vivent ce dilemme chaque année ? 💔
+
+Avec Payiskoul, ce choix n'existe plus. Vous payez les frais de scolarité ou de formation en plusieurs fois, à votre rythme, via Mobile Money.
+
+Votre enfant s'inscrit aujourd'hui. Vous payez petit à petit. 🙏
+
+👉 payiskoul.com
+
+#Payiskoul #Parents #Education #RentreeScolaire #MobileMoney #Abidjan</div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span>Le storytelling fonctionne mieux avec une vraie maman/papa (témoignage réel si possible) plutôt qu'une mise en scène — l'authenticité porte plus que la production.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SCRIPT 3 -->
+<div class="page" id="p-s3">
+<div class="wrap">
+  <div class="script-card">
+    <div class="sc-head linkedin">
+      <div>
+        <div class="sc-platform-badge linkedin">💼 LinkedIn</div>
+        <div class="sc-title">Le coût réel des impayés pour votre centre</div>
+        <div class="sc-target">Cible : directeurs de centres de formation, décideurs B2B</div>
+      </div>
+      <div class="sc-meta-box">
+        <div class="sc-duration">60s</div>
+        <div class="sc-duration-label">Durée</div>
+      </div>
+    </div>
+    <div class="sc-body">
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">0-10s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Accroche — le chiffre qui interpelle</div>
+          <div class="beat-visual">Thy Hamed ou CEO face caméra, cadrage pro, fond bureau/centre de formation</div>
+          <div class="voiceover">"Combien d'apprenants avez-vous perdus cette année — non pas parce qu'ils n'étaient pas intéressés, mais parce qu'ils n'avaient pas la totalité des frais le jour de l'inscription ?"</div>
+          <span class="text-overlay">LE COÛT CACHÉ DES INSCRIPTIONS PERDUES</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">10-22s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le constat structurel</div>
+          <div class="beat-visual">Plan sur un tableau Excel ou registre d'inscriptions, zoom sur des cases vides/impayées</div>
+          <div class="voiceover">"La majorité des centres de formation en Côte d'Ivoire fonctionnent encore avec un modèle binaire : paiement intégral, ou pas d'inscription. Ce modèle exclut une partie significative de votre marché potentiel."</div>
+          <span class="text-overlay">MODÈLE BINAIRE = MARCHÉ EXCLU</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">22-38s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">La solution, avec mécanisme</div>
+          <div class="beat-visual">Démo écran du tableau de bord Payiskoul, vue décideur</div>
+          <div class="voiceover">"Payiskoul résout ce problème structurellement : vos apprenants paient en plusieurs fois, à leur rythme, via Orange Money, MTN MoMo ou Wave — et vous, vous recevez chaque versement automatiquement, sans gestion administrative supplémentaire."</div>
+          <span class="text-overlay">VOUS RECEVEZ. ILS PAIENT À LEUR RYTHME.</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">38-52s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">La preuve / différenciation</div>
+          <div class="beat-visual">Texte à l'écran avec le chiffre clé, voix off continue</div>
+          <div class="voiceover">"Contrairement aux solutions existantes limitées à 2 ou 3 mensualités fixes, Payiskoul permet un échelonnement illimité — c'est la seule solution de ce type dans toute la zone UEMOA."</div>
+          <span class="text-overlay">SEUL ACTEUR EDTECH BNPL EN ZONE UEMOA</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">52-60s</div><div class="beat-dot"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Appel à l'action B2B</div>
+          <div class="beat-visual">Retour face caméra</div>
+          <div class="voiceover">"Si la question des impayés ou des inscriptions perdues vous concerne, parlons-en. Démonstration de 20 minutes, sans engagement."</div>
+          <span class="text-overlay">DÉMO GRATUITE → PAYISKOUL.COM</span>
+        </div>
+      </div>
+
+      <div class="caption-box">
+        <div class="caption-label">
+          Légende suggérée
+          <button class="copy-btn" onclick="copyText('cap3',this)">Copier</button>
+        </div>
+        <div class="caption-text" id="cap3">Combien d'inscriptions perdez-vous chaque année à cause d'un problème de timing de paiement, et non d'intérêt ?
+
+C'est la question que je pose à tous les directeurs de centres de formation que je rencontre à Abidjan.
+
+Le modèle "paiement intégral ou rien" exclut une partie de votre marché — pas parce que vos formations ne les intéressent pas, mais parce qu'ils n'ont pas la totalité des frais le jour J.
+
+Payiskoul résout ce problème : paiement échelonné illimité via Mobile Money, versements automatiques pour vous, zéro gestion administrative supplémentaire.
+
+Seul acteur EdTech BNPL de la zone UEMOA. Certifié (IDU CI-2026-0053987M).
+
+Échangeons — 20 minutes, sans engagement.
+
+#EdTech #Fintech #CoteDIvoire #Formation #MobileMoney #Payiskoul #Abidjan #UEMOA</div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span>Sur LinkedIn, le ton peut rester proche de tes pitchs habituels — vocabulaire business assumé, chiffres précis. C'est ce public qui comprend et valorise ce niveau de discours.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SCRIPT 4 -->
+<div class="page" id="p-s4">
+<div class="wrap">
+  <div class="script-card">
+    <div class="sc-head linkedin">
+      <div>
+        <div class="sc-platform-badge linkedin">💼 LinkedIn</div>
+        <div class="sc-title">Pourquoi l'EdTech payment est le prochain grand marché</div>
+        <div class="sc-target">Cible : investisseurs, partenaires institutionnels, écosystème fintech</div>
+      </div>
+      <div class="sc-meta-box">
+        <div class="sc-duration">75s</div>
+        <div class="sc-duration-label">Durée</div>
+      </div>
+    </div>
+    <div class="sc-body">
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">0-10s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Accroche — le constat de marché</div>
+          <div class="beat-visual">Plan large sur Abidjan, ou Thy Hamed face caméra dans un cadre business</div>
+          <div class="voiceover">"45 millions de comptes Mobile Money en Côte d'Ivoire. 9 millions d'élèves. Et un secteur encore largement non digitalisé : l'éducation."</div>
+          <span class="text-overlay">45M COMPTES MOMO · 9M ÉLÈVES · 0 INFRASTRUCTURE DÉDIÉE</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">10-24s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le signal réglementaire</div>
+          <div class="beat-visual">Texte à l'écran avec la source citée</div>
+          <div class="voiceover">"Le gouvernement ivoirien a rendu le Mobile Money obligatoire pour les inscriptions scolaires dès la rentrée 2025-2026. C'est une validation de marché qu'aucune startup ne pourrait acheter."</div>
+          <span class="text-overlay">VALIDATION RÉGLEMENTAIRE ÉTAT</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">24-40s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Le positionnement Payiskoul</div>
+          <div class="beat-visual">Schéma simple à l'écran : Mobile Money → Payiskoul → Établissements</div>
+          <div class="voiceover">"Payiskoul ne réinvente pas le Mobile Money. Nous orchestrons le financement éducatif échelonné par-dessus — la couche manquante entre les opérateurs télécoms et les établissements."</div>
+          <span class="text-overlay">LA COUCHE MANQUANTE DE L'ÉCOSYSTÈME</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">40-58s</div><div class="beat-dot"></div><div class="beat-line"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">La preuve de traction</div>
+          <div class="beat-visual">Texte à l'écran, chiffres qui s'animent</div>
+          <div class="voiceover">"Phase pilote active à Abidjan. Certification obtenue. Premiers partenariats en cours sur dix segments du marché éducatif — universités, centres de formation, écoles de conduite, instituts paramédicaux, et plus encore."</div>
+          <span class="text-overlay">PILOTE ACTIF · CERTIFIÉ · 10 SEGMENTS</span>
+        </div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-left"><div class="beat-time">58-75s</div><div class="beat-dot"></div></div>
+        <div class="beat-content">
+          <div class="beat-label">Appel à l'action investisseur</div>
+          <div class="beat-visual">Retour face caméra, ton posé et confiant</div>
+          <div class="voiceover">"Nous préparons notre levée de fonds seed. Si vous croyez, comme nous, que l'EdTech payment est le prochain grand marché africain, parlons-en."</div>
+          <span class="text-overlay">SEED ROUND EN PRÉPARATION → CONTACT</span>
+        </div>
+      </div>
+
+      <div class="caption-box">
+        <div class="caption-label">
+          Légende suggérée
+          <button class="copy-btn" onclick="copyText('cap4',this)">Copier</button>
+        </div>
+        <div class="caption-text" id="cap4">45 millions de comptes Mobile Money. 9 millions d'élèves. Un secteur éducatif encore largement non digitalisé.
+
+C'est l'équation que nous avons identifiée chez Payiskoul.
+
+Le gouvernement ivoirien a rendu le Mobile Money obligatoire pour les inscriptions scolaires dès 2025-2026 — une validation de marché qu'aucune startup ne pourrait acheter.
+
+Nous ne réinventons pas le Mobile Money. Nous construisons la couche manquante : l'orchestration du financement éducatif échelonné entre les opérateurs télécoms et les établissements.
+
+Phase pilote active à Abidjan. Certifiés (IDU CI-2026-0053987M). Présents sur 10 segments du marché éducatif.
+
+Nous préparons notre levée seed. Si l'EdTech payment vous intéresse comme prochain grand marché africain, échangeons.
+
+#EdTech #Fintech #Africa #SeedRound #VentureCapital #Payiskoul #CoteDIvoire #MobileMoney</div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span>Cette vidéo peut être tournée par toi ou le CEO selon qui porte la relation investisseurs — le ton doit transmettre la même confiance que dans vos emails à Janngo Capital ou AfricInvest.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function go(n){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelector(`[onclick="go('${n}')"]`).classList.add('on');
+  document.getElementById('p-'+n).classList.add('on');
+  window.scrollTo(0,0);
+}
+function copyText(id,btn){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;btn.textContent='Copié ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('ok')},2000);
+  });
+}
+</script>
+</body>
+</html>
